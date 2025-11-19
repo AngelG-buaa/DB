@@ -23,7 +23,7 @@ reservations_bp = Blueprint('reservations', __name__)
 @require_auth
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
-    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 100, 'default': 10},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'laboratory_id': {'type': 'integer', 'min_value': 1},
     'user_id': {'type': 'integer', 'min_value': 1},
     'status': {'type': 'string', 'choices': ['pending', 'confirmed', 'cancelled', 'completed']},
@@ -150,6 +150,88 @@ def get_reservations():
         logger.error(f"获取预约列表接口错误: {str(e)}")
         return error_response("获取预约列表失败")
 
+@reservations_bp.route('/my', methods=['GET'])
+@require_auth
+@validate_query_params({
+    'page': {'type': 'integer', 'min_value': 1, 'default': 1},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
+    'status': {'type': 'string', 'choices': ['pending', 'confirmed', 'cancelled', 'completed']},
+    'date_from': {'type': 'string'},
+    'date_to': {'type': 'string'},
+    'search': {'type': 'string', 'max_length': 100}
+})
+def get_my_reservations():
+    """获取当前用户的预约列表（兼容前端 /reservations/my）"""
+    try:
+        params = request.validated_params
+        page = params['page']
+        page_size = params['page_size']
+        status = params.get('status')
+        date_from = params.get('date_from')
+        date_to = params.get('date_to')
+        search = params.get('search')
+
+        current_user = request.current_user
+
+        where_conditions = ["r.user_id = %s"]
+        query_params = [current_user['id']]
+
+        if status:
+            where_conditions.append('r.status = %s')
+            query_params.append(status)
+
+        if date_from:
+            where_conditions.append('r.reservation_date >= %s')
+            query_params.append(date_from)
+        if date_to:
+            where_conditions.append('r.reservation_date <= %s')
+            query_params.append(date_to)
+
+        if search:
+            where_conditions.append('(r.purpose LIKE %s)')
+            query_params.append(f"%{search}%")
+
+        base_sql = (
+            "SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, "
+            "r.status, r.equipment_ids, r.created_at, r.updated_at, "
+            "l.name as laboratory_name, l.location as laboratory_location "
+            "FROM reservations r "
+            "JOIN laboratories l ON r.laboratory_id = l.id "
+        )
+
+        if where_conditions:
+            base_sql += ' WHERE ' + ' AND '.join(where_conditions)
+
+        base_sql += ' ORDER BY r.reservation_date DESC, r.start_time DESC'
+
+        result = execute_paginated_query(base_sql, tuple(query_params), page, page_size)
+        if not result['success']:
+            logger.error(f"查询我的预约失败: {result.get('error')}")
+            return error_response("获取预约列表失败")
+
+        reservations = []
+        for r in result['data']:
+            reservations.append({
+                'id': r['id'],
+                'reservation_date': r['reservation_date'].isoformat() if r['reservation_date'] else None,
+                'start_time': r['start_time'].strftime('%H:%M') if r['start_time'] else None,
+                'end_time': r['end_time'].strftime('%H:%M') if r['end_time'] else None,
+                'purpose': r['purpose'],
+                'status': r['status'],
+                'equipment_ids': r['equipment_ids'],
+                'laboratory': {
+                    'name': r['laboratory_name'],
+                    'location': r['laboratory_location']
+                },
+                'created_at': r['created_at'].isoformat() if r['created_at'] else None,
+                'updated_at': r['updated_at'].isoformat() if r['updated_at'] else None
+            })
+
+        return paginated_response(reservations, result['pagination'], "获取预约列表成功")
+    except Exception as e:
+        logger.error(f"获取我的预约接口错误: {str(e)}")
+        return error_response("获取预约列表失败")
+
 @reservations_bp.route('/<int:reservation_id>', methods=['GET'])
 @require_auth
 def get_reservation(reservation_id):
@@ -184,7 +266,7 @@ def get_reservation(reservation_id):
             return error_response("获取预约详情失败")
         
         if not result['data']:
-            return not_found_response("预约不存在")
+            return not_found_response("预约不存在或您没有权限查看")
         
         reservation = result['data'][0]
         
@@ -285,8 +367,9 @@ def create_reservation():
             return error_response("指定的实验室不存在")
         
         lab = lab_result['data'][0]
-        if lab['status'] != 'active':
-            return error_response(f"实验室状态为{lab['status']}，无法预约")
+        # 兼容两种可用状态：active（后端新定义）与 available（实验室可用性接口使用）
+        if lab['status'] != 'available':
+            return error_response(f"实验室当前状态为“{lab['status']}”，无法预约")
         
         # 检查时间冲突
         conflict_sql = """
@@ -749,3 +832,330 @@ def get_reservation_statistics():
     except Exception as e:
         logger.error(f"获取预约统计信息接口错误: {str(e)}")
         return error_response("获取统计信息失败")
+
+
+# 日历视图：按日期范围返回预约列表（非分页），支持实验室/状态/用户筛选
+@reservations_bp.route('/calendar', methods=['GET'])
+@require_auth
+@validate_query_params({
+    'start_date': {'type': 'string'},
+    'end_date': {'type': 'string'},
+    'laboratory_id': {'type': 'integer', 'min_value': 1},
+    'status': {'type': 'string'},
+    'user_id': {'type': 'integer', 'min_value': 1}
+})
+def get_reservation_calendar():
+    """返回日历所需的预约记录列表（不分页）"""
+    try:
+        params = request.validated_params
+        start_date = params.get('start_date')
+        end_date = params.get('end_date')
+        lab_id = params.get('laboratory_id')
+        status = params.get('status')
+        user_id = params.get('user_id')
+
+        where_conditions = []
+        query_params = []
+
+        if start_date and end_date:
+            where_conditions.append('r.reservation_date BETWEEN %s AND %s')
+            query_params.extend([start_date, end_date])
+        elif start_date:
+            where_conditions.append('r.reservation_date >= %s')
+            query_params.append(start_date)
+        elif end_date:
+            where_conditions.append('r.reservation_date <= %s')
+            query_params.append(end_date)
+
+        if lab_id:
+            where_conditions.append('r.laboratory_id = %s')
+            query_params.append(lab_id)
+
+        if status:
+            where_conditions.append('r.status = %s')
+            query_params.append(status)
+
+        current_user = request.current_user
+        if user_id:
+            where_conditions.append('r.user_id = %s')
+            query_params.append(user_id)
+        elif current_user and current_user.get('role') not in ('admin', 'teacher'):
+            where_conditions.append('r.user_id = %s')
+            query_params.append(current_user['id'])
+
+        where_clause = ' WHERE ' + ' AND '.join(where_conditions) if where_conditions else ''
+
+        sql = f"""
+            SELECT r.id,
+                   r.reservation_date,
+                   r.start_time,
+                   r.end_time,
+                   r.purpose,
+                   r.status,
+                   r.laboratory_id,
+                   l.name AS laboratory_name,
+                   u.id AS user_id,
+                   u.name AS user_name
+            FROM reservations r
+            LEFT JOIN laboratories l ON r.laboratory_id = l.id
+            LEFT JOIN users u ON r.user_id = u.id
+            {where_clause}
+            ORDER BY r.reservation_date ASC, r.start_time ASC
+        """
+
+        result = execute_query(sql, tuple(query_params))
+        if not result['success']:
+            logger.error(f"获取预约日历数据失败: {result.get('error')}")
+            return error_response("获取预约日历数据失败")
+
+        formatted = []
+        for row in result['data']:
+            res_date = row['reservation_date']
+            start_t = row['start_time']
+            end_t = row['end_time']
+            # 组合完整时间字符串
+            res_date_str = res_date.isoformat() if hasattr(res_date, 'isoformat') else str(res_date)
+            start_t_str = start_t.strftime('%H:%M:%S') if hasattr(start_t, 'strftime') else str(start_t)
+            end_t_str = end_t.strftime('%H:%M:%S') if hasattr(end_t, 'strftime') else str(end_t)
+            start_dt = f"{res_date_str} {start_t_str}"
+            end_dt = f"{res_date_str} {end_t_str}"
+            formatted.append({
+                'id': row['id'],
+                'reservation_date': res_date_str,
+                'start_time': start_dt,
+                'end_time': end_dt,
+                'purpose': row['purpose'],
+                'status': row['status'],
+                'laboratory_id': row['laboratory_id'],
+                'laboratory_name': row['laboratory_name'],
+                'user_id': row['user_id'],
+                'user_name': row['user_name']
+            })
+
+        return success_response(formatted, "获取预约日历数据成功")
+    except Exception as e:
+        logger.error(f"获取预约日历数据接口错误: {str(e)}")
+        return error_response("获取预约日历数据失败")
+
+
+# 统计路由别名，兼容前端 /reservations/stats
+@reservations_bp.route('/stats', methods=['GET'])
+@require_auth
+@require_role(['admin', 'teacher'])
+@validate_query_params({
+    'date_from': {'type': 'string'},  # YYYY-MM-DD
+    'date_to': {'type': 'string'},    # YYYY-MM-DD
+    'laboratory_id': {'type': 'integer', 'min_value': 1}
+})
+def get_reservation_stats_alias():
+    try:
+        params = request.validated_params
+        date_from = params.get('date_from')
+        date_to = params.get('date_to')
+        laboratory_id = params.get('laboratory_id')
+
+        where_conditions = []
+        query_params = []
+
+        if date_from:
+            where_conditions.append('r.reservation_date >= %s')
+            query_params.append(date_from)
+        if date_to:
+            where_conditions.append('r.reservation_date <= %s')
+            query_params.append(date_to)
+        if laboratory_id:
+            where_conditions.append('r.laboratory_id = %s')
+            query_params.append(laboratory_id)
+
+        where_clause = ' WHERE ' + ' AND '.join(where_conditions) if where_conditions else ''
+
+        # 状态分布
+        status_sql = f"""
+            SELECT r.status, COUNT(*) AS count
+            FROM reservations r
+            {where_clause}
+            GROUP BY r.status
+        """
+        status_result = execute_query(status_sql, tuple(query_params))
+        status_distribution = {}
+        total_reservations = 0
+        if status_result['success']:
+            for row in status_result['data']:
+                status_distribution[row['status']] = row['count']
+                total_reservations += row['count']
+
+        # 按实验室统计
+        labs_sql = f"""
+            SELECT l.id AS laboratory_id, l.name AS laboratory_name, COUNT(*) AS count
+            FROM reservations r
+            LEFT JOIN laboratories l ON r.laboratory_id = l.id
+            {where_clause}
+            GROUP BY l.id, l.name
+            ORDER BY count DESC
+        """
+        labs_result = execute_query(labs_sql, tuple(query_params))
+        by_laboratory = []
+        if labs_result['success']:
+            for row in labs_result['data']:
+                by_laboratory.append({
+                    'laboratory_id': row['laboratory_id'],
+                    'laboratory_name': row['laboratory_name'],
+                    'count': row['count']
+                })
+
+        # 用户排行榜（前10名）
+        users_sql = f"""
+            SELECT u.id AS user_id, u.name AS user_name, COUNT(*) AS count
+            FROM reservations r
+            LEFT JOIN users u ON r.user_id = u.id
+            {where_clause}
+            GROUP BY u.id, u.name
+            ORDER BY count DESC
+            LIMIT 10
+        """
+        users_result = execute_query(users_sql, tuple(query_params))
+        top_users = []
+        if users_result['success']:
+            for row in users_result['data']:
+                top_users.append({
+                    'user_id': row['user_id'],
+                    'user_name': row['user_name'],
+                    'count': row['count']
+                })
+
+        # 最近30天按日期统计
+        dates_sql = f"""
+            SELECT r.reservation_date AS date, COUNT(*) AS count
+            FROM reservations r
+            {where_clause}
+            GROUP BY r.reservation_date
+            ORDER BY r.reservation_date DESC
+            LIMIT 30
+        """
+        dates_result = execute_query(dates_sql, tuple(query_params))
+        by_date = []
+        if dates_result['success']:
+            for row in dates_result['data']:
+                by_date.append({
+                    'date': row['date'].isoformat() if row['date'] else None,
+                    'count': row['count']
+                })
+
+        response_data = {
+            'total_reservations': total_reservations,
+            'status_distribution': status_distribution,
+            'by_laboratory': by_laboratory,
+            'top_users': top_users,
+            'by_date': by_date
+        }
+
+        return success_response(response_data, "获取预约统计信息成功")
+    except Exception as e:
+        logger.error(f"获取预约统计信息别名接口错误: {str(e)}")
+        return error_response("获取统计信息失败")
+
+
+# 预约冲突检查（与实验室可用性接口一致的返回结构）
+@reservations_bp.route('/check-conflict', methods=['POST'])
+@require_auth
+@validate_json_data({
+    'laboratory_id': {'type': 'integer', 'min_value': 1},
+    'date': {'type': 'string'},
+    'start_time': {'type': 'string'},
+    'end_time': {'type': 'string'}
+})
+def check_reservation_conflict():
+    try:
+        data = request.validated_data
+        lab_id = data.get('laboratory_id')
+        date = data.get('date')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+
+        conflict_sql = """
+            SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose,
+                   u.name AS user_name
+            FROM reservations r
+            LEFT JOIN users u ON r.user_id = u.id
+            WHERE r.laboratory_id = %s
+              AND r.reservation_date = %s
+              AND r.status IN ('pending', 'confirmed')
+              AND NOT (
+                    r.end_time <= %s OR r.start_time >= %s
+              )
+            ORDER BY r.start_time ASC
+        """
+        conflicts_result = execute_query(conflict_sql, (lab_id, date, start_time, end_time))
+        if not conflicts_result['success']:
+            logger.error(f"预约冲突检查查询失败: {conflicts_result.get('error')}")
+            return error_response("预约冲突检查失败")
+
+        conflicting_list = []
+        for c in conflicts_result['data']:
+            res_date_str = c['reservation_date'].isoformat() if hasattr(c['reservation_date'], 'isoformat') else str(c['reservation_date'])
+            start_t_str = c['start_time'].strftime('%H:%M:%S') if hasattr(c['start_time'], 'strftime') else str(c['start_time'])
+            end_t_str = c['end_time'].strftime('%H:%M:%S') if hasattr(c['end_time'], 'strftime') else str(c['end_time'])
+            start_dt = f"{res_date_str} {start_t_str}"
+            end_dt = f"{res_date_str} {end_t_str}"
+            conflicting_list.append({
+                'id': c['id'],
+                'start_time': start_dt,
+                'end_time': end_dt,
+                'purpose': c['purpose'],
+                'user_name': c['user_name']
+            })
+
+        available = len(conflicting_list) == 0
+        return success_response({
+            'available': available,
+            'conflicting_reservations': conflicting_list
+        }, "冲突检查完成")
+    except Exception as e:
+        logger.error(f"预约冲突检查接口错误: {str(e)}")
+        return error_response("预约冲突检查失败")
+
+@reservations_bp.route('/<int:reservation_id>/approve', methods=['POST'])
+@require_auth
+@require_role(['admin', 'teacher'])
+def approve_reservation(reservation_id):
+    try:
+        check_sql = "SELECT id, status FROM reservations WHERE id = %s"
+        check_res = execute_query(check_sql, (reservation_id,))
+        if not check_res['success']:
+            return error_response("审批失败，请稍后重试")
+        if not check_res['data']:
+            return not_found_response("预约不存在")
+        cur_status = check_res['data'][0]['status']
+        if cur_status in ['confirmed', 'completed']:
+            return error_response("预约已确认或已完成")
+        if cur_status == 'cancelled':
+            return error_response("预约已取消")
+        upd = execute_update("UPDATE reservations SET status = 'confirmed', updated_at = NOW() WHERE id = %s", (reservation_id,))
+        if not upd['success']:
+            return error_response("审批失败，请稍后重试")
+        return updated_response(None, "审批通过")
+    except Exception as e:
+        logger.error(f"审批预约接口错误: {str(e)}")
+        return error_response("审批失败，请稍后重试")
+
+@reservations_bp.route('/<int:reservation_id>/reject', methods=['POST'])
+@require_auth
+@require_role(['admin', 'teacher'])
+def reject_reservation(reservation_id):
+    try:
+        check_sql = "SELECT id, status FROM reservations WHERE id = %s"
+        check_res = execute_query(check_sql, (reservation_id,))
+        if not check_res['success']:
+            return error_response("审批失败，请稍后重试")
+        if not check_res['data']:
+            return not_found_response("预约不存在")
+        cur_status = check_res['data'][0]['status']
+        if cur_status in ['completed']:
+            return error_response("预约已完成")
+        upd = execute_update("UPDATE reservations SET status = 'cancelled', updated_at = NOW() WHERE id = %s", (reservation_id,))
+        if not upd['success']:
+            return error_response("审批失败，请稍后重试")
+        return updated_response(None, "审批拒绝")
+    except Exception as e:
+        logger.error(f"拒绝预约接口错误: {str(e)}")
+        return error_response("审批失败，请稍后重试")

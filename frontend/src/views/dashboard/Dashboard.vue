@@ -600,10 +600,13 @@ onMounted(async () => {
       color: #303133;
     }
     
-    .reservation-list,
-    .notification-list {
-      height: 320px;
-      overflow-y: auto;
+.reservation-list,
+.notification-list {
+  height: 320px;
+  overflow-y: auto;
+  :deep(.el-card__header) {
+    border-bottom: none;
+  }
       
       .reservation-item,
       .notification-item {
@@ -671,6 +674,9 @@ onMounted(async () => {
   margin-bottom: 20px;
   
   .chart-card {
+    :deep(.el-card__header) {
+      border-bottom: none;
+    }
     .card-header {
       font-size: 16px;
       font-weight: 600;
@@ -684,6 +690,9 @@ onMounted(async () => {
 }
 
 .quick-actions {
+  :deep(.el-card__header) {
+    border-bottom: none;
+  }
   .card-header {
     font-size: 16px;
     font-weight: 600;

@@ -154,17 +154,11 @@ watch(() => form.need_lab, (newVal) => {
 
 const loadTeachers = async () => {
   try {
-    // TODO: 调用API获取教师列表
-    // const response = await api.getTeachers()
-    // teachers.value = response.data
-    
-    // 模拟数据
-    teachers.value = [
-      { user_id: 1, user_name: '张教授' },
-      { user_id: 2, user_name: '李教授' },
-      { user_id: 3, user_name: '王老师' },
-      { user_id: 4, user_name: '陈教授' }
-    ]
+    const api = await import('@/api/user')
+    const res = await api.getUsersApi({ page: 1, page_size: 200, role: 'teacher' })
+    if (res.code === 200) {
+      teachers.value = (res.data.list || []).map(u => ({ user_id: u.id, user_name: u.name || u.username }))
+    }
   } catch (error) {
     ElMessage.error('加载教师列表失败')
   }
@@ -172,17 +166,11 @@ const loadTeachers = async () => {
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' },
-      { lab_id: 4, lab_name: '计算机实验室D' }
-    ]
+    const api = await import('@/api/lab')
+    const res = await api.getLabsApi({ page: 1, size: 200 })
+    if (res.code === 200) {
+      laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+    }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
   }
@@ -193,11 +181,23 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     loading.value = true
     
-    // TODO: 调用API创建课程
-    // await api.createCourse(form)
-    
-    ElMessage.success('课程创建成功')
-    router.push('/course/list')
+    const api = await import('@/api/course')
+    const semester = `${new Date().getFullYear()}秋`
+    const code = `C${Date.now()}`
+    const payload = {
+      name: form.course_name,
+      code,
+      description: form.description,
+      credits: form.credit,
+      semester,
+      teacher_id: form.teacher_id,
+      status: 'active'
+    }
+    const res = await api.createCourseApi(payload)
+    if (res.code === 200) {
+      ElMessage.success('课程创建成功')
+      router.push('/course/list')
+    }
   } catch (error) {
     if (error !== false) {
       ElMessage.error('创建失败，请重试')

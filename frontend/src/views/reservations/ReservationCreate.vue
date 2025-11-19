@@ -200,12 +200,11 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
-  getLabsApi,
-  getCoursesApi,
   createReservationApi,
-  checkReservationConflictApi,
-  getLabByIdApi
+  checkReservationConflictApi
 } from '@/api/reservation'
+import { getLabsApi, getLabByIdApi } from '@/api/lab'
+import { getCoursesApi } from '@/api/course'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -342,9 +341,10 @@ const checkTimeConflict = async () => {
     }
     
     const response = await checkReservationConflictApi({
-      lab_id: reservationForm.labId,
-      start_time: startDateTime,
-      end_time: endDateTime
+      laboratory_id: reservationForm.labId,
+      date: reservationForm.reservationDate,
+      start_time: reservationForm.startTime,
+      end_time: reservationForm.endTime
     })
     
     if (response.code === 200) {
@@ -400,11 +400,12 @@ const handleSubmit = async () => {
     const endDateTime = `${reservationForm.reservationDate} ${reservationForm.endTime}:00`
     
     const submitData = {
-      lab_id: reservationForm.labId,
-      start_time: startDateTime,
-      end_time: endDateTime,
+      laboratory_id: reservationForm.labId,
+      reservation_date: reservationForm.reservationDate,
+      start_time: reservationForm.startTime,
+      end_time: reservationForm.endTime,
       purpose: reservationForm.purpose,
-      expected_people: reservationForm.expectedPeople,
+      participant_count: reservationForm.expectedPeople,
       remarks: reservationForm.remarks
     }
     

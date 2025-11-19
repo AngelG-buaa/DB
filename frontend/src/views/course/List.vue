@@ -111,6 +111,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import { getCoursesApi, getUsersApi } from '@/api/reservation'
 
 const router = useRouter()
 const loading = ref(false)
@@ -131,47 +132,24 @@ const pagination = reactive({
 const loadCourses = async () => {
   try {
     loading.value = true
-    
-    // TODO: 调用API获取课程列表
-    // const response = await api.getCourses({
-    //   page: pagination.page,
-    //   size: pagination.size,
-    //   ...searchForm
-    // })
-    // courseList.value = response.data.list
-    // pagination.total = response.data.total
-    
-    // 模拟数据
-    courseList.value = [
-      {
-        course_id: 1,
-        course_name: '大学物理实验',
-        teacher_name: '张教授',
-        teacher_id: 1,
-        credit: 2,
-        need_lab: true,
-        lab_name: '物理实验室A'
-      },
-      {
-        course_id: 2,
-        course_name: '有机化学实验',
-        teacher_name: '李教授',
-        teacher_id: 2,
-        credit: 3,
-        need_lab: true,
-        lab_name: '化学实验室B'
-      },
-      {
-        course_id: 3,
-        course_name: '计算机基础',
-        teacher_name: '王老师',
-        teacher_id: 3,
-        credit: 2,
+    const params = {
+      page: pagination.page,
+      page_size: pagination.size,
+      search: searchForm.course_name || undefined,
+      teacher_id: searchForm.teacher_id || undefined
+    }
+    const response = await getCoursesApi(params)
+    if (response.code === 200) {
+      courseList.value = (response.data.list || []).map(c => ({
+        course_id: c.id,
+        course_name: c.name,
+        teacher_name: c.teacher?.name || '',
+        credit: c.credits,
         need_lab: false,
-        lab_name: null
-      }
-    ]
-    pagination.total = 3
+        lab_name: ''
+      }))
+      pagination.total = response.data.total || 0
+    }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
   } finally {
@@ -181,16 +159,10 @@ const loadCourses = async () => {
 
 const loadTeachers = async () => {
   try {
-    // TODO: 调用API获取教师列表
-    // const response = await api.getTeachers()
-    // teachers.value = response.data
-    
-    // 模拟数据
-    teachers.value = [
-      { user_id: 1, user_name: '张教授' },
-      { user_id: 2, user_name: '李教授' },
-      { user_id: 3, user_name: '王老师' }
-    ]
+    const response = await getUsersApi({ page: 1, page_size: 100, role: 'teacher' })
+    if (response.code === 200) {
+      teachers.value = (response.data.list || []).map(u => ({ user_id: u.id, user_name: u.name || u.username }))
+    }
   } catch (error) {
     ElMessage.error('加载教师列表失败')
   }

@@ -257,6 +257,10 @@ def validate_query_params(validation_rules: Dict[str, Dict[str, Any]]):
                 for field, rules in validation_rules.items():
                     try:
                         value = request.args.get(field)
+                        # 对非必填的空字符串进行处理：视为未提供，使用默认值
+                        if not rules.get('required', False) and isinstance(value, str) and value.strip() == "":
+                            validated_params[field] = rules.get('default')
+                            continue
                         
                         # 检查必填项
                         if rules.get('required', False):

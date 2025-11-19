@@ -212,43 +212,28 @@ const pagination = reactive({
 const loadReservations = async () => {
   loading.value = true
   try {
-    // TODO: 调用API获取预约列表
-    // const params = {
-    //   page: pagination.page,
-    //   size: pagination.size,
-    //   status: filters.status,
-    //   lab_id: filters.lab_id,
-    //   start_date: filters.dateRange?.[0],
-    //   end_date: filters.dateRange?.[1]
-    // }
-    // const response = await api.getReservationsForApproval(params)
-    // reservations.value = response.data.list
-    // pagination.total = response.data.total
-    
-    // 模拟数据
-    reservations.value = [
-      {
-        reservation_id: 1,
-        user_name: '张三',
-        lab_name: '物理实验室A',
-        reservation_date: '2024-01-20',
-        reservation_time: '09:00-11:00',
-        student_number: 25,
-        reservation_status: '待审批',
-        created_at: '2024-01-15 14:30:00'
-      },
-      {
-        reservation_id: 2,
-        user_name: '李四',
-        lab_name: '化学实验室B',
-        reservation_date: '2024-01-21',
-        reservation_time: '14:00-16:00',
-        student_number: 30,
-        reservation_status: '已批准',
-        created_at: '2024-01-16 10:20:00'
-      }
-    ]
-    pagination.total = 2
+    const params = {
+      page: pagination.page,
+      page_size: pagination.size,
+      status: filters.status === '待审批' ? 'pending' : (filters.status === '已批准' ? 'confirmed' : (filters.status === '已拒绝' ? 'cancelled' : undefined)),
+      laboratory_id: filters.lab_id || undefined,
+      date_from: filters.dateRange?.[0],
+      date_to: filters.dateRange?.[1]
+    }
+    const { code, data } = await (await import('@/api/reservation')).getReservationsApi(params)
+    if (code === 200) {
+      reservations.value = (data.list || []).map(r => ({
+        reservation_id: r.id,
+        user_name: r.user?.name || '',
+        lab_name: r.laboratory?.name || '',
+        reservation_date: r.reservation_date,
+        reservation_time: `${r.start_time}-${r.end_time}`,
+        student_number: r.participant_count || 0,
+        reservation_status: r.status === 'pending' ? '待审批' : (r.status === 'confirmed' ? '已批准' : (r.status === 'cancelled' ? '已拒绝' : '已完成')),
+        created_at: r.created_at
+      }))
+      pagination.total = data.total || 0
+    }
   } catch (error) {
     ElMessage.error('加载预约列表失败')
   } finally {
@@ -258,16 +243,10 @@ const loadReservations = async () => {
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' }
-    ]
+    const { code, data } = await (await import('@/api/lab')).getLabsApi({ page: 1, size: 100 })
+    if (code === 200) {
+      laboratories.value = (data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+    }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
   }
@@ -291,9 +270,12 @@ const handleApproval = async (reservation, status) => {
       }
     )
     
-    // TODO: 调用API更新预约状态
-    // await api.updateReservationStatus(reservation.reservation_id, status)
-    
+    const apiMod = await import('@/api/reservation')
+    if (status === '已批准') {
+      await apiMod.approveReservationApi(reservation.reservation_id, {})
+    } else {
+      await apiMod.rejectReservationApi(reservation.reservation_id, {})
+    }
     ElMessage.success(`预约${action}成功`)
     detailVisible.value = false
     loadReservations()

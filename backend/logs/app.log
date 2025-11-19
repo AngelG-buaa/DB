@@ -190,3 +190,1369 @@
 2025-11-17 17:49:25,464 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 17:49:25] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763372965398 HTTP/1.1[0m" 400 -
 2025-11-17 17:49:31,394 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 17:49:31] "[33mGET /api/labs?page=1&size=20&_t=1763372971388 HTTP/1.1[0m" 404 -
 2025-11-17 17:49:34,576 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 17:49:34] "[33mGET /api/labs?page=1&size=100&_t=1763372974570 HTTP/1.1[0m" 404 -
+2025-11-17 19:43:01,056 - __main__ - ERROR - 导入应用失败: The name 'laboratories' is already registered for this blueprint. Use 'name=' to provide a unique name.
+2025-11-17 19:43:25,117 - __main__ - ERROR - 导入应用失败: The name 'laboratories' is already registered for this blueprint. Use 'name=' to provide a unique name.
+2025-11-17 19:43:51,658 - __main__ - ERROR - 导入应用失败: The name 'laboratories' is already registered for this blueprint. Use 'name=' to provide a unique name.
+2025-11-17 19:48:51,825 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 19:48:51,826 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 19:48:51,826 - __main__ - INFO - 调试模式: False
+2025-11-17 19:48:51,844 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 19:48:51,844 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 19:49:14,499 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:14] "GET /api/auth/profile?_t=1763380154334 HTTP/1.1" 200 -
+2025-11-17 19:49:21,108 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:21] "[32mGET /api/labs?page=1&size=100&_t=1763380161097 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:21,125 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:21] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:21,198 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:21,199 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:21,200 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:21,202 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:21] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763380161097 HTTP/1.1[0m" 400 -
+2025-11-17 19:49:23,867 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:23] "[32mGET /api/labs?page=1&size=100&_t=1763380163855 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:23,875 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:23] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:25,128 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:25] "[32mGET /api/labs?page=1&size=100&_t=1763380165120 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:25,129 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:25] "[33mGET /api/reservations/:id?_t=1763380165121 HTTP/1.1[0m" 404 -
+2025-11-17 19:49:25,149 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:25] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:28,698 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:28] "GET /api/auth/profile?_t=1763380168531 HTTP/1.1" 200 -
+2025-11-17 19:49:28,914 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:28] "[32mGET /api/labs?page=1&size=100&_t=1763380168904 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:28,915 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:28] "[33mGET /api/reservations/:id?_t=1763380168904 HTTP/1.1[0m" 404 -
+2025-11-17 19:49:28,927 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:28] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:31,422 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:31] "[32mGET /api/labs?page=1&size=100&_t=1763380171414 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:31,423 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:31] "[33mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763380171414 HTTP/1.1[0m" 404 -
+2025-11-17 19:49:31,423 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:31] "[33mGET /api/reservations/stats?_t=1763380171414 HTTP/1.1[0m" 404 -
+2025-11-17 19:49:31,439 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:31] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:38,998 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:38] "[32mGET /api/labs?page=1&size=100&_t=1763380178989 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:39,004 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:39] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:39,072 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:39,072 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:39,072 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:49:39,076 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:39] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763380178989 HTTP/1.1[0m" 400 -
+2025-11-17 19:49:54,119 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:54] "[32mGET /api/labs?page=1&size=100&_t=1763380194111 HTTP/1.1[0m" 307 -
+2025-11-17 19:49:54,134 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:54] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:49:54,174 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:49:54,174 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:49:54,174 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:49:54,176 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:49:54] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763380194111 HTTP/1.1[0m" 400 -
+2025-11-17 19:51:14,978 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:14] "[33mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763380278951 HTTP/1.1[0m" 404 -
+2025-11-17 19:51:14,980 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:14] "[32mGET /api/labs?page=1&size=100&_t=1763380278951 HTTP/1.1[0m" 307 -
+2025-11-17 19:51:14,981 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:14] "[33mGET /api/reservations/stats?_t=1763380278951 HTTP/1.1[0m" 404 -
+2025-11-17 19:51:14,989 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:14] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:51:33,269 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:33] "GET /api/auth/profile?_t=1763380293217 HTTP/1.1" 200 -
+2025-11-17 19:51:48,979 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:48] "[32mGET /api/labs?page=1&size=100&_t=1763380308970 HTTP/1.1[0m" 307 -
+2025-11-17 19:51:48,988 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:48] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:51:49,045 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:51:49,047 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:51:49,047 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 19:51:49,048 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:49] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763380308970 HTTP/1.1[0m" 400 -
+2025-11-17 19:51:57,818 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:57] "[32mGET /api/labs?page=1&size=100&_t=1763380317810 HTTP/1.1[0m" 307 -
+2025-11-17 19:51:57,820 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:57] "[33mGET /api/reservations/:id?_t=1763380317810 HTTP/1.1[0m" 404 -
+2025-11-17 19:51:57,827 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:57] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:51:58,808 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:58] "[32mGET /api/labs?page=1&size=100&_t=1763380318802 HTTP/1.1[0m" 307 -
+2025-11-17 19:51:58,815 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:51:58] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:54:02,030 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:54:02] "[32mGET /api/labs?page=1&size=100&_t=1763380442023 HTTP/1.1[0m" 307 -
+2025-11-17 19:54:02,042 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:54:02] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 19:54:02,076 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:54:02,077 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:54:02,077 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 19:54:02,078 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:54:02] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763380442023 HTTP/1.1[0m" 400 -
+2025-11-17 19:57:25,385 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 19:57:25] "GET /api/auth/profile?_t=1763380645315 HTTP/1.1" 200 -
+2025-11-17 20:00:51,000 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:51] "[32mGET /api/labs?page=1&size=100&_t=1763380850987 HTTP/1.1[0m" 307 -
+2025-11-17 20:00:51,017 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:51] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:00:51,041 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:00:51,041 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:00:51,042 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:00:51,043 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:51] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763380850987 HTTP/1.1[0m" 400 -
+2025-11-17 20:00:53,830 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:53] "[32mGET /api/labs?page=1&size=100&_t=1763380853824 HTTP/1.1[0m" 307 -
+2025-11-17 20:00:53,836 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:53] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:00:54,940 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:54] "[32mGET /api/labs?page=1&size=100&_t=1763380854934 HTTP/1.1[0m" 307 -
+2025-11-17 20:00:54,943 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:54] "[33mGET /api/reservations/:id?_t=1763380854934 HTTP/1.1[0m" 404 -
+2025-11-17 20:00:54,951 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:54] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:00:55,988 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:55] "[32mGET /api/labs?page=1&size=100&_t=1763380855979 HTTP/1.1[0m" 307 -
+2025-11-17 20:00:55,989 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:55] "[33mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763380855979 HTTP/1.1[0m" 404 -
+2025-11-17 20:00:55,991 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:55] "[33mGET /api/reservations/stats?_t=1763380855979 HTTP/1.1[0m" 404 -
+2025-11-17 20:00:56,000 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:00:56] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:01:10,797 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:10] "GET /api/auth/profile?_t=1763380870753 HTTP/1.1" 200 -
+2025-11-17 20:01:15,446 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:15] "[32mGET /api/labs?page=1&size=100&_t=1763380875439 HTTP/1.1[0m" 307 -
+2025-11-17 20:01:15,455 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:15] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:01:17,803 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:17] "[33mGET /api/reservations/:id?_t=1763380877794 HTTP/1.1[0m" 404 -
+2025-11-17 20:01:17,805 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:17] "[32mGET /api/labs?page=1&size=100&_t=1763380877794 HTTP/1.1[0m" 307 -
+2025-11-17 20:01:17,818 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:17] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:01:18,928 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:18] "[32mGET /api/labs?page=1&size=100&_t=1763380878922 HTTP/1.1[0m" 307 -
+2025-11-17 20:01:18,931 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:18] "[33mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763380878922 HTTP/1.1[0m" 404 -
+2025-11-17 20:01:18,933 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:18] "[33mGET /api/reservations/stats?_t=1763380878922 HTTP/1.1[0m" 404 -
+2025-11-17 20:01:18,937 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:01:18] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:07:21,114 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:07:21] "GET /api/auth/profile?_t=1763381241062 HTTP/1.1" 200 -
+2025-11-17 20:08:24,911 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:08:24] "[32mGET /api/labs?page=1&size=100&_t=1763381304901 HTTP/1.1[0m" 307 -
+2025-11-17 20:08:24,927 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:08:24] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:08:24,975 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:08:24,975 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:08:24,975 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:08:24,977 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:08:24] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763381304901 HTTP/1.1[0m" 400 -
+2025-11-17 20:11:42,744 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:11:42] "GET /api/auth/profile?_t=1763381502678 HTTP/1.1" 200 -
+2025-11-17 20:12:03,122 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:12:03] "GET /api/auth/profile?_t=1763381523078 HTTP/1.1" 200 -
+2025-11-17 20:15:03,522 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:15:03] "GET /api/auth/profile?_t=1763381703460 HTTP/1.1" 200 -
+2025-11-17 20:25:42,377 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,377 - config.database - ERROR - SQL更新执行失败: ALTER TABLE equipment_repair ADD COLUMN `expected_finish_date` DATE NULL COMMENT '预期完成日期' AFTER `finish_time`, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,377 - app.db_migration - WARNING - ⚠️ 执行失败：添加 expected_finish_date 字段 - (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,436 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,437 - config.database - ERROR - SQL更新执行失败: ALTER TABLE equipment_repair ADD COLUMN `remarks` TEXT NULL COMMENT '备注' AFTER `warranty_info`, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,437 - app.db_migration - WARNING - ⚠️ 执行失败：添加 remarks 字段 - (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,478 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,478 - config.database - ERROR - SQL更新执行失败: ALTER TABLE equipment_repair ADD COLUMN `repair_type` ENUM('maintenance','repair','upgrade') DEFAULT 'repair' COMMENT '维修类型' AFTER `remarks`, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,478 - app.db_migration - WARNING - ⚠️ 执行失败：添加 repair_type 字段 - (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:25:42,478 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 20:25:42,534 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 20:25:42,535 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 20:25:42,535 - __main__ - INFO - 调试模式: False
+2025-11-17 20:25:42,549 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 20:25:42,549 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 20:25:47,073 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:47] "GET /api/auth/profile?_t=1763382347021 HTTP/1.1" 200 -
+2025-11-17 20:25:51,575 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:51] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763382351565 HTTP/1.1[0m" 404 -
+2025-11-17 20:25:51,577 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:51] "[33mGET /api/consumables/stats?_t=1763382351565 HTTP/1.1[0m" 404 -
+2025-11-17 20:25:51,648 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:51] "GET /api/laboratories?_t=1763382351565 HTTP/1.1" 200 -
+2025-11-17 20:25:56,525 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:56] "[33mGET /api/consumables/usage?page=1&size=20&consumableId=&labId=&userId=&_t=1763382356514 HTTP/1.1[0m" 404 -
+2025-11-17 20:25:56,527 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:56] "[33mGET /api/consumables?size=1000&_t=1763382356514 HTTP/1.1[0m" 404 -
+2025-11-17 20:25:56,533 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:56] "[33mGET /api/consumables/usage/stats?_t=1763382356514 HTTP/1.1[0m" 404 -
+2025-11-17 20:25:56,638 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:25:56] "GET /api/laboratories?_t=1763382356514 HTTP/1.1" 200 -
+2025-11-17 20:26:38,078 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:38] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763382398071 HTTP/1.1[0m" 404 -
+2025-11-17 20:26:38,086 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:38] "[33mGET /api/consumables/stats?_t=1763382398071 HTTP/1.1[0m" 404 -
+2025-11-17 20:26:38,132 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:38] "GET /api/laboratories?_t=1763382398071 HTTP/1.1" 200 -
+2025-11-17 20:26:47,279 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:47] "[32mGET /api/labs?page=1&size=100&_t=1763382407272 HTTP/1.1[0m" 307 -
+2025-11-17 20:26:47,300 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:47] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:26:47,344 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:47,344 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:47,346 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:47,346 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:47] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763382407272 HTTP/1.1[0m" 400 -
+2025-11-17 20:26:50,619 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,619 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,619 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:50,622 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:50,621 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,621 - config.database - ERROR - 分页查询执行失败: SELECT r.id, r.equipment_id, r.repair_person, r.fault_description, r.repair_description, r.repair_cost, r.repair_status, r.priority, r.report_time, r.start_time, r.finish_time, r.expected_finish_date, r.remarks, r.created_at, r.updated_at, r.repair_type, e.name AS equipment_name, e.model AS equipment_model FROM equipment_repair r LEFT JOIN equipment e ON r.equipment_id = e.id  ORDER BY r.start_time DESC, r.id DESC, 参数: (), 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,623 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:26:50,625 - app.api.maintenance - ERROR - 查询维修记录失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,628 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:50] "[31m[1mGET /api/equipment/maintenance?page=1&size=20&_t=1763382410564 HTTP/1.1[0m" 400 -
+2025-11-17 20:26:50,628 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:50] "[31m[1mGET /api/equipment?page=1&size=1000&_t=1763382410564 HTTP/1.1[0m" 400 -
+2025-11-17 20:26:50,668 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,670 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair WHERE repair_status IN ('reported', 'in_progress'), 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,733 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,733 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair WHERE YEAR(start_time) = YEAR(CURDATE()) AND MONTH(start_time) = MONTH(CURDATE()), 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,788 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,789 - config.database - ERROR - SQL查询执行失败: SELECT COALESCE(SUM(repair_cost), 0) AS total_cost FROM equipment_repair, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:26:50,790 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:26:50] "GET /api/equipment/maintenance/stats?_t=1763382410564 HTTP/1.1" 200 -
+2025-11-17 20:27:17,328 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:27:17] "GET /api/auth/profile?_t=1763382437267 HTTP/1.1" 200 -
+2025-11-17 20:28:00,660 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:28:00] "[32mGET /api/labs?page=1&size=20&_t=1763382480650 HTTP/1.1[0m" 307 -
+2025-11-17 20:28:00,673 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:28:00] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:31:30,312 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:31:30] "GET /api/auth/profile?_t=1763382690252 HTTP/1.1" 200 -
+2025-11-17 20:37:08,509 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:37:08] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763383028497 HTTP/1.1[0m" 404 -
+2025-11-17 20:37:08,513 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:37:08] "[33mGET /api/consumables/stats?_t=1763383028497 HTTP/1.1[0m" 404 -
+2025-11-17 20:37:08,556 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:37:08] "GET /api/laboratories?_t=1763383028497 HTTP/1.1" 200 -
+2025-11-17 20:38:09,596 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:09] "[32mGET /api/labs?page=1&size=100&_t=1763383089583 HTTP/1.1[0m" 307 -
+2025-11-17 20:38:09,605 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:09] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:38:10,408 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:38:10,409 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:38:10,410 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:38:10,411 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:10] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763383089583 HTTP/1.1[0m" 400 -
+2025-11-17 20:38:28,302 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:28] "[32mGET /api/labs?page=1&size=20&_t=1763383108297 HTTP/1.1[0m" 307 -
+2025-11-17 20:38:28,314 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:28] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:38:43,917 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:43] "[32mGET /api/labs?page=1&size=20&_t=1763383123911 HTTP/1.1[0m" 307 -
+2025-11-17 20:38:43,928 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:43] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:38:50,187 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:50] "GET /api/auth/profile?_t=1763383130145 HTTP/1.1" 200 -
+2025-11-17 20:38:52,819 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:52] "[32mGET /api/labs?page=1&size=20&_t=1763383132812 HTTP/1.1[0m" 307 -
+2025-11-17 20:38:52,834 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:38:52] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:08,201 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:08] "[32mGET /api/labs?page=1&size=100&_t=1763383148192 HTTP/1.1[0m" 307 -
+2025-11-17 20:39:08,213 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:08] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:08,305 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:08,306 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:08,306 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:08,307 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:08] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763383148192 HTTP/1.1[0m" 400 -
+2025-11-17 20:39:22,158 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:22,159 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:22,160 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:39:22,161 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:22] "[31m[1mGET /api/equipment?page=1&size=1000&_t=1763383162093 HTTP/1.1[0m" 400 -
+2025-11-17 20:39:22,164 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,164 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,165 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,165 - config.database - ERROR - 分页查询执行失败: SELECT r.id, r.equipment_id, r.repair_person, r.fault_description, r.repair_description, r.repair_cost, r.repair_status, r.priority, r.report_time, r.start_time, r.finish_time, r.expected_finish_date, r.remarks, r.created_at, r.updated_at, r.repair_type, e.name AS equipment_name, e.model AS equipment_model FROM equipment_repair r LEFT JOIN equipment e ON r.equipment_id = e.id  ORDER BY r.start_time DESC, r.id DESC, 参数: (), 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,166 - app.api.maintenance - ERROR - 查询维修记录失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,166 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:22] "[31m[1mGET /api/equipment/maintenance?page=1&size=20&_t=1763383162093 HTTP/1.1[0m" 400 -
+2025-11-17 20:39:22,211 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,213 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair WHERE repair_status IN ('reported', 'in_progress'), 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,256 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,257 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM equipment_repair WHERE YEAR(start_time) = YEAR(CURDATE()) AND MONTH(start_time) = MONTH(CURDATE()), 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,312 - config.database - ERROR - 数据库操作失败: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,313 - config.database - ERROR - SQL查询执行失败: SELECT COALESCE(SUM(repair_cost), 0) AS total_cost FROM equipment_repair, 参数: None, 错误: (1146, "Table 'h_db23373478.equipment_repair' doesn't exist")
+2025-11-17 20:39:22,314 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:22] "GET /api/equipment/maintenance/stats?_t=1763383162093 HTTP/1.1" 200 -
+2025-11-17 20:39:32,817 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:32] "[32mGET /api/labs?page=1&size=100&_t=1763383172808 HTTP/1.1[0m" 307 -
+2025-11-17 20:39:32,828 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:32] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:32,860 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:39:32,860 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:39:32,861 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:39:32,862 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:32] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763383172808 HTTP/1.1[0m" 400 -
+2025-11-17 20:39:33,914 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:33] "[32mGET /api/labs?page=1&size=100&_t=1763383173906 HTTP/1.1[0m" 307 -
+2025-11-17 20:39:33,925 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:33] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:37,820 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:37] "[33mGET /api/reservations/:id?_t=1763383177812 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:37,822 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:37] "[32mGET /api/labs?page=1&size=100&_t=1763383177812 HTTP/1.1[0m" 307 -
+2025-11-17 20:39:37,831 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:37] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:41,190 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:41] "[32mGET /api/labs?page=1&size=100&_t=1763383181183 HTTP/1.1[0m" 307 -
+2025-11-17 20:39:41,191 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:41] "[33mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763383181183 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:41,195 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:41] "[33mGET /api/reservations/stats?_t=1763383181183 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:41,209 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:41] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:39:46,305 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:46] "[33mGET /api/consumables/stats?_t=1763383186295 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:46,305 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:46] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763383186295 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:46,360 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:46] "GET /api/laboratories?_t=1763383186295 HTTP/1.1" 200 -
+2025-11-17 20:39:51,328 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:51] "[33mGET /api/consumables?size=1000&_t=1763383191317 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:51,335 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:51] "[33mGET /api/consumables/usage?page=1&size=20&consumableId=&labId=&userId=&_t=1763383191317 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:51,350 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:51] "[33mGET /api/consumables/usage/stats?_t=1763383191317 HTTP/1.1[0m" 404 -
+2025-11-17 20:39:51,474 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:39:51] "GET /api/laboratories?_t=1763383191317 HTTP/1.1" 200 -
+2025-11-17 20:40:07,545 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:40:07] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763383207536 HTTP/1.1[0m" 404 -
+2025-11-17 20:40:07,547 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:40:07] "[33mGET /api/consumables/stats?_t=1763383207536 HTTP/1.1[0m" 404 -
+2025-11-17 20:40:07,629 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:40:07] "GET /api/laboratories?_t=1763383207536 HTTP/1.1" 200 -
+2025-11-17 20:42:39,564 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:39] "[32mGET /api/labs?page=1&size=20&_t=1763383359558 HTTP/1.1[0m" 307 -
+2025-11-17 20:42:39,576 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:39] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:42:42,897 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:42] "[32mGET /api/labs?page=1&size=20&_t=1763383362890 HTTP/1.1[0m" 307 -
+2025-11-17 20:42:42,905 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:42] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:42:45,364 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:45] "[32mGET /api/labs?page=1&size=100&_t=1763383365353 HTTP/1.1[0m" 307 -
+2025-11-17 20:42:45,373 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:45] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:42:45,413 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:42:45,414 - config.database - ERROR - 分页查询执行失败: 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM equipment e
+        LEFT JOIN laboratories l ON e.laboratory_id = l.id
+         ORDER BY e.name ASC, 参数: (), 错误: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:42:45,414 - app.api.equipment - ERROR - 查询设备列表失败: (1054, "Unknown column 'e.warranty_date' in 'field list'")
+2025-11-17 20:42:45,415 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:45] "[31m[1mGET /api/equipment?page=1&size=20&_t=1763383365353 HTTP/1.1[0m" 400 -
+2025-11-17 20:42:48,115 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:48] "[32mGET /api/labs?page=1&size=100&_t=1763383368108 HTTP/1.1[0m" 307 -
+2025-11-17 20:42:48,123 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:48] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:42:57,381 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:57] "[32mGET /api/labs?page=1&size=100&_t=1763383377375 HTTP/1.1[0m" 307 -
+2025-11-17 20:42:57,394 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:42:57] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:43:08,044 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:43:08] "[32mGET /api/labs?page=1&size=100&_t=1763383388039 HTTP/1.1[0m" 307 -
+2025-11-17 20:43:08,053 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:43:08] "[33mGET /api/laboratories/ HTTP/1.1[0m" 404 -
+2025-11-17 20:47:54,808 - app.db_migration - INFO - ✅ equipment.warranty_expiry 重命名为 warranty_date
+2025-11-17 20:47:54,951 - app.db_migration - INFO - ✅ equipment_repair 表已创建
+2025-11-17 20:47:54,993 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 20:47:55,051 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 20:47:55,051 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 20:47:55,051 - __main__ - INFO - 调试模式: False
+2025-11-17 20:47:55,063 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 20:47:55,064 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 20:48:05,047 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:05] "[32mGET /api/labs?page=1&size=100&_t=1763383685038 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:05,102 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:05] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:06,142 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:06] "GET /api/auth/profile?_t=1763383686092 HTTP/1.1" 200 -
+2025-11-17 20:48:06,268 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:06] "[32mGET /api/labs?page=1&size=100&_t=1763383686258 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:06,332 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:06] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:08,004 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:08] "[32mGET /api/labs?page=1&size=100&_t=1763383687996 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:08,092 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:08,093 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:08,094 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:08,095 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:08] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763383687996 HTTP/1.1[0m" 400 -
+2025-11-17 20:48:08,147 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:08] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:09,428 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:09] "[32mGET /api/labs?page=1&size=100&_t=1763383689422 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:09,494 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:09] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:10,681 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:10] "[32mGET /api/labs?page=1&size=100&_t=1763383690674 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:10,683 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:10] "[33mGET /api/reservations/:id?_t=1763383690674 HTTP/1.1[0m" 404 -
+2025-11-17 20:48:10,751 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:10] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:11,880 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:11] "[32mGET /api/labs?page=1&size=100&_t=1763383691873 HTTP/1.1[0m" 307 -
+2025-11-17 20:48:11,968 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:11,968 - config.database - ERROR - SQL查询执行失败: 
+            SELECT r.id,
+                   r.reservation_date,
+                   r.start_time,
+                   r.end_time,
+                   r.purpose,
+                   r.status,
+                   r.laboratory_id,
+                   l.name AS laboratory_name,
+                   u.id AS user_id,
+                   u.name AS user_name
+            FROM reservations r
+            LEFT JOIN laboratories l ON r.laboratory_id = l.id
+            LEFT JOIN users u ON r.user_id = u.id
+             WHERE r.reservation_date BETWEEN %s AND %s
+            ORDER BY r.reservation_date ASC, r.start_time ASC
+        , 参数: ('2025-11-01', '2025-11-30'), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:11,968 - app.api.reservations - ERROR - 获取预约日历数据失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:11,970 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:11] "[31m[1mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763383691873 HTTP/1.1[0m" 400 -
+2025-11-17 20:48:11,976 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:11] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:48:12,100 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'reservation_date' in 'field list'")
+2025-11-17 20:48:12,101 - config.database - ERROR - SQL查询执行失败: 
+        SELECT reservation_date, COUNT(*) as count
+        FROM reservations
+        WHERE reservation_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        
+        GROUP BY reservation_date
+        ORDER BY reservation_date ASC
+        , 参数: (), 错误: (1054, "Unknown column 'reservation_date' in 'field list'")
+2025-11-17 20:48:12,102 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:12] "GET /api/reservations/statistics?_t=1763383691873 HTTP/1.1" 200 -
+2025-11-17 20:48:14,414 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:14,415 - config.database - ERROR - SQL查询执行失败: 
+            SELECT r.id,
+                   r.reservation_date,
+                   r.start_time,
+                   r.end_time,
+                   r.purpose,
+                   r.status,
+                   r.laboratory_id,
+                   l.name AS laboratory_name,
+                   u.id AS user_id,
+                   u.name AS user_name
+            FROM reservations r
+            LEFT JOIN laboratories l ON r.laboratory_id = l.id
+            LEFT JOIN users u ON r.user_id = u.id
+             WHERE r.reservation_date BETWEEN %s AND %s
+            ORDER BY r.reservation_date ASC, r.start_time ASC
+        , 参数: ('2025-11-01', '2025-11-30'), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:14,416 - app.api.reservations - ERROR - 获取预约日历数据失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:48:14,416 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:14] "[31m[1mGET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763383694329 HTTP/1.1[0m" 400 -
+2025-11-17 20:48:32,071 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:48:32] "GET /api/auth/profile?_t=1763383712025 HTTP/1.1" 200 -
+2025-11-17 20:48:54,767 - werkzeug - INFO - 10.194.79.219 - - [17/Nov/2025 20:48:54] "[33mGET / HTTP/1.1[0m" 404 -
+2025-11-17 20:50:46,875 - werkzeug - INFO - 10.194.79.219 - - [17/Nov/2025 20:50:46] "[33mGET / HTTP/1.1[0m" 404 -
+2025-11-17 20:53:36,979 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:36] "[32mGET /api/labs?page=1&size=100&_t=1763384016967 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:37,018 - config.database - ERROR - 数据库操作失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:53:37,019 - config.database - ERROR - 分页查询执行失败: 
+        SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
+               r.status, r.equipment_ids, r.created_at, r.updated_at,
+               u.name as user_name, u.email as user_email,
+               l.name as laboratory_name, l.location as laboratory_location
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN laboratories l ON r.laboratory_id = l.id
+         ORDER BY r.reservation_date DESC, r.start_time DESC, 参数: (), 错误: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:53:37,019 - app.api.reservations - ERROR - 查询预约列表失败: (1054, "Unknown column 'r.reservation_date' in 'field list'")
+2025-11-17 20:53:37,020 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:37] "[31m[1mGET /api/reservations?page=1&size=20&_t=1763384016967 HTTP/1.1[0m" 400 -
+2025-11-17 20:53:37,031 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:37] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:42,153 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:42] "[32mGET /api/labs?page=1&size=100&_t=1763384022146 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:42,245 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:42] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:44,839 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:44] "[32mGET /api/labs?page=1&size=20&_t=1763384024832 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:44,892 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:44] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:47,974 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:47] "[32mGET /api/labs?page=1&size=20&_t=1763384027968 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:48,053 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:48] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:51,102 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:51] "[32mGET /api/labs?page=1&size=100&_t=1763384031090 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:51,161 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:51] "GET /api/equipment?page=1&size=20&_t=1763384031090 HTTP/1.1" 200 -
+2025-11-17 20:53:51,175 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:51] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:56,837 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:56] "[32mGET /api/labs?page=1&size=20&_t=1763384036831 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:56,908 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:56] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 20:53:59,261 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:59] "[32mGET /api/labs/3?_t=1763384039255 HTTP/1.1[0m" 307 -
+2025-11-17 20:53:59,355 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:53:59] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-17 20:54:16,617 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 20:54:16] "GET /api/auth/profile?_t=1763384056571 HTTP/1.1" 200 -
+2025-11-17 21:02:29,154 - __main__ - ERROR - 导入应用失败: No module named 'flask_cors'
+2025-11-17 21:03:06,375 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 21:03:06,588 - app.db_migration - INFO - ✅ reservations.date 重命名为 reservation_date
+2025-11-17 21:03:06,769 - app.db_migration - INFO - ✅ reservations.equipment_ids 列已添加
+2025-11-17 21:03:06,886 - app.db_migration - INFO - ✅ reservations.idx_reservation_date 索引已添加
+2025-11-17 21:03:06,945 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 21:03:06,945 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 21:03:06,945 - __main__ - INFO - 调试模式: False
+2025-11-17 21:03:06,957 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 21:03:06,957 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 21:03:42,940 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:42] "GET /api/auth/profile?_t=1763384622880 HTTP/1.1" 200 -
+2025-11-17 21:03:45,981 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:45] "[32mGET /api/labs?page=1&size=1&_t=1763384625967 HTTP/1.1[0m" 307 -
+2025-11-17 21:03:46,038 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:46] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:03:46,087 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:46] "GET /api/equipment/statistics?_t=1763384625967 HTTP/1.1" 200 -
+2025-11-17 21:03:46,144 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:46] "GET /api/reservations/statistics?_t=1763384625967 HTTP/1.1" 200 -
+2025-11-17 21:03:46,165 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:46] "GET /api/equipment/maintenance/stats?_t=1763384625967 HTTP/1.1" 200 -
+2025-11-17 21:03:46,370 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:46] "GET /api/equipment/maintenance/stats?_t=1763384626199 HTTP/1.1" 200 -
+2025-11-17 21:03:51,126 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:51] "[32mGET /api/labs?page=1&size=100&_t=1763384631118 HTTP/1.1[0m" 307 -
+2025-11-17 21:03:51,201 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:51] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:03:51,434 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:03:51] "GET /api/reservations/statistics?_t=1763384631222 HTTP/1.1" 200 -
+2025-11-17 21:04:03,875 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:03] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763384643868 HTTP/1.1[0m" 404 -
+2025-11-17 21:04:03,879 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:03] "[33mGET /api/consumables/stats?_t=1763384643868 HTTP/1.1[0m" 404 -
+2025-11-17 21:04:03,943 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:03] "GET /api/laboratories?_t=1763384643868 HTTP/1.1" 200 -
+2025-11-17 21:04:19,002 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:19] "[33mGET /api/consumables/usage?page=1&size=20&consumableId=&labId=&userId=&_t=1763384658996 HTTP/1.1[0m" 404 -
+2025-11-17 21:04:19,014 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:19] "[33mGET /api/consumables?size=1000&_t=1763384658996 HTTP/1.1[0m" 404 -
+2025-11-17 21:04:19,022 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:19] "[33mGET /api/consumables/usage/stats?_t=1763384658996 HTTP/1.1[0m" 404 -
+2025-11-17 21:04:19,121 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:19] "GET /api/laboratories?_t=1763384658996 HTTP/1.1" 200 -
+2025-11-17 21:04:23,349 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:23] "[32mGET /api/labs?page=1&size=100&_t=1763384663339 HTTP/1.1[0m" 307 -
+2025-11-17 21:04:23,760 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:23] "GET /api/reservations?page=1&size=20&_t=1763384663339 HTTP/1.1" 200 -
+2025-11-17 21:04:23,784 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:23] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:04:24,885 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:24] "[32mGET /api/labs?page=1&size=100&_t=1763384664879 HTTP/1.1[0m" 307 -
+2025-11-17 21:04:25,109 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:25] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:04:27,078 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:27] "[32mGET /api/labs/3?_t=1763384667071 HTTP/1.1[0m" 307 -
+2025-11-17 21:04:27,316 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:27] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-17 21:04:37,849 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:37] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,132 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,147 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,164 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,272 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,347 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:39,383 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:39] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,281 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,435 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,436 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,606 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,617 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:04:40,620 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:04:40] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:05:15,417 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:05:15] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 21:05:23,113 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:05:23] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 21:05:54,659 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:05:54] "[32mGET /api/labs?page=1&size=100&_t=1763384754651 HTTP/1.1[0m" 307 -
+2025-11-17 21:05:54,792 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:05:54] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:06:46,622 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:46] "[32mGET /api/labs?page=1&size=100&_t=1763384806615 HTTP/1.1[0m" 307 -
+2025-11-17 21:06:46,689 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:46] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763384806615 HTTP/1.1" 200 -
+2025-11-17 21:06:46,699 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:46] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:06:46,887 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:46] "GET /api/reservations/statistics?_t=1763384806615 HTTP/1.1" 200 -
+2025-11-17 21:06:47,939 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:47] "[32mGET /api/labs?page=1&size=100&_t=1763384807932 HTTP/1.1[0m" 307 -
+2025-11-17 21:06:47,942 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:47] "[33mGET /api/reservations/:id?_t=1763384807932 HTTP/1.1[0m" 404 -
+2025-11-17 21:06:48,033 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:06:48] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:07:03,890 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:03] "GET /api/auth/profile?_t=1763384823824 HTTP/1.1" 200 -
+2025-11-17 21:07:28,829 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:28] "GET /api/auth/profile?_t=1763384848758 HTTP/1.1" 200 -
+2025-11-17 21:07:32,461 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:32] "GET /api/auth/profile?_t=1763384852388 HTTP/1.1" 200 -
+2025-11-17 21:07:34,839 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:34] "GET /api/auth/profile?_t=1763384854791 HTTP/1.1" 200 -
+2025-11-17 21:07:35,406 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:35] "GET /api/auth/profile?_t=1763384855353 HTTP/1.1" 200 -
+2025-11-17 21:07:35,593 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:35] "GET /api/auth/profile?_t=1763384855530 HTTP/1.1" 200 -
+2025-11-17 21:07:38,810 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:38] "GET /api/auth/profile?_t=1763384858735 HTTP/1.1" 200 -
+2025-11-17 21:07:52,029 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:07:52] "GET /api/auth/profile?_t=1763384871962 HTTP/1.1" 200 -
+2025-11-17 21:08:03,296 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:03] "[32mGET /api/labs?page=1&size=100&_t=1763384883288 HTTP/1.1[0m" 307 -
+2025-11-17 21:08:03,377 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:03] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:08:03,379 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:03] "GET /api/reservations?page=1&size=20&_t=1763384883288 HTTP/1.1" 200 -
+2025-11-17 21:08:13,200 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "[32mGET /api/labs?page=1&size=1&_t=1763384893177 HTTP/1.1[0m" 307 -
+2025-11-17 21:08:13,286 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:08:13,465 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "GET /api/equipment/statistics?_t=1763384893177 HTTP/1.1" 200 -
+2025-11-17 21:08:13,534 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "GET /api/equipment/maintenance/stats?_t=1763384893177 HTTP/1.1" 200 -
+2025-11-17 21:08:13,543 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "GET /api/reservations/statistics?_t=1763384893177 HTTP/1.1" 200 -
+2025-11-17 21:08:13,853 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:13] "GET /api/equipment/maintenance/stats?_t=1763384893578 HTTP/1.1" 200 -
+2025-11-17 21:08:24,715 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:24] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763384904705 HTTP/1.1[0m" 404 -
+2025-11-17 21:08:24,719 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:24] "[33mGET /api/consumables/stats?_t=1763384904705 HTTP/1.1[0m" 404 -
+2025-11-17 21:08:24,825 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:24] "GET /api/laboratories?_t=1763384904705 HTTP/1.1" 200 -
+2025-11-17 21:08:25,458 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "GET /api/auth/profile?_t=1763384905353 HTTP/1.1" 200 -
+2025-11-17 21:08:25,524 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "GET /api/auth/profile?_t=1763384905353 HTTP/1.1" 200 -
+2025-11-17 21:08:25,595 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "GET /api/auth/profile?_t=1763384905548 HTTP/1.1" 200 -
+2025-11-17 21:08:25,599 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "GET /api/auth/profile?_t=1763384905549 HTTP/1.1" 200 -
+2025-11-17 21:08:25,718 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763384905709 HTTP/1.1[0m" 404 -
+2025-11-17 21:08:25,721 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "[33mGET /api/consumables/stats?_t=1763384905709 HTTP/1.1[0m" 404 -
+2025-11-17 21:08:25,781 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:08:25] "GET /api/laboratories?_t=1763384905709 HTTP/1.1" 200 -
+2025-11-17 21:09:04,079 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:09:04] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763384944071 HTTP/1.1[0m" 404 -
+2025-11-17 21:09:04,081 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:09:04] "[33mGET /api/consumables/stats?_t=1763384944071 HTTP/1.1[0m" 404 -
+2025-11-17 21:09:04,157 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:09:04] "GET /api/laboratories?_t=1763384944071 HTTP/1.1" 200 -
+2025-11-17 21:10:08,068 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:10:08] "[33mGET /api/consumables?page=1&size=20&keyword=&labId=&status=&_t=1763385008061 HTTP/1.1[0m" 404 -
+2025-11-17 21:10:08,071 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:10:08] "[33mGET /api/consumables/stats?_t=1763385008061 HTTP/1.1[0m" 404 -
+2025-11-17 21:10:08,114 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:10:08] "GET /api/laboratories?_t=1763385008061 HTTP/1.1" 200 -
+2025-11-17 21:10:36,323 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 21:10:36,612 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 21:10:36,612 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 21:10:36,612 - __main__ - INFO - 调试模式: False
+2025-11-17 21:10:36,632 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 21:10:36,633 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 21:13:33,753 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:33] "[32mGET /api/labs?page=1&size=100&_t=1763385213746 HTTP/1.1[0m" 307 -
+2025-11-17 21:13:33,832 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:33] "GET /api/equipment?page=1&size=20&_t=1763385213746 HTTP/1.1" 200 -
+2025-11-17 21:13:33,850 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:33] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:13:51,067 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:51] "[32mGET /api/labs?page=1&size=100&_t=1763385231062 HTTP/1.1[0m" 307 -
+2025-11-17 21:13:51,120 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:51] "GET /api/equipment?page=1&size=20&_t=1763385231062 HTTP/1.1" 200 -
+2025-11-17 21:13:51,134 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:51] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:13:58,252 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:58] "GET /api/equipment?page=1&size=1000&_t=1763385238181 HTTP/1.1" 200 -
+2025-11-17 21:13:58,283 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:58] "GET /api/equipment/maintenance?page=1&size=20&_t=1763385238181 HTTP/1.1" 200 -
+2025-11-17 21:13:58,416 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:58] "GET /api/equipment/maintenance/stats?_t=1763385238181 HTTP/1.1" 200 -
+2025-11-17 21:13:59,702 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:59] "[32mGET /api/labs?page=1&size=100&_t=1763385239695 HTTP/1.1[0m" 307 -
+2025-11-17 21:13:59,753 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:59] "GET /api/equipment?page=1&size=20&_t=1763385239695 HTTP/1.1" 200 -
+2025-11-17 21:13:59,759 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:13:59] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:17:59,789 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:17:59] "GET /api/equipment/maintenance?page=1&size=20&_t=1763385479717 HTTP/1.1" 200 -
+2025-11-17 21:17:59,790 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:17:59] "GET /api/equipment?page=1&size=1000&_t=1763385479717 HTTP/1.1" 200 -
+2025-11-17 21:17:59,982 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:17:59] "GET /api/equipment/maintenance/stats?_t=1763385479717 HTTP/1.1" 200 -
+2025-11-17 21:20:56,783 - app.db_migration - INFO - ✅ consumables 表已创建
+2025-11-17 21:20:57,062 - app.db_migration - INFO - ✅ consumable_usage 表已创建
+2025-11-17 21:20:57,062 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 21:20:57,355 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 21:20:57,355 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 21:20:57,356 - __main__ - INFO - 调试模式: False
+2025-11-17 21:20:57,370 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 21:20:57,371 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 21:21:01,009 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:01] "GET /api/auth/profile?_t=1763385660627 HTTP/1.1" 200 -
+2025-11-17 21:21:01,051 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:01] "GET /api/auth/profile?_t=1763385660626 HTTP/1.1" 200 -
+2025-11-17 21:21:05,555 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:05] "[32mGET /api/labs?page=1&size=20&_t=1763385665548 HTTP/1.1[0m" 307 -
+2025-11-17 21:21:05,623 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:05] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:21:11,742 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:11] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&labId=&status=&_t=1763385671734 HTTP/1.1[0m" 400 -
+2025-11-17 21:21:11,845 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:11] "GET /api/laboratories?_t=1763385671734 HTTP/1.1" 200 -
+2025-11-17 21:21:11,951 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:21:11,953 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:21:12,044 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:12] "GET /api/consumables/stats?_t=1763385671734 HTTP/1.1" 200 -
+2025-11-17 21:21:14,448 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:14] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&labId=&status=&_t=1763385674441 HTTP/1.1[0m" 400 -
+2025-11-17 21:21:14,542 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:14] "GET /api/laboratories?_t=1763385674441 HTTP/1.1" 200 -
+2025-11-17 21:21:14,628 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:21:14,628 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:21:14,711 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:21:14] "GET /api/consumables/stats?_t=1763385674441 HTTP/1.1" 200 -
+2025-11-17 21:22:51,978 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:22:51] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&labId=&status=&_t=1763385771969 HTTP/1.1[0m" 400 -
+2025-11-17 21:22:52,060 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:22:52] "GET /api/laboratories?_t=1763385771969 HTTP/1.1" 200 -
+2025-11-17 21:22:52,208 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:22:52,209 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:22:52,263 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:22:52] "GET /api/consumables/stats?_t=1763385771969 HTTP/1.1" 200 -
+2025-11-17 21:22:59,606 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:22:59] "[32mGET /api/labs?page=1&size=1&_t=1763385779592 HTTP/1.1[0m" 307 -
+2025-11-17 21:22:59,849 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:22:59] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:23:00,033 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:00] "GET /api/equipment/statistics?_t=1763385779592 HTTP/1.1" 200 -
+2025-11-17 21:23:00,084 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:00] "GET /api/reservations/statistics?_t=1763385779592 HTTP/1.1" 200 -
+2025-11-17 21:23:00,102 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:00] "GET /api/equipment/maintenance/stats?_t=1763385779592 HTTP/1.1" 200 -
+2025-11-17 21:23:00,388 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:00] "GET /api/equipment/maintenance/stats?_t=1763385780167 HTTP/1.1" 200 -
+2025-11-17 21:23:01,194 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:01] "[32mGET /api/labs?page=1&size=100&_t=1763385781186 HTTP/1.1[0m" 307 -
+2025-11-17 21:23:01,282 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:01] "GET /api/equipment?page=1&size=20&_t=1763385781186 HTTP/1.1" 200 -
+2025-11-17 21:23:01,302 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:01] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:23:03,367 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:03] "[32mGET /api/labs?page=1&size=100&_t=1763385783358 HTTP/1.1[0m" 307 -
+2025-11-17 21:23:03,441 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:03] "GET /api/reservations?page=1&size=20&_t=1763385783358 HTTP/1.1" 200 -
+2025-11-17 21:23:03,443 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:03] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:23:04,718 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:04] "[32mGET /api/labs?page=1&size=20&_t=1763385784713 HTTP/1.1[0m" 307 -
+2025-11-17 21:23:04,794 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:04] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:23:18,657 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:18] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&labId=&status=&_t=1763385798649 HTTP/1.1[0m" 400 -
+2025-11-17 21:23:18,718 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:18] "GET /api/laboratories?_t=1763385798649 HTTP/1.1" 200 -
+2025-11-17 21:23:18,787 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:23:18,788 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:23:18,828 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:23:18] "GET /api/consumables/stats?_t=1763385798649 HTTP/1.1" 200 -
+2025-11-17 21:27:26,409 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 21:27:26,739 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 21:27:26,739 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 21:27:26,739 - __main__ - INFO - 调试模式: False
+2025-11-17 21:27:26,750 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 21:27:26,750 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 21:27:30,763 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:30] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386050749 HTTP/1.1[0m" 400 -
+2025-11-17 21:27:30,940 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:30] "GET /api/laboratories?_t=1763386050749 HTTP/1.1" 200 -
+2025-11-17 21:27:31,191 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:27:31,191 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:27:31,285 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:31] "GET /api/consumables/stats?_t=1763386050749 HTTP/1.1" 200 -
+2025-11-17 21:27:34,888 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:34] "GET /api/auth/profile?_t=1763386054826 HTTP/1.1" 200 -
+2025-11-17 21:27:34,976 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:34] "GET /api/auth/profile?_t=1763386054826 HTTP/1.1" 200 -
+2025-11-17 21:27:35,234 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:35] "[31m[1mGET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386055219 HTTP/1.1[0m" 400 -
+2025-11-17 21:27:35,300 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:35] "GET /api/laboratories?_t=1763386055219 HTTP/1.1" 200 -
+2025-11-17 21:27:35,405 - config.database - ERROR - 数据库操作失败: not enough arguments for format string
+2025-11-17 21:27:35,406 - config.database - ERROR - SQL查询执行失败: SELECT COUNT(*) AS cnt FROM consumable_usage WHERE DATE_FORMAT(created_at,'%Y-%m') = DATE_FORMAT(CURDATE(),'%Y-%m'), 参数: None, 错误: not enough arguments for format string
+2025-11-17 21:27:35,467 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:27:35] "GET /api/consumables/stats?_t=1763386055219 HTTP/1.1" 200 -
+2025-11-17 21:40:45,379 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 21:40:45,624 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 21:40:45,625 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 21:40:45,625 - __main__ - INFO - 调试模式: False
+2025-11-17 21:40:45,637 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 21:40:45,638 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 21:40:49,858 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:40:49] "GET /api/auth/profile?_t=1763386849804 HTTP/1.1" 200 -
+2025-11-17 21:40:49,860 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:40:49] "GET /api/auth/profile?_t=1763386849803 HTTP/1.1" 200 -
+2025-11-17 21:40:50,128 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:40:50] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386850054 HTTP/1.1" 200 -
+2025-11-17 21:40:50,153 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:40:50] "GET /api/laboratories?_t=1763386850054 HTTP/1.1" 200 -
+2025-11-17 21:40:50,333 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:40:50] "GET /api/consumables/stats?_t=1763386850054 HTTP/1.1" 200 -
+2025-11-17 21:41:05,009 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:05] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386864904 HTTP/1.1" 200 -
+2025-11-17 21:41:05,011 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:05] "GET /api/laboratories?_t=1763386864904 HTTP/1.1" 200 -
+2025-11-17 21:41:05,197 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:05] "GET /api/consumables/stats?_t=1763386864904 HTTP/1.1" 200 -
+2025-11-17 21:41:31,249 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:31] "[35m[1mPOST /api/consumables HTTP/1.1[0m" 201 -
+2025-11-17 21:41:31,358 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:31] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386891282 HTTP/1.1" 200 -
+2025-11-17 21:41:31,520 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:31] "GET /api/consumables/stats?_t=1763386891282 HTTP/1.1" 200 -
+2025-11-17 21:41:40,697 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:40] "DELETE /api/consumables/1 HTTP/1.1" 200 -
+2025-11-17 21:41:40,773 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:40] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386900705 HTTP/1.1" 200 -
+2025-11-17 21:41:40,907 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:40] "GET /api/consumables/stats?_t=1763386900705 HTTP/1.1" 200 -
+2025-11-17 21:41:44,222 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:44] "[33mGET /api/consumables/usage?page=1&size=20&consumableId=&labId=&userId=&_t=1763386904210 HTTP/1.1[0m" 404 -
+2025-11-17 21:41:44,230 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:44] "[33mGET /api/consumables/usage/stats?_t=1763386904210 HTTP/1.1[0m" 404 -
+2025-11-17 21:41:44,345 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:44] "GET /api/consumables?size=1000&_t=1763386904210 HTTP/1.1" 200 -
+2025-11-17 21:41:44,352 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:44] "GET /api/laboratories?_t=1763386904210 HTTP/1.1" 200 -
+2025-11-17 21:41:49,272 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:49] "GET /api/laboratories?_t=1763386909211 HTTP/1.1" 200 -
+2025-11-17 21:41:49,278 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:49] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386909211 HTTP/1.1" 200 -
+2025-11-17 21:41:49,388 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:41:49] "GET /api/consumables/stats?_t=1763386909211 HTTP/1.1" 200 -
+2025-11-17 21:42:06,819 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:06] "[35m[1mPOST /api/consumables HTTP/1.1[0m" 201 -
+2025-11-17 21:42:06,916 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:06] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386926843 HTTP/1.1" 200 -
+2025-11-17 21:42:07,059 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:07] "GET /api/consumables/stats?_t=1763386926843 HTTP/1.1" 200 -
+2025-11-17 21:42:19,858 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:19] "POST /api/consumables/2/restock HTTP/1.1" 200 -
+2025-11-17 21:42:19,938 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:19] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386939871 HTTP/1.1" 200 -
+2025-11-17 21:42:20,087 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:20] "GET /api/consumables/stats?_t=1763386939871 HTTP/1.1" 200 -
+2025-11-17 21:42:30,983 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:30] "GET /api/auth/profile?_t=1763386950943 HTTP/1.1" 200 -
+2025-11-17 21:42:31,043 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:31] "GET /api/auth/profile?_t=1763386950943 HTTP/1.1" 200 -
+2025-11-17 21:42:31,266 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:31] "GET /api/laboratories?_t=1763386951194 HTTP/1.1" 200 -
+2025-11-17 21:42:31,266 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:31] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386951194 HTTP/1.1" 200 -
+2025-11-17 21:42:31,401 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:31] "GET /api/consumables/stats?_t=1763386951194 HTTP/1.1" 200 -
+2025-11-17 21:42:38,972 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:38] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386958919 HTTP/1.1" 200 -
+2025-11-17 21:42:38,986 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:38] "GET /api/laboratories?_t=1763386958919 HTTP/1.1" 200 -
+2025-11-17 21:42:39,115 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:39] "GET /api/consumables/stats?_t=1763386958919 HTTP/1.1" 200 -
+2025-11-17 21:42:49,619 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:49] "POST /api/consumables/2/use HTTP/1.1" 200 -
+2025-11-17 21:42:49,704 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:49] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763386969632 HTTP/1.1" 200 -
+2025-11-17 21:42:49,868 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:49] "GET /api/consumables/stats?_t=1763386969632 HTTP/1.1" 200 -
+2025-11-17 21:42:51,275 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:51] "[33mGET /api/consumables/usage?page=1&size=20&consumableId=&labId=&userId=&_t=1763386971267 HTTP/1.1[0m" 404 -
+2025-11-17 21:42:51,280 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:51] "[33mGET /api/consumables/usage/stats?_t=1763386971267 HTTP/1.1[0m" 404 -
+2025-11-17 21:42:51,338 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:51] "GET /api/consumables?size=1000&_t=1763386971267 HTTP/1.1" 200 -
+2025-11-17 21:42:51,340 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:42:51] "GET /api/laboratories?_t=1763386971267 HTTP/1.1" 200 -
+2025-11-17 21:43:21,941 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:21] "GET /api/laboratories?_t=1763387001869 HTTP/1.1" 200 -
+2025-11-17 21:43:21,942 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:21] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763387001869 HTTP/1.1" 200 -
+2025-11-17 21:43:22,124 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:22] "GET /api/consumables/stats?_t=1763387001869 HTTP/1.1" 200 -
+2025-11-17 21:43:47,516 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:47] "GET /api/laboratories?_t=1763387027423 HTTP/1.1" 200 -
+2025-11-17 21:43:47,520 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:47] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763387027423 HTTP/1.1" 200 -
+2025-11-17 21:43:47,645 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:43:47] "GET /api/consumables/stats?_t=1763387027423 HTTP/1.1" 200 -
+2025-11-17 21:44:08,900 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:08] "[32mGET /api/labs?page=1&size=100&_t=1763387048891 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:08,952 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:08] "GET /api/equipment?page=1&size=20&_t=1763387048891 HTTP/1.1" 200 -
+2025-11-17 21:44:08,964 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:08] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:22,099 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:22] "[32mGET /api/labs?page=1&size=100&_t=1763387062091 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:22,159 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:22] "GET /api/equipment?page=1&size=20&_t=1763387062091 HTTP/1.1" 200 -
+2025-11-17 21:44:22,187 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:22] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:23,901 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:23] "GET /api/auth/profile?_t=1763387063824 HTTP/1.1" 200 -
+2025-11-17 21:44:23,902 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:23] "GET /api/auth/profile?_t=1763387063825 HTTP/1.1" 200 -
+2025-11-17 21:44:24,026 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:24] "[32mGET /api/labs?page=1&size=100&_t=1763387064019 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:24,128 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:24] "GET /api/equipment?page=1&size=20&_t=1763387064019 HTTP/1.1" 200 -
+2025-11-17 21:44:24,135 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:24] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:27,118 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:27] "[32mGET /api/labs?page=1&size=100&_t=1763387067110 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:27,182 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:27] "GET /api/equipment?page=1&size=20&_t=1763387067110 HTTP/1.1" 200 -
+2025-11-17 21:44:27,188 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:27] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:43,325 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:43] "[32mGET /api/labs?page=1&size=100&_t=1763387083316 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:43,409 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:43] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:43,418 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:43] "GET /api/reservations?page=1&size=20&_t=1763387083316 HTTP/1.1" 200 -
+2025-11-17 21:44:46,463 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:46] "[32mGET /api/labs?page=1&size=100&_t=1763387086455 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:46,519 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:46] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:48,020 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:48] "[32mGET /api/labs?page=1&size=100&_t=1763387088013 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:48,133 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:48] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:48,138 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:48] "GET /api/reservations?page=1&size=20&_t=1763387088013 HTTP/1.1" 200 -
+2025-11-17 21:44:49,516 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:49] "[32mGET /api/labs?page=1&size=100&_t=1763387089508 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:49,575 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:49] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:44:51,873 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:51] "[32mGET /api/labs/3?_t=1763387091863 HTTP/1.1[0m" 307 -
+2025-11-17 21:44:51,989 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:44:51] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-17 21:45:01,508 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:45:01] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 21:45:32,718 - app.api.reservations - ERROR - 创建预约接口错误: 'id'
+2025-11-17 21:45:32,723 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:45:32] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 21:45:37,348 - app.api.reservations - ERROR - 创建预约接口错误: 'id'
+2025-11-17 21:45:37,349 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:45:37] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 21:46:01,242 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:01] "[32mGET /api/labs?page=1&size=100&_t=1763387161234 HTTP/1.1[0m" 307 -
+2025-11-17 21:46:01,245 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:01] "[33mGET /api/reservations/:id?_t=1763387161234 HTTP/1.1[0m" 404 -
+2025-11-17 21:46:01,345 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:01] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:46:02,007 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:02] "[32mGET /api/labs?page=1&size=100&_t=1763387161999 HTTP/1.1[0m" 307 -
+2025-11-17 21:46:02,062 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:02] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763387161999 HTTP/1.1" 200 -
+2025-11-17 21:46:02,064 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:02] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:46:02,213 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:02] "GET /api/reservations/statistics?_t=1763387161999 HTTP/1.1" 200 -
+2025-11-17 21:46:09,087 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:09] "GET /api/auth/profile?_t=1763387169038 HTTP/1.1" 200 -
+2025-11-17 21:46:09,151 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:09] "GET /api/auth/profile?_t=1763387169038 HTTP/1.1" 200 -
+2025-11-17 21:46:50,196 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:50] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763387210147 HTTP/1.1" 200 -
+2025-11-17 21:46:50,202 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:50] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763387210147 HTTP/1.1" 200 -
+2025-11-17 21:46:52,826 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:52] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763387212772 HTTP/1.1" 200 -
+2025-11-17 21:46:52,827 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:46:52] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763387212772 HTTP/1.1" 200 -
+2025-11-17 21:47:33,810 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:33] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763387253729 HTTP/1.1" 200 -
+2025-11-17 21:47:33,831 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:33] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763387253729 HTTP/1.1" 200 -
+2025-11-17 21:47:35,766 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:35] "GET /api/auth/profile?_t=1763387255709 HTTP/1.1" 200 -
+2025-11-17 21:47:35,766 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:35] "GET /api/auth/profile?_t=1763387255708 HTTP/1.1" 200 -
+2025-11-17 21:47:35,933 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:35] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763387255867 HTTP/1.1" 200 -
+2025-11-17 21:47:35,936 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:35] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763387255867 HTTP/1.1" 200 -
+2025-11-17 21:47:50,857 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:50] "GET /api/users?params[page]=1&params[page_size]=20&_t=1763387270798 HTTP/1.1" 200 -
+2025-11-17 21:47:50,870 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:50] "GET /api/courses?params[page]=1&params[page_size]=200&_t=1763387270798 HTTP/1.1" 200 -
+2025-11-17 21:47:54,608 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:54] "[32mGET /api/labs?page=1&size=100&_t=1763387274598 HTTP/1.1[0m" 307 -
+2025-11-17 21:47:54,662 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:54] "GET /api/reservations?page=1&size=20&_t=1763387274598 HTTP/1.1" 200 -
+2025-11-17 21:47:54,669 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:54] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:47:57,293 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:57] "GET /api/courses?params[page]=1&params[page_size]=200&_t=1763387277241 HTTP/1.1" 200 -
+2025-11-17 21:47:57,313 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:57] "GET /api/users?params[page]=1&params[page_size]=20&_t=1763387277241 HTTP/1.1" 200 -
+2025-11-17 21:47:59,700 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:59] "[32mGET /api/labs?page=1&size=100&_t=1763387279695 HTTP/1.1[0m" 307 -
+2025-11-17 21:47:59,752 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:59] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 21:47:59,967 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:47:59] "GET /api/reservations/statistics?_t=1763387279765 HTTP/1.1" 200 -
+2025-11-17 22:04:34,892 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 22:04:35,130 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 22:04:35,130 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 22:04:35,130 - __main__ - INFO - 调试模式: False
+2025-11-17 22:04:35,142 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 22:04:35,142 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 22:04:40,115 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:04:40] "[33mGET /?ide_webview_request_time=1763388280067 HTTP/1.1[0m" 404 -
+2025-11-17 22:04:40,253 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:04:40] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-11-17 22:05:08,171 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 22:05:08,400 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 22:05:08,400 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 22:05:08,401 - __main__ - INFO - 调试模式: False
+2025-11-17 22:05:08,412 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 22:05:08,413 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 22:05:15,264 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:15] "GET /api/auth/profile?_t=1763388315208 HTTP/1.1" 200 -
+2025-11-17 22:05:15,266 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:15] "GET /api/auth/profile?_t=1763388315207 HTTP/1.1" 200 -
+2025-11-17 22:05:15,460 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:15] "[32mGET /api/labs?page=1&size=100&_t=1763388315449 HTTP/1.1[0m" 307 -
+2025-11-17 22:05:15,599 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:15] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:05:15,973 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:15] "GET /api/reservations/statistics?_t=1763388315609 HTTP/1.1" 200 -
+2025-11-17 22:05:21,529 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:21] "[32mGET /api/labs?page=1&size=100&_t=1763388321523 HTTP/1.1[0m" 307 -
+2025-11-17 22:05:21,600 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:21] "GET /api/equipment?page=1&size=20&_t=1763388321523 HTTP/1.1" 200 -
+2025-11-17 22:05:21,622 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:21] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:05:35,117 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:35] "[32mGET /api/labs?page=1&size=100&_t=1763388335108 HTTP/1.1[0m" 307 -
+2025-11-17 22:05:35,219 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:35] "GET /api/equipment?page=1&size=20&_t=1763388335108 HTTP/1.1" 200 -
+2025-11-17 22:05:35,245 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:35] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:05:36,396 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:36] "GET /api/auth/profile?_t=1763388336324 HTTP/1.1" 200 -
+2025-11-17 22:05:36,398 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:36] "GET /api/auth/profile?_t=1763388336323 HTTP/1.1" 200 -
+2025-11-17 22:05:36,513 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:36] "[32mGET /api/labs?page=1&size=100&_t=1763388336505 HTTP/1.1[0m" 307 -
+2025-11-17 22:05:36,709 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:36] "GET /api/equipment?page=1&size=20&_t=1763388336505 HTTP/1.1" 200 -
+2025-11-17 22:05:36,727 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:05:36] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:06:50,717 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:06:50] "[33mGET /?ide_webview_request_time=1763388410714 HTTP/1.1[0m" 404 -
+2025-11-17 22:06:50,740 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:06:50] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-11-17 22:07:00,847 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:00] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763388420779 HTTP/1.1" 200 -
+2025-11-17 22:07:00,850 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:00] "GET /api/laboratories?_t=1763388420779 HTTP/1.1" 200 -
+2025-11-17 22:07:01,017 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:01] "GET /api/consumables/stats?_t=1763388420779 HTTP/1.1" 200 -
+2025-11-17 22:07:05,537 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:05] "DELETE /api/consumables/2 HTTP/1.1" 200 -
+2025-11-17 22:07:05,634 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:05] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763388425553 HTTP/1.1" 200 -
+2025-11-17 22:07:05,776 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:05] "GET /api/consumables/stats?_t=1763388425553 HTTP/1.1" 200 -
+2025-11-17 22:07:08,909 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:08] "[32mGET /api/labs?page=1&size=100&_t=1763388428899 HTTP/1.1[0m" 307 -
+2025-11-17 22:07:08,963 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:08] "GET /api/reservations?page=1&size=20&_t=1763388428899 HTTP/1.1" 200 -
+2025-11-17 22:07:08,990 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:08] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:07:10,711 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:10] "[32mGET /api/labs?page=1&size=100&_t=1763388430705 HTTP/1.1[0m" 307 -
+2025-11-17 22:07:10,777 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:10] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:07:11,918 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:11] "[32mGET /api/labs/3?_t=1763388431910 HTTP/1.1[0m" 307 -
+2025-11-17 22:07:12,037 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:12] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-17 22:07:16,594 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:16] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 22:07:23,387 - app.api.reservations - ERROR - 创建预约接口错误: 'id'
+2025-11-17 22:07:23,389 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:07:23] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 22:08:01,445 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:08:01] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763388481361 HTTP/1.1" 200 -
+2025-11-17 22:08:01,452 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:08:01] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763388481361 HTTP/1.1" 200 -
+2025-11-17 22:08:08,000 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:08:08] "GET /api/users?params[page]=1&params[page_size]=100&params[role]=teacher&_t=1763388487913 HTTP/1.1" 200 -
+2025-11-17 22:08:08,005 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:08:08] "GET /api/courses?params[page]=1&params[page_size]=20&_t=1763388487913 HTTP/1.1" 200 -
+2025-11-17 22:16:33,315 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-17 22:16:33,762 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-17 22:16:33,763 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-17 22:16:33,763 - __main__ - INFO - 调试模式: False
+2025-11-17 22:16:33,777 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-17 22:16:33,777 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-17 22:16:41,719 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:41] "GET /api/auth/profile?_t=1763389001566 HTTP/1.1" 200 -
+2025-11-17 22:16:41,735 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:41] "GET /api/auth/profile?_t=1763389001564 HTTP/1.1" 200 -
+2025-11-17 22:16:46,515 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:46] "[32mGET /api/labs?page=1&size=100&_t=1763389006506 HTTP/1.1[0m" 307 -
+2025-11-17 22:16:46,582 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:46] "GET /api/equipment?page=1&size=20&_t=1763389006506 HTTP/1.1" 200 -
+2025-11-17 22:16:46,615 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:46] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:16:56,635 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:56] "[32mGET /api/labs?page=1&size=100&_t=1763389016626 HTTP/1.1[0m" 307 -
+2025-11-17 22:16:56,813 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:56] "GET /api/equipment?page=1&size=20&_t=1763389016626 HTTP/1.1" 200 -
+2025-11-17 22:16:56,828 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:56] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:16:59,758 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:59] "[32mGET /api/labs?page=1&size=100&_t=1763389019748 HTTP/1.1[0m" 307 -
+2025-11-17 22:16:59,855 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:59] "GET /api/reservations?page=1&size=20&_t=1763389019748 HTTP/1.1" 200 -
+2025-11-17 22:16:59,884 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:16:59] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:17:01,815 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:01] "[32mGET /api/labs?page=1&size=100&_t=1763389021805 HTTP/1.1[0m" 307 -
+2025-11-17 22:17:01,958 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:01] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-17 22:17:02,973 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:02] "[32mGET /api/labs/2?_t=1763389022963 HTTP/1.1[0m" 307 -
+2025-11-17 22:17:03,195 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:03] "GET /api/laboratories/2 HTTP/1.1" 200 -
+2025-11-17 22:17:07,233 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:07] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-17 22:17:14,353 - app.api.reservations - ERROR - 创建预约接口错误: 'id'
+2025-11-17 22:17:14,356 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:17:14] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-17 22:20:22,695 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:20:22] "GET /api/auth/profile?_t=1763389222570 HTTP/1.1" 200 -
+2025-11-17 22:20:22,719 - werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 22:20:22] "GET /api/auth/profile?_t=1763389222571 HTTP/1.1" 200 -
+2025-11-18 15:59:07,905 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 15:59:10,424 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 15:59:10,424 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 15:59:10,424 - __main__ - INFO - 调试模式: False
+2025-11-18 15:59:10,446 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 15:59:10,446 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 15:59:31,898 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:31] "GET /api/auth/profile?_t=1763452771544 HTTP/1.1" 200 -
+2025-11-18 15:59:32,006 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:32] "GET /api/auth/profile?_t=1763452771542 HTTP/1.1" 200 -
+2025-11-18 15:59:37,465 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:37] "[32mGET /api/labs?page=1&size=20&_t=1763452777459 HTTP/1.1[0m" 307 -
+2025-11-18 15:59:38,556 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:38] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 15:59:42,414 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:42] "[32mGET /api/labs?page=1&size=20&_t=1763452782408 HTTP/1.1[0m" 307 -
+2025-11-18 15:59:42,817 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:42] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 15:59:52,481 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:52] "[32mGET /api/labs?page=1&size=20&_t=1763452792474 HTTP/1.1[0m" 307 -
+2025-11-18 15:59:53,080 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 15:59:53] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:00:30,050 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:30] "[32mGET /api/labs?page=1&size=100&_t=1763452830042 HTTP/1.1[0m" 307 -
+2025-11-18 16:00:30,382 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:30] "GET /api/equipment?page=1&page_size=20&_t=1763452830042 HTTP/1.1" 200 -
+2025-11-18 16:00:30,498 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:30] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:00:39,189 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:39] "[32mGET /api/labs?page=1&size=100&_t=1763452839179 HTTP/1.1[0m" 307 -
+2025-11-18 16:00:39,898 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:39] "GET /api/equipment?page=1&page_size=20&_t=1763452839179 HTTP/1.1" 200 -
+2025-11-18 16:00:39,900 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:39] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:00:43,437 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:43] "[32mGET /api/labs?page=1&size=100&_t=1763452843427 HTTP/1.1[0m" 307 -
+2025-11-18 16:00:45,280 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:00:45] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:01:04,628 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:04] "[32mGET /api/labs/3?_t=1763452864623 HTTP/1.1[0m" 307 -
+2025-11-18 16:01:05,785 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:05] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-18 16:01:09,323 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:09] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-18 16:01:14,142 - app.api.reservations - ERROR - 创建预约接口错误: 'id'
+2025-11-18 16:01:14,142 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:14] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-18 16:01:26,952 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:26] "[33mGET /api/reservations/:id?_t=1763452886945 HTTP/1.1[0m" 404 -
+2025-11-18 16:01:26,953 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:26] "[32mGET /api/labs?page=1&size=100&_t=1763452886945 HTTP/1.1[0m" 307 -
+2025-11-18 16:01:27,952 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:27] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:01:58,672 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:58] "[32mGET /api/labs?page=1&size=100&_t=1763452918662 HTTP/1.1[0m" 307 -
+2025-11-18 16:01:58,977 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:58] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1763452918662 HTTP/1.1" 200 -
+2025-11-18 16:01:58,983 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:58] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:01:59,498 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:59] "[32mGET /api/labs?page=1&size=100&_t=1763452919492 HTTP/1.1[0m" 307 -
+2025-11-18 16:01:59,555 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:59] "GET /api/reservations/statistics?_t=1763452918662 HTTP/1.1" 200 -
+2025-11-18 16:01:59,631 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:59] "GET /api/reservations?page=1&page_size=20&_t=1763452919492 HTTP/1.1" 200 -
+2025-11-18 16:01:59,657 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:01:59] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:02:12,087 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:12] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763452931805 HTTP/1.1" 200 -
+2025-11-18 16:02:12,191 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:12] "GET /api/laboratories?_t=1763452931805 HTTP/1.1" 200 -
+2025-11-18 16:02:12,784 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:12] "GET /api/consumables/stats?_t=1763452931805 HTTP/1.1" 200 -
+2025-11-18 16:02:13,525 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:13] "GET /api/auth/profile?_t=1763452933201 HTTP/1.1" 200 -
+2025-11-18 16:02:13,562 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:13] "GET /api/auth/profile?_t=1763452933200 HTTP/1.1" 200 -
+2025-11-18 16:02:14,285 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:14] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763452933655 HTTP/1.1" 200 -
+2025-11-18 16:02:14,306 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:14] "GET /api/laboratories?_t=1763452933655 HTTP/1.1" 200 -
+2025-11-18 16:02:15,174 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:15] "GET /api/consumables/stats?_t=1763452933655 HTTP/1.1" 200 -
+2025-11-18 16:02:44,963 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:44] "[32mGET /api/labs?page=1&size=200&_t=1763452964954 HTTP/1.1[0m" 307 -
+2025-11-18 16:02:44,965 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:44] "[31m[1mGET /api/users?page=1&page_size=200&role=teacher&_t=1763452964954 HTTP/1.1[0m" 400 -
+2025-11-18 16:02:45,769 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:02:45] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:03:27,416 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:03:27] "[31m[1mGET /api/courses?page=1&page_size=200&_t=1763453007406 HTTP/1.1[0m" 400 -
+2025-11-18 16:03:27,946 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:03:27] "GET /api/users?page=1&page_size=20&_t=1763453007406 HTTP/1.1" 200 -
+2025-11-18 16:27:33,790 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:27:41,082 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:27:41,082 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:27:41,082 - __main__ - INFO - 调试模式: False
+2025-11-18 16:27:41,121 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 16:27:41,123 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 16:27:57,819 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:27:57] "GET /api/auth/profile?_t=1763454475662 HTTP/1.1" 200 -
+2025-11-18 16:27:57,863 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:27:57] "GET /api/auth/profile?_t=1763454475660 HTTP/1.1" 200 -
+2025-11-18 16:29:00,386 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:00] "[33mPOST /api/upload/avatar HTTP/1.1[0m" 404 -
+2025-11-18 16:29:23,317 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:23] "PUT /api/auth/profile HTTP/1.1" 200 -
+2025-11-18 16:29:23,570 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:23] "GET /api/auth/profile?_t=1763454563323 HTTP/1.1" 200 -
+2025-11-18 16:29:37,277 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:37] "PUT /api/auth/profile HTTP/1.1" 200 -
+2025-11-18 16:29:38,057 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:38] "GET /api/auth/profile?_t=1763454577285 HTTP/1.1" 200 -
+2025-11-18 16:29:41,444 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:41] "[33mPOST /api/upload/avatar HTTP/1.1[0m" 404 -
+2025-11-18 16:29:45,989 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:45] "GET /api/auth/profile?_t=1763454584461 HTTP/1.1" 200 -
+2025-11-18 16:29:45,989 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:29:45] "GET /api/auth/profile?_t=1763454584460 HTTP/1.1" 200 -
+2025-11-18 16:31:57,599 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:57] "[32mGET /api/labs?page=1&size=1&_t=1763454717585 HTTP/1.1[0m" 307 -
+2025-11-18 16:31:57,939 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:57] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:31:58,591 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:58] "GET /api/equipment/statistics?_t=1763454717585 HTTP/1.1" 200 -
+2025-11-18 16:31:58,817 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:58] "GET /api/reservations/statistics?_t=1763454717585 HTTP/1.1" 200 -
+2025-11-18 16:31:58,948 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:58] "GET /api/equipment/maintenance/stats?_t=1763454717585 HTTP/1.1" 200 -
+2025-11-18 16:31:59,452 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:31:59] "GET /api/equipment/maintenance/stats?_t=1763454718986 HTTP/1.1" 200 -
+2025-11-18 16:32:06,469 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:06] "[32mGET /api/labs?page=1&size=100&_t=1763454726462 HTTP/1.1[0m" 307 -
+2025-11-18 16:32:06,584 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:06] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:32:06,914 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:06] "GET /api/reservations/statistics?_t=1763454726597 HTTP/1.1" 200 -
+2025-11-18 16:32:07,171 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:07] "GET /api/reservations/statistics?_t=1763454726931 HTTP/1.1" 200 -
+2025-11-18 16:32:11,019 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:11] "[32mGET /api/labs?page=1&size=100&_t=1763454731010 HTTP/1.1[0m" 307 -
+2025-11-18 16:32:11,704 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:11] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:32:12,160 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:32:12] "GET /api/equipment/statistics?_t=1763454731710 HTTP/1.1" 200 -
+2025-11-18 16:43:46,637 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:43:47,506 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:43:47,506 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:43:47,506 - __main__ - INFO - 调试模式: False
+2025-11-18 16:43:47,518 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 16:43:47,518 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 16:43:59,155 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:43:59] "GET /api/auth/profile?_t=1763455439012 HTTP/1.1" 200 -
+2025-11-18 16:43:59,163 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:43:59] "GET /api/auth/profile?_t=1763455439010 HTTP/1.1" 200 -
+2025-11-18 16:44:10,831 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:44:10] "[32mGET /api/labs?page=1&size=20&_t=1763455450824 HTTP/1.1[0m" 307 -
+2025-11-18 16:44:12,124 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:44:12] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:44:32,166 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:44:32] "GET /api/users?page=1&page_size=20&_t=1763455469575 HTTP/1.1" 200 -
+2025-11-18 16:44:32,248 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:44:32] "GET /api/courses?page=1&page_size=200&_t=1763455469575 HTTP/1.1" 200 -
+2025-11-18 16:50:27,335 - app.db_migration - INFO - ✅ laboratories.status 枚举已更新为 available/maintenance/occupied
+2025-11-18 16:50:31,625 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:51:17,769 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:51:22,352 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:51:22,353 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:51:22,353 - __main__ - INFO - 调试模式: True
+2025-11-18 16:51:22,384 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 16:51:22,384 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 16:51:22,386 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 16:51:35,449 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:51:37,946 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:51:37,946 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:51:37,946 - __main__ - INFO - 调试模式: True
+2025-11-18 16:51:37,970 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 16:51:37,994 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 16:51:38,675 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:51:38] "GET /api/auth/profile?_t=1763455893769 HTTP/1.1" 200 -
+2025-11-18 16:51:38,768 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:51:38] "GET /api/auth/profile?_t=1763455893767 HTTP/1.1" 200 -
+2025-11-18 16:52:00,100 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:52:00] "[31m[1mGET /api/courses?page=1&page_size=200&_t=1763455920092 HTTP/1.1[0m" 400 -
+2025-11-18 16:52:02,130 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:52:02] "GET /api/users?page=1&page_size=20&_t=1763455920092 HTTP/1.1" 200 -
+2025-11-18 16:52:22,400 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:52:22] "[31m[1mGET /api/users?page=1&page_size=200&role=teacher&_t=1763455942395 HTTP/1.1[0m" 400 -
+2025-11-18 16:52:22,403 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:52:22] "[32mGET /api/labs?page=1&size=200&_t=1763455942395 HTTP/1.1[0m" 307 -
+2025-11-18 16:52:23,518 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:52:23] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:53:33,438 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:53:33] "GET /api/consumables?page=1&page_size=20&keyword=&status=&_t=1763456012647 HTTP/1.1" 200 -
+2025-11-18 16:53:33,614 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:53:33] "GET /api/laboratories?_t=1763456012647 HTTP/1.1" 200 -
+2025-11-18 16:53:35,610 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:53:35] "GET /api/consumables/stats?_t=1763456012647 HTTP/1.1" 200 -
+2025-11-18 16:53:36,354 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:53:36] "[32mGET /api/labs?page=1&size=100&_t=1763456016346 HTTP/1.1[0m" 307 -
+2025-11-18 16:53:38,596 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:53:38] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:58:38,311 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\laboratories.py', reloading
+2025-11-18 16:58:38,388 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 16:58:50,128 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:58:53,672 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:58:53,672 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:58:53,678 - __main__ - INFO - 调试模式: True
+2025-11-18 16:58:53,703 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 16:58:53,722 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 16:59:02,718 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\reservations.py', reloading
+2025-11-18 16:59:02,781 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 16:59:15,440 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:59:17,417 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:59:17,417 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:59:17,418 - __main__ - INFO - 调试模式: True
+2025-11-18 16:59:17,444 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 16:59:17,465 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 16:59:19,242 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:59:19] "[32mGET /api/labs?page=1&size=100&_t=1763456359234 HTTP/1.1[0m" 307 -
+2025-11-18 16:59:20,248 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:59:20] "GET /api/equipment?page=1&page_size=20&_t=1763456359234 HTTP/1.1" 200 -
+2025-11-18 16:59:20,321 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 16:59:20] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 16:59:25,042 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-11-18 16:59:25,124 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 16:59:34,928 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 16:59:38,849 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 16:59:38,849 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 16:59:38,849 - __main__ - INFO - 调试模式: True
+2025-11-18 16:59:38,875 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 16:59:38,890 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 16:59:47,643 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\reservations.py', reloading
+2025-11-18 16:59:47,698 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 17:00:01,055 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 17:00:04,271 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 17:00:04,271 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 17:00:04,273 - __main__ - INFO - 调试模式: True
+2025-11-18 17:00:04,298 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 17:00:04,315 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 17:04:44,071 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\reservations.py', reloading
+2025-11-18 17:04:44,124 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 21:03:26,811 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 21:03:27,028 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 21:03:27,028 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 21:03:27,028 - __main__ - INFO - 调试模式: True
+2025-11-18 21:03:27,047 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 21:03:27,047 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 21:03:27,049 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 21:03:27,974 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 21:03:28,446 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 21:03:28,447 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 21:03:28,447 - __main__ - INFO - 调试模式: True
+2025-11-18 21:03:28,454 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 21:03:28,459 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 21:03:47,534 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-18 21:03:47,534 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:47] "[31m[1mGET /api/auth/profile?_t=1763471027523 HTTP/1.1[0m" 401 -
+2025-11-18 21:03:47,536 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-18 21:03:47,537 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:47] "[31m[1mGET /api/auth/profile?_t=1763471027524 HTTP/1.1[0m" 401 -
+2025-11-18 21:03:47,578 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-18 21:03:47,579 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:47] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:47,586 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-18 21:03:47,587 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:47] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:50,419 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:50] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:52,798 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:52] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:53,711 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:53] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:54,753 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:54] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:55,398 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:55] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:55,564 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:55] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:55,812 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:55] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:55,986 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:55] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:56,282 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:56] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:56,444 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:56] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:03:56,981 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:03:56] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:04:48,989 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:04:48] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:04:49,933 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:04:49] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:11,262 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:11] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:11,912 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:11] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:12,507 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:12] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:13,291 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:13] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:13,813 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:13] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:13,965 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:13] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,105 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,237 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,366 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,492 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,632 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,763 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:14,904 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:14] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:15,031 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:15] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:05:45,574 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:05:45] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-18 21:07:54,239 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:07:54] "POST /api/auth/login HTTP/1.1" 200 -
+2025-11-18 21:08:11,433 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "[32mGET /api/labs?page=1&size=100&_t=1763471291420 HTTP/1.1[0m" 307 -
+2025-11-18 21:08:11,440 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "[32mGET /api/labs?page=1&size=100&_t=1763471291420 HTTP/1.1[0m" 307 -
+2025-11-18 21:08:11,511 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "GET /api/equipment?page=1&page_size=20&_t=1763471291420 HTTP/1.1" 200 -
+2025-11-18 21:08:11,541 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:08:11,589 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "GET /api/equipment?page=1&page_size=20&_t=1763471291420 HTTP/1.1" 200 -
+2025-11-18 21:08:11,630 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:11] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:08:22,643 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:22] "GET /api/auth/profile?_t=1763471302470 HTTP/1.1" 200 -
+2025-11-18 21:08:22,644 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:22] "GET /api/auth/profile?_t=1763471302469 HTTP/1.1" 200 -
+2025-11-18 21:08:22,807 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:22] "[32mGET /api/labs?page=1&size=100&_t=1763471302799 HTTP/1.1[0m" 307 -
+2025-11-18 21:08:22,814 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:22] "[32mGET /api/labs?page=1&size=100&_t=1763471302799 HTTP/1.1[0m" 307 -
+2025-11-18 21:08:23,006 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:23] "GET /api/equipment?page=1&page_size=20&_t=1763471302799 HTTP/1.1" 200 -
+2025-11-18 21:08:23,069 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:23] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:08:23,100 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:23] "GET /api/equipment?page=1&page_size=20&_t=1763471302799 HTTP/1.1" 200 -
+2025-11-18 21:08:23,152 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:23] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:08:26,532 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:26] "GET /api/equipment/maintenance?page=1&size=20&_t=1763471306401 HTTP/1.1" 200 -
+2025-11-18 21:08:26,563 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:26] "GET /api/equipment?page=1&size=1000&_t=1763471306401 HTTP/1.1" 200 -
+2025-11-18 21:08:26,751 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:08:26] "GET /api/equipment/maintenance/stats?_t=1763471306401 HTTP/1.1" 200 -
+2025-11-18 21:09:03,900 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:03] "[32mGET /api/labs?page=1&size=100&_t=1763471343882 HTTP/1.1[0m" 307 -
+2025-11-18 21:09:04,000 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:04] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:09:08,381 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:08] "[32mGET /api/labs/3?_t=1763471348376 HTTP/1.1[0m" 307 -
+2025-11-18 21:09:08,544 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:08] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-18 21:09:12,907 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:12] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-18 21:09:22,052 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:09:22] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-18 21:12:56,357 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:12:56] "[32mGET /api/labs?page=1&size=200&_t=1763471576342 HTTP/1.1[0m" 307 -
+2025-11-18 21:12:56,781 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:12:56] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:12:56,781 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:12:56] "GET /api/users?page=1&page_size=200&role=teacher&_t=1763471576343 HTTP/1.1" 200 -
+2025-11-18 21:13:06,856 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:13:06] "[35m[1mPOST /api/courses HTTP/1.1[0m" 201 -
+2025-11-18 21:13:36,537 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:13:36] "[35m[1mPOST /api/courses HTTP/1.1[0m" 201 -
+2025-11-18 21:14:12,873 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:12] "GET /api/auth/profile?_t=1763471652730 HTTP/1.1" 200 -
+2025-11-18 21:14:12,886 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:12] "GET /api/auth/profile?_t=1763471652729 HTTP/1.1" 200 -
+2025-11-18 21:14:13,039 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:13] "[32mGET /api/labs?page=1&size=200&_t=1763471653032 HTTP/1.1[0m" 307 -
+2025-11-18 21:14:13,149 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:13] "GET /api/users?page=1&page_size=200&role=teacher&_t=1763471653032 HTTP/1.1" 200 -
+2025-11-18 21:14:13,184 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:13] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:14:22,133 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:22] "GET /api/auth/profile?_t=1763471661623 HTTP/1.1" 200 -
+2025-11-18 21:14:22,604 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:22] "GET /api/auth/profile?_t=1763471661623 HTTP/1.1" 200 -
+2025-11-18 21:14:22,694 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:22] "[32mGET /api/labs?page=1&size=200&_t=1763471662688 HTTP/1.1[0m" 307 -
+2025-11-18 21:14:23,016 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:23] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:14:23,045 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:23] "GET /api/users?page=1&page_size=200&role=teacher&_t=1763471662687 HTTP/1.1" 200 -
+2025-11-18 21:14:24,668 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:24] "[32mGET /api/labs?page=1&size=100&_t=1763471664657 HTTP/1.1[0m" 307 -
+2025-11-18 21:14:24,675 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:24] "[32mGET /api/labs?page=1&size=100&_t=1763471664657 HTTP/1.1[0m" 307 -
+2025-11-18 21:14:25,274 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:25] "GET /api/equipment?page=1&page_size=20&_t=1763471664657 HTTP/1.1" 200 -
+2025-11-18 21:14:25,274 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:25] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:14:25,839 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:25] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:14:25,915 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:25] "GET /api/equipment?page=1&page_size=20&_t=1763471664657 HTTP/1.1" 200 -
+2025-11-18 21:14:27,733 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:27] "[32mGET /api/labs?page=1&size=100&_t=1763471667722 HTTP/1.1[0m" 307 -
+2025-11-18 21:14:28,034 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:28] "GET /api/reservations?page=1&size=20&_t=1763471667722 HTTP/1.1" 200 -
+2025-11-18 21:14:28,058 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:14:28] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:15:34,435 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:34] "[32mGET /api/labs?page=1&size=1&_t=1763471734422 HTTP/1.1[0m" 307 -
+2025-11-18 21:15:35,793 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:35] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:15:37,049 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:37] "GET /api/equipment/statistics?_t=1763471734422 HTTP/1.1" 200 -
+2025-11-18 21:15:37,221 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:37] "GET /api/reservations/statistics?_t=1763471734422 HTTP/1.1" 200 -
+2025-11-18 21:15:37,267 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:37] "GET /api/equipment/maintenance/stats?_t=1763471734422 HTTP/1.1" 200 -
+2025-11-18 21:15:38,333 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:38] "GET /api/equipment/maintenance/stats?_t=1763471737328 HTTP/1.1" 200 -
+2025-11-18 21:15:42,672 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:42] "[32mGET /api/labs?page=1&size=100&_t=1763471742665 HTTP/1.1[0m" 307 -
+2025-11-18 21:15:43,539 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:43] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:15:44,953 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:44] "GET /api/reservations/statistics?_t=1763471743551 HTTP/1.1" 200 -
+2025-11-18 21:15:46,406 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:46] "GET /api/reservations/statistics?_t=1763471744969 HTTP/1.1" 200 -
+2025-11-18 21:15:49,422 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:49] "[32mGET /api/labs?page=1&size=100&_t=1763471749417 HTTP/1.1[0m" 307 -
+2025-11-18 21:15:49,846 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:49] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 21:15:50,925 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 21:15:50] "GET /api/equipment/statistics?_t=1763471749850 HTTP/1.1" 200 -
+2025-11-18 22:26:16,541 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:26:16,541 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:26:16,541 - __main__ - INFO - 调试模式: True
+2025-11-18 22:26:16,566 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 22:26:16,566 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 22:26:16,571 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-11-18 22:26:16,834 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:26:16,837 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:26:16,837 - __main__ - INFO - 调试模式: True
+2025-11-18 22:26:16,838 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 22:26:16,847 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-11-18 22:30:20,228 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:30:20,229 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:30:20,229 - __main__ - INFO - 调试模式: True
+2025-11-18 22:30:20,259 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 22:30:20,259 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 22:30:20,260 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 22:30:20,581 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:30:20,581 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:30:20,581 - __main__ - INFO - 调试模式: True
+2025-11-18 22:30:20,588 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 22:30:20,592 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 22:30:26,829 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:26] "GET /api/auth/profile?_t=1763476226776 HTTP/1.1" 200 -
+2025-11-18 22:30:26,830 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:26] "GET /api/auth/profile?_t=1763476226774 HTTP/1.1" 200 -
+2025-11-18 22:30:32,903 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:32] "GET /api/auth/profile?_t=1763476232831 HTTP/1.1" 200 -
+2025-11-18 22:30:32,906 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:32] "GET /api/auth/profile?_t=1763476232833 HTTP/1.1" 200 -
+2025-11-18 22:30:33,342 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "[32mGET /api/labs?page=1&size=1&_t=1763476233326 HTTP/1.1[0m" 307 -
+2025-11-18 22:30:33,416 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:30:33,510 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "GET /api/equipment/statistics?_t=1763476233326 HTTP/1.1" 200 -
+2025-11-18 22:30:33,530 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "GET /api/equipment/maintenance/stats?_t=1763476233326 HTTP/1.1" 200 -
+2025-11-18 22:30:33,559 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "GET /api/reservations/statistics?_t=1763476233326 HTTP/1.1" 200 -
+2025-11-18 22:30:33,796 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:30:33] "GET /api/equipment/maintenance/stats?_t=1763476233613 HTTP/1.1" 200 -
+2025-11-18 22:31:01,468 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\db_migration.py', reloading
+2025-11-18 22:31:01,581 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 22:31:02,882 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 22:31:03,204 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:31:03,204 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:31:03,212 - __main__ - INFO - 调试模式: True
+2025-11-18 22:31:03,254 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 22:31:03,270 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 22:31:16,087 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 22:31:16,262 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:31:16,262 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:31:16,262 - __main__ - INFO - 调试模式: True
+2025-11-18 22:31:16,281 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 22:31:16,281 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 22:31:16,284 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 22:31:17,044 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 22:31:17,305 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:31:17,305 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:31:17,305 - __main__ - INFO - 调试模式: True
+2025-11-18 22:31:17,314 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 22:31:17,317 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 22:31:25,927 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:25] "GET /api/auth/profile?_t=1763476285821 HTTP/1.1" 200 -
+2025-11-18 22:31:25,928 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:25] "GET /api/auth/profile?_t=1763476285822 HTTP/1.1" 200 -
+2025-11-18 22:31:26,115 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "[32mGET /api/labs?page=1&size=1&_t=1763476286103 HTTP/1.1[0m" 307 -
+2025-11-18 22:31:26,204 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:31:26,298 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "GET /api/equipment/statistics?_t=1763476286103 HTTP/1.1" 200 -
+2025-11-18 22:31:26,341 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "GET /api/equipment/maintenance/stats?_t=1763476286103 HTTP/1.1" 200 -
+2025-11-18 22:31:26,349 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "GET /api/reservations/statistics?_t=1763476286103 HTTP/1.1" 200 -
+2025-11-18 22:31:26,527 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:26] "GET /api/equipment/maintenance/stats?_t=1763476286375 HTTP/1.1" 200 -
+2025-11-18 22:31:30,696 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:30] "GET /api/auth/profile?_t=1763476290618 HTTP/1.1" 200 -
+2025-11-18 22:31:30,697 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:30] "GET /api/auth/profile?_t=1763476290620 HTTP/1.1" 200 -
+2025-11-18 22:31:31,095 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "[32mGET /api/labs?page=1&size=1&_t=1763476291086 HTTP/1.1[0m" 307 -
+2025-11-18 22:31:31,164 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:31:31,227 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "GET /api/equipment/statistics?_t=1763476291086 HTTP/1.1" 200 -
+2025-11-18 22:31:31,316 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "GET /api/equipment/maintenance/stats?_t=1763476291086 HTTP/1.1" 200 -
+2025-11-18 22:31:31,334 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "GET /api/reservations/statistics?_t=1763476291086 HTTP/1.1" 200 -
+2025-11-18 22:31:31,722 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:31] "GET /api/equipment/maintenance/stats?_t=1763476291381 HTTP/1.1" 200 -
+2025-11-18 22:31:35,917 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:35] "GET /api/auth/profile?_t=1763476295865 HTTP/1.1" 200 -
+2025-11-18 22:31:35,936 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:35] "GET /api/auth/profile?_t=1763476295866 HTTP/1.1" 200 -
+2025-11-18 22:31:36,383 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "[32mGET /api/labs?page=1&size=1&_t=1763476296369 HTTP/1.1[0m" 307 -
+2025-11-18 22:31:36,445 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:31:36,581 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "GET /api/equipment/statistics?_t=1763476296369 HTTP/1.1" 200 -
+2025-11-18 22:31:36,618 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "GET /api/equipment/maintenance/stats?_t=1763476296369 HTTP/1.1" 200 -
+2025-11-18 22:31:36,623 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "GET /api/reservations/statistics?_t=1763476296369 HTTP/1.1" 200 -
+2025-11-18 22:31:36,982 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:36] "GET /api/equipment/maintenance/stats?_t=1763476296681 HTTP/1.1" 200 -
+2025-11-18 22:31:40,500 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:40] "GET /api/auth/profile?_t=1763476300438 HTTP/1.1" 200 -
+2025-11-18 22:31:40,507 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:40] "GET /api/auth/profile?_t=1763476300437 HTTP/1.1" 200 -
+2025-11-18 22:31:40,891 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:40] "[32mGET /api/labs?page=1&size=1&_t=1763476300879 HTTP/1.1[0m" 307 -
+2025-11-18 22:31:40,974 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:40] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:31:41,060 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:41] "GET /api/equipment/statistics?_t=1763476300879 HTTP/1.1" 200 -
+2025-11-18 22:31:41,092 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:41] "GET /api/equipment/maintenance/stats?_t=1763476300879 HTTP/1.1" 200 -
+2025-11-18 22:31:41,129 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:41] "GET /api/reservations/statistics?_t=1763476300879 HTTP/1.1" 200 -
+2025-11-18 22:31:41,372 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:31:41] "GET /api/equipment/maintenance/stats?_t=1763476301179 HTTP/1.1" 200 -
+2025-11-18 22:40:45,634 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 22:40:45,836 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:40:45,837 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:40:45,837 - __main__ - INFO - 调试模式: True
+2025-11-18 22:40:45,858 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-18 22:40:45,858 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 22:40:45,860 - werkzeug - INFO -  * Restarting with stat
+2025-11-18 22:40:46,972 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-18 22:40:47,199 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-18 22:40:47,202 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-18 22:40:47,202 - __main__ - INFO - 调试模式: True
+2025-11-18 22:40:47,209 - werkzeug - WARNING -  * Debugger is active!
+2025-11-18 22:40:47,215 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-18 22:40:56,273 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:40:56] "GET /api/auth/profile?_t=1763476856218 HTTP/1.1" 200 -
+2025-11-18 22:40:56,279 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:40:56] "GET /api/auth/profile?_t=1763476856217 HTTP/1.1" 200 -
+2025-11-18 22:41:01,257 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:01] "GET /api/auth/profile?_t=1763476861189 HTTP/1.1" 200 -
+2025-11-18 22:41:01,265 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:01] "GET /api/auth/profile?_t=1763476861190 HTTP/1.1" 200 -
+2025-11-18 22:41:01,680 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:01] "[32mGET /api/labs?page=1&size=20&_t=1763476861671 HTTP/1.1[0m" 307 -
+2025-11-18 22:41:01,748 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:01] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:41:08,674 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "[32mGET /api/labs?page=1&size=100&_t=1763476868665 HTTP/1.1[0m" 307 -
+2025-11-18 22:41:08,681 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "[32mGET /api/labs?page=1&size=100&_t=1763476868665 HTTP/1.1[0m" 307 -
+2025-11-18 22:41:08,774 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "GET /api/equipment?page=1&page_size=20&_t=1763476868665 HTTP/1.1" 200 -
+2025-11-18 22:41:08,785 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:41:08,888 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:41:08,888 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:08] "GET /api/equipment?page=1&page_size=20&_t=1763476868665 HTTP/1.1" 200 -
+2025-11-18 22:41:11,122 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:11] "[32mGET /api/labs?page=1&size=100&_t=1763476871114 HTTP/1.1[0m" 307 -
+2025-11-18 22:41:11,180 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:11] "GET /api/reservations?page=1&size=20&_t=1763476871114 HTTP/1.1" 200 -
+2025-11-18 22:41:11,190 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:11] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:41:39,676 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:39] "[32mGET /api/labs?page=1&size=20&_t=1763476899669 HTTP/1.1[0m" 307 -
+2025-11-18 22:41:39,734 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:39] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-18 22:41:44,822 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:44] "GET /api/auth/profile?_t=1763476904772 HTTP/1.1" 200 -
+2025-11-18 22:41:44,822 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:44] "GET /api/auth/profile?_t=1763476904771 HTTP/1.1" 200 -
+2025-11-18 22:41:45,344 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:45] "GET /api/equipment/maintenance?page=1&size=20&_t=1763476905276 HTTP/1.1" 200 -
+2025-11-18 22:41:45,349 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:45] "GET /api/equipment?page=1&size=1000&_t=1763476905276 HTTP/1.1" 200 -
+2025-11-18 22:41:45,477 - werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 22:41:45] "GET /api/equipment/maintenance/stats?_t=1763476905276 HTTP/1.1" 200 -
+2025-11-19 14:50:43,077 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-19 14:50:43,735 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-19 14:50:43,735 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-19 14:50:43,735 - __main__ - INFO - 调试模式: True
+2025-11-19 14:50:43,754 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.195.194.198:3000
+2025-11-19 14:50:43,754 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-19 14:50:43,756 - werkzeug - INFO -  * Restarting with stat
+2025-11-19 14:50:45,273 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-11-19 14:50:45,946 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-19 14:50:45,947 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-19 14:50:45,947 - __main__ - INFO - 调试模式: True
+2025-11-19 14:50:45,954 - werkzeug - WARNING -  * Debugger is active!
+2025-11-19 14:50:45,959 - werkzeug - INFO -  * Debugger PIN: 546-891-281
+2025-11-19 14:51:03,719 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:03] "GET /api/auth/profile?_t=1763535063666 HTTP/1.1" 200 -
+2025-11-19 14:51:03,721 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:03] "GET /api/auth/profile?_t=1763535063664 HTTP/1.1" 200 -
+2025-11-19 14:51:08,878 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:08] "POST /api/auth/logout HTTP/1.1" 200 -
+2025-11-19 14:51:33,737 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:33] "POST /api/auth/login HTTP/1.1" 200 -
+2025-11-19 14:51:38,324 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:38] "[32mGET /api/labs?page=1&size=20&_t=1763535098309 HTTP/1.1[0m" 307 -
+2025-11-19 14:51:38,406 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:38] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:51:48,139 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "[32mGET /api/labs?page=1&size=100&_t=1763535108130 HTTP/1.1[0m" 307 -
+2025-11-19 14:51:48,146 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "[32mGET /api/labs?page=1&size=100&_t=1763535108130 HTTP/1.1[0m" 307 -
+2025-11-19 14:51:48,181 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "GET /api/equipment?page=1&page_size=20&_t=1763535108130 HTTP/1.1" 200 -
+2025-11-19 14:51:48,208 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:51:48,246 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "GET /api/equipment?page=1&page_size=20&_t=1763535108130 HTTP/1.1" 200 -
+2025-11-19 14:51:48,266 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:48] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:51:52,647 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:52] "GET /api/equipment/maintenance?page=1&size=20&_t=1763535112554 HTTP/1.1" 200 -
+2025-11-19 14:51:52,675 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:52] "GET /api/equipment?page=1&size=1000&_t=1763535112554 HTTP/1.1" 200 -
+2025-11-19 14:51:52,950 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:52] "GET /api/equipment/maintenance/stats?_t=1763535112554 HTTP/1.1" 200 -
+2025-11-19 14:51:54,891 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:54] "[32mGET /api/labs?page=1&size=100&_t=1763535114879 HTTP/1.1[0m" 307 -
+2025-11-19 14:51:55,009 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:55] "GET /api/reservations?page=1&size=20&_t=1763535114879 HTTP/1.1" 200 -
+2025-11-19 14:51:55,050 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:55] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:51:58,410 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:58] "GET /api/auth/profile?_t=1763535118346 HTTP/1.1" 200 -
+2025-11-19 14:51:58,430 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:58] "GET /api/auth/profile?_t=1763535118345 HTTP/1.1" 200 -
+2025-11-19 14:51:58,845 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:58] "[32mGET /api/labs?page=1&size=100&_t=1763535118833 HTTP/1.1[0m" 307 -
+2025-11-19 14:51:58,952 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:51:58] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:52:02,018 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:02] "[32mGET /api/labs?page=1&size=100&_t=1763535122008 HTTP/1.1[0m" 307 -
+2025-11-19 14:52:02,020 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:02] "[33mGET /api/reservations/:id?_t=1763535122008 HTTP/1.1[0m" 404 -
+2025-11-19 14:52:02,092 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:02] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:52:21,404 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:21] "[32mGET /api/labs?page=1&size=100&_t=1763535141386 HTTP/1.1[0m" 307 -
+2025-11-19 14:52:21,480 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:21] "GET /api/reservations?page=1&page_size=20&_t=1763535141386 HTTP/1.1" 200 -
+2025-11-19 14:52:21,483 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:21] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:52:28,289 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:28] "GET /api/auth/profile?_t=1763535148247 HTTP/1.1" 200 -
+2025-11-19 14:52:28,299 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:28] "GET /api/auth/profile?_t=1763535148245 HTTP/1.1" 200 -
+2025-11-19 14:52:28,773 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:28] "[32mGET /api/labs?page=1&size=100&_t=1763535148763 HTTP/1.1[0m" 307 -
+2025-11-19 14:52:28,825 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:28] "GET /api/reservations?page=1&page_size=20&_t=1763535148763 HTTP/1.1" 200 -
+2025-11-19 14:52:28,838 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:52:28] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:53:00,999 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:00] "[32mGET /api/labs?page=1&size=1&_t=1763535180982 HTTP/1.1[0m" 307 -
+2025-11-19 14:53:01,056 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:01] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:53:01,119 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:01] "GET /api/equipment/statistics?_t=1763535180982 HTTP/1.1" 200 -
+2025-11-19 14:53:01,157 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:01] "GET /api/reservations/statistics?_t=1763535180982 HTTP/1.1" 200 -
+2025-11-19 14:53:01,158 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:01] "GET /api/equipment/maintenance/stats?_t=1763535180982 HTTP/1.1" 200 -
+2025-11-19 14:53:01,422 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:01] "GET /api/equipment/maintenance/stats?_t=1763535181229 HTTP/1.1" 200 -
+2025-11-19 14:53:02,185 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:02] "[32mGET /api/labs?page=1&size=100&_t=1763535182177 HTTP/1.1[0m" 307 -
+2025-11-19 14:53:02,251 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:02] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:53:02,475 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:02] "GET /api/reservations/statistics?_t=1763535182264 HTTP/1.1" 200 -
+2025-11-19 14:53:02,685 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:02] "GET /api/reservations/statistics?_t=1763535182497 HTTP/1.1" 200 -
+2025-11-19 14:53:03,446 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:03] "[32mGET /api/labs?page=1&size=100&_t=1763535183438 HTTP/1.1[0m" 307 -
+2025-11-19 14:53:03,533 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:03] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:53:03,714 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:03] "GET /api/equipment/statistics?_t=1763535183547 HTTP/1.1" 200 -
+2025-11-19 14:53:14,384 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:14] "GET /api/auth/profile?_t=1763535194329 HTTP/1.1" 200 -
+2025-11-19 14:53:14,386 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:14] "GET /api/auth/profile?_t=1763535194331 HTTP/1.1" 200 -
+2025-11-19 14:53:38,932 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:53:38] "POST /api/auth/logout HTTP/1.1" 200 -
+2025-11-19 14:54:11,252 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:11] "POST /api/auth/login HTTP/1.1" 200 -
+2025-11-19 14:54:15,667 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:15] "[32mGET /api/labs?page=1&size=20&_t=1763535255656 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:15,733 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:15] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:18,012 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:18] "[32mGET /api/labs/3?_t=1763535258007 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:18,105 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:18] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-19 14:54:32,817 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:32] "[32mGET /api/labs?page=1&size=20&_t=1763535272809 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:33,037 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:33] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:37,198 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "[32mGET /api/labs?page=1&size=100&_t=1763535277183 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:37,204 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "[32mGET /api/labs?page=1&size=100&_t=1763535277183 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:37,496 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "GET /api/equipment?page=1&page_size=20&_t=1763535277183 HTTP/1.1" 200 -
+2025-11-19 14:54:37,527 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:37,830 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "GET /api/equipment?page=1&page_size=20&_t=1763535277183 HTTP/1.1" 200 -
+2025-11-19 14:54:37,839 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:37] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:39,295 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:39] "[32mGET /api/labs?page=1&size=100&_t=1763535279284 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:39,404 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:39] "GET /api/reservations?page=1&size=20&_t=1763535279284 HTTP/1.1" 200 -
+2025-11-19 14:54:39,418 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:39] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:40,810 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:40] "[32mGET /api/labs?page=1&size=100&_t=1763535280801 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:40,813 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:40] "[33mGET /api/reservations/:id?_t=1763535280801 HTTP/1.1[0m" 404 -
+2025-11-19 14:54:40,904 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:40] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:43,912 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:43] "[32mGET /api/labs?page=1&size=100&_t=1763535283903 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:44,181 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:44] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:54:45,963 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:45] "[32mGET /api/labs/3?_t=1763535285954 HTTP/1.1[0m" 307 -
+2025-11-19 14:54:46,223 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:46] "GET /api/laboratories/3 HTTP/1.1" 200 -
+2025-11-19 14:54:50,997 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:50] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-19 14:54:55,852 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:54:55] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-19 14:55:19,056 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:19] "GET /api/auth/profile?_t=1763535318990 HTTP/1.1" 200 -
+2025-11-19 14:55:19,062 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:19] "GET /api/auth/profile?_t=1763535318989 HTTP/1.1" 200 -
+2025-11-19 14:55:19,216 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:19] "[32mGET /api/labs?page=1&size=100&_t=1763535319207 HTTP/1.1[0m" 307 -
+2025-11-19 14:55:19,316 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:19] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:55:25,585 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:25] "GET /api/auth/profile?_t=1763535325526 HTTP/1.1" 200 -
+2025-11-19 14:55:25,586 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:25] "GET /api/auth/profile?_t=1763535325525 HTTP/1.1" 200 -
+2025-11-19 14:55:25,756 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:25] "[32mGET /api/labs?page=1&size=100&_t=1763535325749 HTTP/1.1[0m" 307 -
+2025-11-19 14:55:25,819 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:25] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:55:33,042 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "[32mGET /api/labs?page=1&size=1&_t=1763535333028 HTTP/1.1[0m" 307 -
+2025-11-19 14:55:33,118 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:55:33,209 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "GET /api/equipment/statistics?_t=1763535333028 HTTP/1.1" 200 -
+2025-11-19 14:55:33,252 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "GET /api/reservations/statistics?_t=1763535333028 HTTP/1.1" 200 -
+2025-11-19 14:55:33,270 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "GET /api/equipment/maintenance/stats?_t=1763535333028 HTTP/1.1" 200 -
+2025-11-19 14:55:33,582 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:33] "GET /api/equipment/maintenance/stats?_t=1763535333324 HTTP/1.1" 200 -
+2025-11-19 14:55:38,738 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:38] "[32mGET /api/labs?page=1&size=100&_t=1763535338731 HTTP/1.1[0m" 307 -
+2025-11-19 14:55:38,821 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:38] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-19 14:55:39,066 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:39] "GET /api/reservations/statistics?_t=1763535338863 HTTP/1.1" 200 -
+2025-11-19 14:55:39,267 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:55:39] "GET /api/reservations/statistics?_t=1763535339088 HTTP/1.1" 200 -
+2025-11-19 14:56:29,873 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "[32mGET /api/labs?page=1&size=200&_t=1763535389867 HTTP/1.1[0m" 307 -
+2025-11-19 14:56:29,932 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "GET /api/users?page=1&page_size=200&role=teacher&_t=1763535389864 HTTP/1.1" 200 -
+2025-11-19 14:56:29,958 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "GET /api/laboratories HTTP/1.1" 200 -

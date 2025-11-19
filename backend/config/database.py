@@ -117,7 +117,10 @@ def execute_query(sql: str, params: Optional[Tuple] = None) -> Dict[str, Any]:
     try:
         with get_db_connection() as conn:
             with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-                cursor.execute(sql, params or ())
+                if params:
+                    cursor.execute(sql, params)
+                else:
+                    cursor.execute(sql)
                 result = cursor.fetchall()
                 return {
                     'success': True,
@@ -137,7 +140,10 @@ def execute_update(sql: str, params: Optional[Tuple] = None) -> Dict[str, Any]:
     try:
         with get_db_connection() as conn:
             with conn.cursor() as cursor:
-                affected_rows = cursor.execute(sql, params or ())
+                if params:
+                    affected_rows = cursor.execute(sql, params)
+                else:
+                    affected_rows = cursor.execute(sql)
                 conn.commit()
                 return {
                     'success': True,
@@ -159,7 +165,10 @@ def execute_transaction(queries: List[Tuple[str, Optional[Tuple]]]) -> Dict[str,
             with conn.cursor() as cursor:
                 results = []
                 for sql, params in queries:
-                    affected_rows = cursor.execute(sql, params or ())
+                    if params:
+                        affected_rows = cursor.execute(sql, params)
+                    else:
+                        affected_rows = cursor.execute(sql)
                     results.append({
                         'sql': sql,
                         'affected_rows': affected_rows,
@@ -194,7 +203,10 @@ def execute_paginated_query(sql: str, params: Optional[Tuple] = None,
             with conn.cursor(pymysql.cursors.DictCursor) as cursor:
                 # 获取总数
                 count_sql = f"SELECT COUNT(*) as total FROM ({sql}) as count_table"
-                cursor.execute(count_sql, params or ())
+                if params:
+                    cursor.execute(count_sql, params)
+                else:
+                    cursor.execute(count_sql)
                 total = cursor.fetchone()['total']
                 
                 # 获取分页数据

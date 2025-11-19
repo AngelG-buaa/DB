@@ -180,6 +180,8 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Calendar, Check, Clock, TrendCharts } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
+import { getReservationStatsApi } from '@/api/reservation'
+import { getLabsApi } from '@/api/lab'
 
 const statusChart = ref()
 const dailyTrendChart = ref()
@@ -206,17 +208,8 @@ const reservationStats = reactive({
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' },
-      { lab_id: 4, lab_name: '计算机实验室D' }
-    ]
+    const response = await getLabsApi({ page: 1, size: 100 })
+    laboratories.value = response.code === 200 ? (response.data.list || []) : []
   } catch (error) {
     console.error('加载实验室列表失败:', error)
   }
@@ -224,19 +217,25 @@ const loadLaboratories = async () => {
 
 const loadReservationStats = async () => {
   try {
-    // TODO: 调用API获取预约统计数据
-    // const response = await api.getReservationStats(filterForm)
-    // Object.assign(reservationStats, response.data)
-    
-    // 模拟数据
-    Object.assign(reservationStats, {
-      total: 1234,
-      approved: 980,
-      pending: 154,
-      rejected: 100,
-      completed: 850,
-      approvalRate: 79.4
-    })
+    const params = {}
+    if (filterForm.lab_id) params.laboratory_id = filterForm.lab_id
+    if (filterForm.status) params.status = filterForm.status
+    if (filterForm.dateRange?.length === 2) {
+      params.date_from = filterForm.dateRange[0]
+      params.date_to = filterForm.dateRange[1]
+    }
+    const response = await getReservationStatsApi(params)
+    if (response.code === 200) {
+      const dist = response.data.status_distribution || {}
+      reservationStats.total = response.data.total_reservations || 0
+      reservationStats.approved = dist.confirmed || 0
+      reservationStats.pending = dist.pending || 0
+      reservationStats.rejected = dist.cancelled || 0
+      reservationStats.completed = dist.completed || 0
+      reservationStats.approvalRate = reservationStats.total > 0 ? ((reservationStats.approved / reservationStats.total) * 100).toFixed(1) : 0
+      initDailyTrendChart(response.data.daily_trend || response.data.by_date || [])
+      initLabRankingChartData(response.data.laboratory_distribution || response.data.by_laboratory || [])
+    }
   } catch (error) {
     console.error('加载预约统计失败:', error)
   }
@@ -244,53 +243,35 @@ const loadReservationStats = async () => {
 
 const loadDetailData = async () => {
   try {
-    // TODO: 调用API获取详细统计数据
-    // const response = await api.getReservationDetailStats(filterForm)
-    // detailData.value = response.data
-    
-    // 模拟数据
-    detailData.value = [
-      {
-        lab_name: '物理实验室A',
-        total_reservations: 350,
-        approved_count: 280,
-        pending_count: 40,
-        rejected_count: 30,
-        completed_count: 250,
-        approval_rate: 80.0,
-        utilization_rate: 75.5
-      },
-      {
-        lab_name: '化学实验室B',
-        total_reservations: 420,
-        approved_count: 340,
-        pending_count: 50,
-        rejected_count: 30,
-        completed_count: 310,
-        approval_rate: 81.0,
-        utilization_rate: 82.3
-      },
-      {
-        lab_name: '生物实验室C',
-        total_reservations: 280,
-        approved_count: 220,
-        pending_count: 35,
-        rejected_count: 25,
-        completed_count: 195,
-        approval_rate: 78.6,
-        utilization_rate: 68.9
-      },
-      {
-        lab_name: '计算机实验室D',
-        total_reservations: 184,
-        approved_count: 140,
-        pending_count: 29,
-        rejected_count: 15,
-        completed_count: 125,
-        approval_rate: 76.1,
-        utilization_rate: 65.2
-      }
-    ]
+    const params = {}
+    if (filterForm.lab_id) params.laboratory_id = filterForm.lab_id
+    if (filterForm.dateRange?.length === 2) {
+      params.date_from = filterForm.dateRange[0]
+      params.date_to = filterForm.dateRange[1]
+    }
+    const response = await getReservationStatsApi(params)
+    if (response.code === 200) {
+      const statusDist = response.data.status_distribution || {}
+      const labs = response.data.by_laboratory || response.data.laboratory_distribution || []
+      detailData.value = labs.map(l => {
+        const total = l.reservation_count || l.count || 0
+        const approved = statusDist.confirmed || 0
+        const pending = statusDist.pending || 0
+        const rejected = statusDist.cancelled || 0
+        const completed = statusDist.completed || 0
+        const approvalRate = total > 0 ? Number(((approved / total) * 100).toFixed(1)) : 0
+        return {
+          lab_name: l.laboratory_name,
+          total_reservations: total,
+          approved_count: approved,
+          pending_count: pending,
+          rejected_count: rejected,
+          completed_count: completed,
+          approval_rate: approvalRate,
+          utilization_rate: 0
+        }
+      })
+    }
   } catch (error) {
     console.error('加载详细统计失败:', error)
   }
@@ -324,35 +305,22 @@ const initStatusChart = () => {
   chart.setOption(option)
 }
 
-const initDailyTrendChart = () => {
+const initDailyTrendChart = (daily) => {
   const chart = echarts.init(dailyTrendChart.value)
   const option = {
     tooltip: {
       trigger: 'axis'
     },
-    xAxis: {
-      type: 'category',
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-    },
+    xAxis: { type: 'category', data: (daily || []).map(d => d.date) },
     yAxis: {
       type: 'value'
     },
-    series: [{
-      data: [45, 52, 38, 65, 48, 25, 15],
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#409EFF'
-      },
-      areaStyle: {
-        color: 'rgba(64, 158, 255, 0.2)'
-      }
-    }]
+    series: [{ data: (daily || []).map(d => d.count), type: 'line', smooth: true, itemStyle: { color: '#409EFF' }, areaStyle: { color: 'rgba(64, 158, 255, 0.2)' } }]
   }
   chart.setOption(option)
 }
 
-const initLabRankingChart = () => {
+const initLabRankingChartData = (labs) => {
   const chart = echarts.init(labRankingChart.value)
   const option = {
     tooltip: {
@@ -364,17 +332,8 @@ const initLabRankingChart = () => {
     xAxis: {
       type: 'value'
     },
-    yAxis: {
-      type: 'category',
-      data: ['计算机实验室D', '生物实验室C', '物理实验室A', '化学实验室B']
-    },
-    series: [{
-      data: [184, 280, 350, 420],
-      type: 'bar',
-      itemStyle: {
-        color: '#67C23A'
-      }
-    }]
+    yAxis: { type: 'category', data: (labs || []).map(l => l.laboratory_name) },
+    series: [{ data: (labs || []).map(l => l.reservation_count || l.count), type: 'bar', itemStyle: { color: '#67C23A' } }]
   }
   chart.setOption(option)
 }

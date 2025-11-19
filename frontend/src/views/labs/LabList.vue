@@ -345,7 +345,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, Refresh } from '@element-plus/icons-vue'
@@ -358,7 +358,7 @@ import {
   deleteLabApi,
   getLabByIdApi,
   getLabAvailabilityApi
-} from '@/api/reservation'
+} from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -645,6 +645,10 @@ const getEquipmentStatusText = (status) => {
 
 // 生命周期
 onMounted(() => {
+  loadTableData()
+})
+
+onActivated(() => {
   loadTableData()
 })
 </script>

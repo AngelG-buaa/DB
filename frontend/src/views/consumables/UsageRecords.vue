@@ -167,21 +167,6 @@
             >
               详情
             </el-button>
-            <el-button
-              size="small"
-              @click="handleEdit(row)"
-              v-if="hasPermission('consumable:use') && canEdit(row)"
-            >
-              编辑
-            </el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="handleDelete(row)"
-              v-if="hasPermission('consumable:delete') && canDelete(row)"
-            >
-              删除
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -429,17 +414,16 @@ const loadData = async () => {
   try {
     const params = {
       page: pagination.page,
-      size: pagination.size,
-      consumableId: searchForm.consumableId,
-      labId: searchForm.labId,
-      userId: searchForm.userId,
-      startDate: searchForm.usageDateRange?.[0],
-      endDate: searchForm.usageDateRange?.[1]
+      page_size: pagination.size,
+      consumableId: searchForm.consumableId || undefined,
+      userId: searchForm.userId || undefined,
+      dateFrom: searchForm.usageDateRange?.[0],
+      dateTo: searchForm.usageDateRange?.[1]
     }
     
     const response = await getConsumableUsageRecords(params)
-    tableData.value = response.data.items
-    pagination.total = response.data.total
+    tableData.value = response.data.list || response.data.items || []
+    pagination.total = response.data.total || response.data.pagination?.total || 0
   } catch (error) {
     ElMessage.error('加载数据失败')
   } finally {
@@ -461,7 +445,7 @@ const loadConsumableOptions = async () => {
 const loadLabOptions = async () => {
   try {
     const response = await getLaboratories()
-    labOptions.value = response.data
+    labOptions.value = response.code === 200 ? (response.data.list || response.data) : []
   } catch (error) {
     ElMessage.error('加载实验室选项失败')
   }
@@ -471,7 +455,11 @@ const loadLabOptions = async () => {
 const loadStats = async () => {
   try {
     const response = await getConsumableUsageStats()
-    stats.value = response.data
+    const byMonth = response.data?.byMonth || []
+    stats.value.totalRecords = (response.data?.topConsumables || []).reduce((a, c) => a + (Number(c.count) || 0), 0)
+    stats.value.monthlyRecords = byMonth.find(m => m.month)?.count || 0
+    stats.value.totalQuantity = 0
+    stats.value.totalValue = 0
   } catch (error) {
     ElMessage.error('加载统计数据失败')
   }
@@ -583,10 +571,10 @@ const handleSubmit = async () => {
     submitting.value = true
     
     if (isEdit.value) {
-      await updateConsumableUsage(form.id, form)
-      ElMessage.success('更新成功')
+      ElMessage.error('暂不支持编辑使用记录')
+      return
     } else {
-      await createConsumableUsage(form)
+      await useConsumable(form.consumableId, { quantity: form.quantity, userId: form.userId, purpose: form.purpose })
       ElMessage.success('创建成功')
     }
     

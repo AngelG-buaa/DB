@@ -190,6 +190,8 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Monitor, Check, Tools, Warning } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
+import { getEquipmentStatisticsApi } from '@/api/equipment'
+import { getLabsApi } from '@/api/lab'
 
 const statusChart = ref()
 const typeChart = ref()
@@ -215,17 +217,8 @@ const equipmentStats = reactive({
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' },
-      { lab_id: 4, lab_name: '计算机实验室D' }
-    ]
+    const response = await getLabsApi({ page: 1, size: 100 })
+    laboratories.value = response.code === 200 ? (response.data.list || []) : []
   } catch (error) {
     console.error('加载实验室列表失败:', error)
   }
@@ -233,17 +226,16 @@ const loadLaboratories = async () => {
 
 const loadEquipmentStats = async () => {
   try {
-    // TODO: 调用API获取设备统计数据
-    // const response = await api.getEquipmentStats(filterForm)
-    // Object.assign(equipmentStats, response.data)
-    
-    // 模拟数据
-    Object.assign(equipmentStats, {
-      total: 128,
-      normal: 95,
-      maintenance: 18,
-      broken: 15
-    })
+    const response = await getEquipmentStatisticsApi()
+    if (response.code === 200) {
+      equipmentStats.total = response.data.total || 0
+      equipmentStats.normal = response.data.available || 0
+      equipmentStats.maintenance = response.data.maintenance || 0
+      equipmentStats.broken = response.data.damaged || 0
+      nextTick(() => {
+        initStatusChart()
+      })
+    }
   } catch (error) {
     console.error('加载设备统计失败:', error)
   }

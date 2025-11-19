@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # 获取配置
     host = os.getenv('FLASK_HOST', '0.0.0.0')
     port = int(os.getenv('FLASK_PORT', 5000))
-    debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    debug = True
     
     logger.info(f"启动实验室管理系统后端服务...")
     logger.info(f"服务地址: http://{host}:{port}")

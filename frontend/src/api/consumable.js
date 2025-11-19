@@ -1,126 +1,55 @@
-import request from '@/utils/request'
+import { http } from './request'
 
 // 耗材管理
 export const getConsumables = (params) => {
-  return request({
-    url: '/consumables',
-    method: 'get',
-    params
-  })
-}
-
-export const getConsumableById = (id) => {
-  return request({
-    url: `/consumables/${id}`,
-    method: 'get'
-  })
+  return http.get('/consumables', params)
 }
 
 export const createConsumable = (data) => {
-  return request({
-    url: '/consumables',
-    method: 'post',
-    data
-  })
+  return http.post('/consumables', data)
 }
 
 export const updateConsumable = (id, data) => {
-  return request({
-    url: `/consumables/${id}`,
-    method: 'put',
-    data
-  })
+  return http.put(`/consumables/${id}`, data)
 }
 
 export const deleteConsumable = (id) => {
-  return request({
-    url: `/consumables/${id}`,
-    method: 'delete'
-  })
+  return http.delete(`/consumables/${id}`)
 }
 
 export const useConsumable = (id, data) => {
-  return request({
-    url: `/consumables/${id}/use`,
-    method: 'post',
-    data
-  })
+  return http.post(`/consumables/${id}/use`, data)
 }
 
 export const restockConsumable = (id, data) => {
-  return request({
-    url: `/consumables/${id}/restock`,
-    method: 'post',
-    data
-  })
+  return http.post(`/consumables/${id}/restock`, data)
 }
 
 export const getConsumableStats = () => {
-  return request({
-    url: '/consumables/stats',
-    method: 'get'
-  })
+  return http.get('/consumables/stats')
 }
 
 // 耗材使用记录
 export const getConsumableUsageRecords = (params) => {
-  return request({
-    url: '/consumables/usage',
-    method: 'get',
-    params
-  })
-}
-
-export const getConsumableUsageById = (id) => {
-  return request({
-    url: `/consumables/usage/${id}`,
-    method: 'get'
-  })
+  return http.get('/consumables/usage', params)
 }
 
 export const createConsumableUsage = (data) => {
-  return request({
-    url: '/consumables/usage',
-    method: 'post',
-    data
-  })
+  return http.post('/consumables/usage', data)
 }
 
 export const updateConsumableUsage = (id, data) => {
-  return request({
-    url: `/consumables/usage/${id}`,
-    method: 'put',
-    data
-  })
+  return http.put(`/consumables/usage/${id}`, data)
 }
 
 export const deleteConsumableUsage = (id) => {
-  return request({
-    url: `/consumables/usage/${id}`,
-    method: 'delete'
-  })
+  return http.delete(`/consumables/usage/${id}`)
 }
 
 export const getConsumableUsageStats = () => {
-  return request({
-    url: '/consumables/usage/stats',
-    method: 'get'
-  })
+  return http.get('/consumables/usage/stats')
 }
 
 export const exportConsumableUsage = (params) => {
-  return request({
-    url: '/consumables/usage/export',
-    method: 'get',
-    params,
-    responseType: 'blob'
-  })
-}
-
-// 获取实验室列表（用于下拉选择）
-export const getLaboratories = () => {
-  return request({
-    url: '/laboratories',
-    method: 'get'
-  })
+  return http.download('/consumables/usage/export', params)
 }

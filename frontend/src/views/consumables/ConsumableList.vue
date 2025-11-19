@@ -449,7 +449,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, onActivated } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Plus, Search, Refresh, Box, Warning, TrendCharts, Money
@@ -579,9 +579,9 @@ const loadData = async () => {
   try {
     const params = {
       page: pagination.page,
-      size: pagination.size,
+      page_size: pagination.size,
       keyword: searchForm.keyword,
-      labId: searchForm.labId,
+      labId: searchForm.labId || undefined,
       status: searchForm.status,
       startDate: searchForm.purchaseDateRange?.[0],
       endDate: searchForm.purchaseDateRange?.[1]
@@ -601,7 +601,7 @@ const loadData = async () => {
 const loadLabOptions = async () => {
   try {
     const response = await getLaboratories()
-    labOptions.value = response.data
+    labOptions.value = response.code === 200 ? (response.data.list || response.data) : []
   } catch (error) {
     ElMessage.error('加载实验室选项失败')
   }
@@ -683,6 +683,17 @@ const handleRestock = (row) => {
   restockVisible.value = true
 }
 
+onMounted(() => {
+  loadData()
+  loadLabOptions()
+  loadStats()
+})
+
+onActivated(() => {
+  loadData()
+  loadStats()
+})
+
 // 删除
 const handleDelete = async (row) => {
   try {
@@ -713,11 +724,23 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     submitting.value = true
     
+    const payload = {
+      name: form.name,
+      model: form.model,
+      laboratory_id: form.labId,
+      unit: form.unit,
+      unit_price: form.unitPrice,
+      current_stock: form.currentStock,
+      min_stock: form.minStock,
+      supplier: form.supplier,
+      purchase_date: form.purchaseDate,
+      description: form.description
+    }
     if (isEdit.value) {
-      await updateConsumable(form.id, form)
+      await updateConsumable(form.id, payload)
       ElMessage.success('更新成功')
     } else {
-      await createConsumable(form)
+      await createConsumable(payload)
       ElMessage.success('创建成功')
     }
     

@@ -6,7 +6,7 @@
 """
 
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -27,6 +27,18 @@ def create_app():
          else "*",
          supports_credentials=True)
     
+    # 启动时执行轻量数据库迁移，确保关键列存在
+    try:
+        from app.db_migration import run as run_db_migration, _ensure_reservations_columns
+        run_db_migration()
+        try:
+            _ensure_reservations_columns()
+        except Exception:
+            pass
+    except Exception:
+        # 迁移失败不阻止应用启动，详见日志
+        pass
+
     # 注册蓝图
     from app.api.auth import auth_bp
     from app.api.users import users_bp
@@ -34,11 +46,24 @@ def create_app():
     from app.api.equipment import equipment_bp
     from app.api.reservations import reservations_bp
     from app.api.courses import courses_bp
-    
+    from app.api.maintenance import maintenance_bp
+    from app.api.consumables import consumables_bp
+
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(users_bp, url_prefix='/api/users')
     app.register_blueprint(laboratories_bp, url_prefix='/api/laboratories')
+    # 为历史前端路径提供别名：/api/labs -> /api/laboratories（使用 307 保留方法转发）
+    @app.route('/api/labs', defaults={'subpath': ''}, methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+    @app.route('/api/labs/<path:subpath>', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+    def labs_alias(subpath):
+        # 避免空子路径导致尾部斜杠，造成 404
+        target = '/api/laboratories' + (f'/{subpath}' if subpath else '')
+        return redirect(target, code=307)
     app.register_blueprint(equipment_bp, url_prefix='/api/equipment')
+    # 维修记录相关接口
+    app.register_blueprint(maintenance_bp, url_prefix='/api/equipment/maintenance')
+    # 耗材相关接口
+    app.register_blueprint(consumables_bp, url_prefix='/api/consumables')
     app.register_blueprint(reservations_bp, url_prefix='/api/reservations')
     app.register_blueprint(courses_bp, url_prefix='/api/courses')
     

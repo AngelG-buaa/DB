@@ -230,12 +230,13 @@ import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
   getReservationCalendarApi,
-  getLabsApi,
   approveReservationApi,
   rejectReservationApi,
   cancelReservationApi,
   getReservationStatsApi
 } from '@/api/reservation'
+import { getLabsApi } from '@/api/lab'
+import { getLabsApi } from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()

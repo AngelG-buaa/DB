@@ -3,6 +3,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
 import NProgress from 'nprogress'
+let isHandlingTokenExpired = false
 
 // 创建axios实例
 const request = axios.create({
@@ -57,7 +58,20 @@ request.interceptors.response.use(
     // 统一处理响应数据（兼容后端的 success/message/code/data 格式）
     if (typeof data?.success === 'boolean') {
       if (data.success) {
-        return data
+        // 规范化成功响应：统一为 code=200；若为分页响应，转换为 data.list + total
+        if (data?.pagination && Array.isArray(data?.data)) {
+          return {
+            ...data,
+            code: 200,
+            data: {
+              list: data.data,
+              total: data.pagination?.total ?? 0,
+              page: data.pagination?.page,
+              page_size: data.pagination?.page_size
+            }
+          }
+        }
+        return { ...data, code: 200 }
       }
       // 业务失败场景：由后端返回 200 + success=false
       ElMessage.error(data.message || '请求失败')
@@ -66,7 +80,20 @@ request.interceptors.response.use(
     
     // 兼容旧格式：code 为数字或字符串
     if (data?.code === 200 || ['SUCCESS', 'CREATED', 'UPDATED', 'DELETED'].includes(data?.code)) {
-      return data
+      // 统一成功响应 code=200；处理分页形态
+      if (data?.pagination && Array.isArray(data?.data)) {
+        return {
+          ...data,
+          code: 200,
+          data: {
+            list: data.data,
+            total: data.pagination?.total ?? 0,
+            page: data.pagination?.page,
+            page_size: data.pagination?.page_size
+          }
+        }
+      }
+      return { ...data, code: 200 }
     }
     
     ElMessage.error(data?.message || '请求失败')
@@ -83,10 +110,10 @@ request.interceptors.response.use(
           ElMessage.error(data.message || '请求参数错误')
           break
         case 401: {
-          // 登录接口的 401 不提示“登录过期”，而提示具体错误
           const requestUrl = error.response?.config?.url || ''
           if (requestUrl.includes('/auth/login')) {
             ElMessage.error(data.message || '用户名或密码错误')
+          } else if (requestUrl.includes('/auth/logout')) {
           } else {
             handleTokenExpired()
           }
@@ -127,8 +154,9 @@ request.interceptors.response.use(
 
 // 处理token过期
 const handleTokenExpired = () => {
+  if (isHandlingTokenExpired) return
+  isHandlingTokenExpired = true
   const userStore = useUserStore()
-  
   ElMessageBox.confirm(
     '登录状态已过期，请重新登录',
     '提示',
@@ -139,12 +167,13 @@ const handleTokenExpired = () => {
     }
   ).then(() => {
     userStore.logout().then(() => {
-      router.push('/login')
+      router.replace('/login')
+      isHandlingTokenExpired = false
     })
   }).catch(() => {
-    // 用户取消，也需要清除登录状态
     userStore.logout().then(() => {
-      router.push('/login')
+      router.replace('/login')
+      isHandlingTokenExpired = false
     })
   })
 }

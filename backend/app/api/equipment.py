@@ -22,7 +22,7 @@ equipment_bp = Blueprint('equipment', __name__)
 @require_auth
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
-    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 100, 'default': 10},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'laboratory_id': {'type': 'integer', 'min_value': 1},
     'status': {'type': 'string', 'choices': ['available', 'maintenance', 'damaged', 'retired']},
     'search': {'type': 'string', 'max_length': 100}
@@ -147,6 +147,52 @@ def get_equipment_detail(equipment_id):
     except Exception as e:
         logger.error(f"获取设备详情接口错误: {str(e)}")
         return error_response("获取设备详情失败")
+
+@equipment_bp.route('/<int:equipment_id>/maintenance', methods=['GET'])
+@require_auth
+def get_equipment_maintenance_list(equipment_id):
+    """获取指定设备的维修记录列表（简版，无分页）"""
+    try:
+        sql = (
+            "SELECT r.id, r.equipment_id, r.repair_person, r.fault_description, r.repair_description, "
+            "r.repair_cost, r.repair_status, r.start_time, r.finish_time, r.expected_finish_date, r.remarks, "
+            "r.repair_type, r.created_at, r.updated_at "
+            "FROM equipment_repair r WHERE r.equipment_id = %s ORDER BY r.start_time DESC, r.id DESC"
+        )
+        result = execute_query(sql, (equipment_id,))
+        if not result['success']:
+            return error_response('获取设备维修记录失败')
+
+        def _to_date(v):
+            if not v:
+                return None
+            return v.date().isoformat() if hasattr(v, 'date') else str(v)[:10]
+
+        def _map(row):
+            status = row.get('repair_status')
+            if status == 'reported':
+                status = 'in_progress'
+            return {
+                'id': row.get('id'),
+                'equipment_id': row.get('equipment_id'),
+                'type': row.get('repair_type') or 'repair',
+                'description': row.get('fault_description') or '',
+                'technician': row.get('repair_person') or '',
+                'cost': float(row.get('repair_cost') or 0),
+                'start_date': _to_date(row.get('start_time')),
+                'expected_completion_date': _to_date(row.get('expected_finish_date')),
+                'actual_completion_date': _to_date(row.get('finish_time')),
+                'status': status,
+                'remarks': row.get('remarks') or row.get('repair_description') or '',
+                'created_at': row.get('created_at').isoformat() if row.get('created_at') else None,
+                'updated_at': row.get('updated_at').isoformat() if row.get('updated_at') else None,
+            }
+
+        records = [_map(row) for row in (result['data'] or [])]
+        return success_response(records, '获取设备维修记录成功')
+    except Exception as e:
+        logger.error(f"获取设备维修记录接口错误: {str(e)}")
+        return error_response('获取设备维修记录失败')
 
 @equipment_bp.route('', methods=['POST'])
 @require_auth

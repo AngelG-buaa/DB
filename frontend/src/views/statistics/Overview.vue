@@ -124,6 +124,10 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { House, Monitor, User, Calendar } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
+import { getReservationStatsApi } from '@/api/reservation'
+import { getEquipmentStatisticsApi } from '@/api/equipment'
+import { getMaintenanceStatsApi } from '@/api/maintenance'
+import { getLabsApi } from '@/api/lab'
 
 const reservationTrendChart = ref()
 const labUsageChart = ref()
@@ -141,16 +145,27 @@ const recentActivities = ref([])
 
 const loadStats = async () => {
   try {
-    // TODO: 调用API获取统计数据
-    // const response = await api.getOverviewStats()
-    // Object.assign(stats, response.data)
-    
-    // 模拟数据
+    const [resStats, eqStats, mStats, labsRes] = await Promise.all([
+      getReservationStatsApi({}),
+      getEquipmentStatisticsApi(),
+      getMaintenanceStatsApi({}),
+      getLabsApi({ page: 1, size: 1 })
+    ])
+    const totalReservations = resStats.code === 200 ? (resStats.data.total_reservations || 0) : 0
     Object.assign(stats, {
-      totalLabs: 15,
-      totalEquipment: 128,
-      totalUsers: 456,
-      totalReservations: 1234
+      totalLabs: labsRes.code === 200 ? (labsRes?.data?.total || 0) : 0,
+      totalEquipment: eqStats.code === 200 ? ((eqStats?.data?.total || eqStats?.data?.count || 0)) : 0,
+      totalUsers: 0,
+      totalReservations
+    })
+    const daily = resStats.code === 200 ? (resStats.data.daily_trend || resStats.data.by_date || []) : []
+    const labDist = resStats.code === 200 ? (resStats.data.laboratory_distribution || resStats.data.by_laboratory || []) : []
+    const eqDist = eqStats.code === 200 ? (eqStats.data || {}) : {}
+    nextTick(() => {
+      initReservationTrendChart(daily)
+      initLabUsageChart(labDist)
+      initEquipmentStatusChart(eqDist)
+      initUserTypeChart()
     })
   } catch (error) {
     console.error('加载统计数据失败:', error)
@@ -159,74 +174,36 @@ const loadStats = async () => {
 
 const loadRecentActivities = async () => {
   try {
-    // TODO: 调用API获取最近活动
-    // const response = await api.getRecentActivities()
-    // recentActivities.value = response.data
-    
-    // 模拟数据
-    recentActivities.value = [
+    const m = await getMaintenanceStatsApi({})
+    recentActivities.value = m.code === 200 ? [
       {
         id: 1,
-        content: '张三预约了物理实验室A',
-        timestamp: '2024-01-15 14:30',
-        type: 'primary'
-      },
-      {
-        id: 2,
-        content: '新增设备：显微镜 Model-X100',
-        timestamp: '2024-01-15 13:20',
-        type: 'success'
-      },
-      {
-        id: 3,
-        content: '李四的预约被批准',
-        timestamp: '2024-01-15 12:10',
-        type: 'success'
-      },
-      {
-        id: 4,
-        content: '化学实验室B进入维护状态',
-        timestamp: '2024-01-15 11:00',
+        content: `本月维修 ${m.data.thisMonth} 条`,
+        timestamp: new Date().toISOString().slice(0,16).replace('T',' '),
         type: 'warning'
-      },
-      {
-        id: 5,
-        content: '新用户王五注册成功',
-        timestamp: '2024-01-15 10:30',
-        type: 'primary'
       }
-    ]
+    ] : []
   } catch (error) {
     console.error('加载最近活动失败:', error)
   }
 }
 
-const initReservationTrendChart = () => {
+const initReservationTrendChart = (daily) => {
   const chart = echarts.init(reservationTrendChart.value)
   const option = {
     tooltip: {
       trigger: 'axis'
     },
-    xAxis: {
-      type: 'category',
-      data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月']
-    },
+    xAxis: { type: 'category', data: (daily || []).map(d => d.date) },
     yAxis: {
       type: 'value'
     },
-    series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'line',
-      smooth: true,
-      itemStyle: {
-        color: '#409EFF'
-      }
-    }]
+    series: [{ data: (daily || []).map(d => d.count), type: 'line', smooth: true, itemStyle: { color: '#409EFF' } }]
   }
   chart.setOption(option)
 }
 
-const initLabUsageChart = () => {
+const initLabUsageChart = (dist) => {
   const chart = echarts.init(labUsageChart.value)
   const option = {
     tooltip: {
@@ -237,11 +214,7 @@ const initLabUsageChart = () => {
       name: '使用率',
       type: 'pie',
       radius: ['40%', '70%'],
-      data: [
-        { value: 35, name: '高使用率' },
-        { value: 45, name: '中等使用率' },
-        { value: 20, name: '低使用率' }
-      ],
+      data: (dist || []).map(d => ({ value: d.reservation_count || d.count, name: d.laboratory_name })),
       itemStyle: {
         color: function(params) {
           const colors = ['#67C23A', '#E6A23C', '#F56C6C']
@@ -253,7 +226,7 @@ const initLabUsageChart = () => {
   chart.setOption(option)
 }
 
-const initEquipmentStatusChart = () => {
+const initEquipmentStatusChart = (eqStats) => {
   const chart = echarts.init(equipmentStatusChart.value)
   const option = {
     tooltip: {
@@ -263,9 +236,11 @@ const initEquipmentStatusChart = () => {
       type: 'pie',
       radius: '60%',
       data: [
-        { value: 85, name: '正常' },
-        { value: 25, name: '维护中' },
-        { value: 18, name: '故障' }
+        { value: eqStats.available || 0, name: '可用' },
+        { value: eqStats.in_use || 0, name: '使用中' },
+        { value: eqStats.maintenance || 0, name: '维护中' },
+        { value: eqStats.damaged || 0, name: '故障' },
+        { value: eqStats.retired || 0, name: '退役' }
       ],
       itemStyle: {
         color: function(params) {

@@ -22,7 +22,7 @@ courses_bp = Blueprint('courses', __name__)
 @require_auth
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
-    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 100, 'default': 10},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'teacher_id': {'type': 'integer', 'min_value': 1},
     'semester': {'type': 'string', 'max_length': 20},
     'status': {'type': 'string', 'choices': ['active', 'inactive', 'completed']},

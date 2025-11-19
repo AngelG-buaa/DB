@@ -196,11 +196,11 @@ import { ElMessage } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import {
-  getLabsApi,
   getReservationByIdApi,
   updateReservationApi,
   checkReservationConflictApi
 } from '@/api/reservation'
+import { getLabsApi } from '@/api/lab'
 
 const route = useRoute()
 const router = useRouter()
@@ -271,9 +271,10 @@ const checkConflict = async () => {
     const endDateTime = `${reservationForm.reservationDate} ${reservationForm.endTime}:00`
 
     const response = await checkReservationConflictApi({
-      lab_id: reservationForm.labId,
-      start_time: startDateTime,
-      end_time: endDateTime
+      laboratory_id: reservationForm.labId,
+      date: reservationForm.reservationDate,
+      start_time: reservationForm.startTime,
+      end_time: reservationForm.endTime
     })
 
     if (response.code === 200) {
@@ -289,15 +290,13 @@ const handleSubmit = async () => {
     await reservationFormRef.value.validate()
     submitLoading.value = true
 
-    const startDateTime = `${reservationForm.reservationDate} ${reservationForm.startTime}:00`
-    const endDateTime = `${reservationForm.reservationDate} ${reservationForm.endTime}:00`
-
     const submitData = {
-      lab_id: reservationForm.labId,
-      start_time: startDateTime,
-      end_time: endDateTime,
+      laboratory_id: reservationForm.labId,
+      reservation_date: reservationForm.reservationDate,
+      start_time: reservationForm.startTime,
+      end_time: reservationForm.endTime,
       purpose: reservationForm.purpose,
-      expected_people: reservationForm.expectedPeople,
+      participant_count: reservationForm.expectedPeople,
       remarks: reservationForm.remarks
     }
 

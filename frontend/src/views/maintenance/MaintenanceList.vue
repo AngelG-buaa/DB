@@ -422,9 +422,9 @@ import {
   updateMaintenanceRecordApi,
   deleteMaintenanceRecordApi,
   getMaintenanceRecordByIdApi,
-  getMaintenanceStatsApi,
-  getEquipmentApi
-} from '@/api/reservation'
+  getMaintenanceStatsApi
+} from '@/api/maintenance'
+import { getEquipmentApi } from '@/api/equipment'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -511,7 +511,7 @@ const maintenanceRules = {
 
 // 方法
 const hasPermission = (roles) => {
-  return roles.includes(userInfo.value.user_type)
+  return roles.includes(userInfo.value?.role)
 }
 
 const loadEquipmentOptions = async () => {

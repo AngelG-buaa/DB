@@ -22,7 +22,7 @@ laboratories_bp = Blueprint('laboratories', __name__)
 @require_auth
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
-    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 100, 'default': 10},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'status': {'type': 'string', 'choices': ['available', 'maintenance', 'occupied']},
     'search': {'type': 'string', 'max_length': 100}
 })
@@ -144,6 +144,47 @@ def get_laboratory(lab_id):
     except Exception as e:
         logger.error(f"获取实验室详情接口错误: {str(e)}")
         return error_response("获取实验室详情失败")
+
+@laboratories_bp.route('/<int:lab_id>/equipment', methods=['GET'])
+@require_auth
+def get_laboratory_equipment(lab_id):
+    """获取指定实验室的设备列表（兼容前端 /labs/{id}/equipment 路径）"""
+    try:
+        # 验证实验室是否存在
+        lab_check = execute_query("SELECT id FROM laboratories WHERE id = %s", (lab_id,))
+        if not lab_check['success']:
+            return error_response("查询失败，请稍后重试")
+        if not lab_check['data']:
+            return not_found_response("实验室不存在")
+
+        eq_sql = (
+            "SELECT id, name, model, serial_number, status, purchase_date, warranty_date, created_at, updated_at "
+            "FROM equipment WHERE laboratory_id = %s ORDER BY name ASC"
+        )
+        eq_res = execute_query(eq_sql, (lab_id,))
+
+        if not eq_res['success']:
+            logger.error(f"查询实验室设备失败: {eq_res.get('error')}")
+            return error_response("获取设备列表失败")
+
+        equipment = []
+        for e in eq_res['data']:
+            equipment.append({
+                'id': e['id'],
+                'name': e['name'],
+                'model': e['model'],
+                'serial_number': e['serial_number'],
+                'status': e['status'],
+                'purchase_date': e['purchase_date'].isoformat() if e.get('purchase_date') else None,
+                'warranty_date': e['warranty_date'].isoformat() if e.get('warranty_date') else None,
+                'created_at': e['created_at'].isoformat() if e.get('created_at') else None,
+                'updated_at': e['updated_at'].isoformat() if e.get('updated_at') else None,
+            })
+
+        return success_response(equipment, "获取设备列表成功")
+    except Exception as e:
+        logger.error(f"获取实验室设备接口错误: {str(e)}")
+        return error_response("获取设备列表失败")
 
 @laboratories_bp.route('', methods=['POST'])
 @require_auth

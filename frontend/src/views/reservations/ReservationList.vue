@@ -318,9 +318,9 @@ import {
   approveReservationApi,
   rejectReservationApi,
   cancelReservationApi,
-  deleteReservationApi,
-  getLabsApi
+  deleteReservationApi
 } from '@/api/reservation'
+import { getLabsApi } from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()

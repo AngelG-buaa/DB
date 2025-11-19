@@ -20,10 +20,10 @@ users_bp = Blueprint('users', __name__)
 
 @users_bp.route('', methods=['GET'])
 @require_auth
-@require_role(['admin', 'teacher'])
+
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
-    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 100, 'default': 10},
+    'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'role': {'type': 'string', 'choices': ['student', 'teacher', 'admin']},
     'status': {'type': 'string', 'choices': ['active', 'inactive']},
     'search': {'type': 'string', 'max_length': 100}

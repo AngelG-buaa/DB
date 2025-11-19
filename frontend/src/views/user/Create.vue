@@ -127,6 +127,8 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { getCoursesApi } from '@/api/course'
+import { createUserApi } from '@/api/user'
 
 const router = useRouter()
 const formRef = ref()
@@ -249,17 +251,12 @@ watch(() => form.user_type, (newVal) => {
 
 const loadCourses = async () => {
   try {
-    // TODO: 调用API获取课程列表
-    // const response = await api.getCourses()
-    // courses.value = response.data
-    
-    // 模拟数据
-    courses.value = [
-      { course_id: 1, course_name: '大学物理实验' },
-      { course_id: 2, course_name: '有机化学实验' },
-      { course_id: 3, course_name: '生物学基础实验' },
-      { course_id: 4, course_name: '计算机基础' }
-    ]
+    const res = await getCoursesApi({ page: 1, page_size: 500 })
+    if (res.code === 200) {
+      courses.value = (res.data.list || []).map(c => ({ course_id: c.id, course_name: c.name }))
+    } else {
+      ElMessage.error(res.message || '加载课程列表失败')
+    }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
   }
@@ -285,8 +282,7 @@ const handleSubmit = async () => {
       submitData.department = form.department
     }
     
-    // TODO: 调用API创建用户
-    // await api.createUser(submitData)
+    await createUserApi(submitData)
     
     ElMessage.success('用户创建成功')
     router.push('/user/list')

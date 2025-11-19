@@ -119,10 +119,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import { getUsersApi, deleteUserApi } from '@/api/user'
+import { getCoursesApi } from '@/api/course'
 
 const router = useRouter()
 const loading = ref(false)
@@ -162,60 +164,23 @@ const getUserTypeText = (type) => {
 const loadUsers = async () => {
   try {
     loading.value = true
-    
-    // TODO: 调用API获取用户列表
-    // const response = await api.getUsers({
-    //   page: pagination.page,
-    //   size: pagination.size,
-    //   ...searchForm
-    // })
-    // userList.value = response.data.list
-    // pagination.total = response.data.total
-    
-    // 模拟数据
-    userList.value = [
-      {
-        user_id: 1,
-        user_name: '张三',
-        user_type: 'Student',
-        course_name: '大学物理实验',
-        course_id: 1,
-        major: '物理学',
-        grade: '2023',
-        created_at: '2023-09-01 10:00:00'
-      },
-      {
-        user_id: 2,
-        user_name: '李四',
-        user_type: 'Student',
-        course_name: '有机化学实验',
-        course_id: 2,
-        major: '化学',
-        grade: '2022',
-        created_at: '2023-09-01 10:30:00'
-      },
-      {
-        user_id: 3,
-        user_name: '王教授',
-        user_type: 'Teacher',
-        course_name: '大学物理实验',
-        course_id: 1,
-        major: '物理学院',
-        grade: null,
-        created_at: '2023-08-15 09:00:00'
-      },
-      {
-        user_id: 4,
-        user_name: '管理员',
-        user_type: 'Admin',
-        course_name: null,
-        course_id: null,
-        major: null,
-        grade: null,
-        created_at: '2023-08-01 08:00:00'
-      }
-    ]
-    pagination.total = 4
+    const params = {
+      page: pagination.page,
+      page_size: pagination.size,
+      role: (searchForm.user_type || '').toLowerCase() || undefined,
+      search: searchForm.user_name || undefined
+    }
+    const response = await getUsersApi(params)
+    if (response.code === 200) {
+      const list = response.data.list || []
+      userList.value = list.map(u => ({
+        user_id: u.id,
+        user_name: u.name || u.username,
+        user_type: (u.role || '').replace(/^\w/, c => c.toUpperCase()),
+        created_at: u.created_at
+      }))
+      pagination.total = response.data.total || 0
+    }
   } catch (error) {
     ElMessage.error('加载用户列表失败')
   } finally {
@@ -225,16 +190,10 @@ const loadUsers = async () => {
 
 const loadCourses = async () => {
   try {
-    // TODO: 调用API获取课程列表
-    // const response = await api.getCourses()
-    // courses.value = response.data
-    
-    // 模拟数据
-    courses.value = [
-      { course_id: 1, course_name: '大学物理实验' },
-      { course_id: 2, course_name: '有机化学实验' },
-      { course_id: 3, course_name: '生物学基础实验' }
-    ]
+    const response = await getCoursesApi({ page: 1, page_size: 200 })
+    if (response.code === 200) {
+      courses.value = (response.data.list || []).map(c => ({ course_id: c.id || c.course_id, course_name: c.name || c.course_name }))
+    }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
   }
@@ -279,8 +238,7 @@ const handleDelete = async (row) => {
       }
     )
     
-    // TODO: 调用API删除用户
-    // await api.deleteUser(row.user_id)
+    await deleteUserApi(row.user_id)
     
     ElMessage.success('删除成功')
     loadUsers()
@@ -303,6 +261,10 @@ const handleCurrentChange = (page) => {
 }
 
 onMounted(() => {
+  loadUsers()
+  loadCourses()
+})
+onActivated(() => {
   loadUsers()
   loadCourses()
 })

@@ -219,6 +219,13 @@
             clearable
           />
         </el-form-item>
+        <el-form-item label="序列号" prop="serialNumber">
+          <el-input
+            v-model="equipmentForm.serialNumber"
+            placeholder="请输入设备序列号"
+            clearable
+          />
+        </el-form-item>
         <el-form-item label="所属实验室" prop="labId">
           <el-select v-model="equipmentForm.labId" style="width: 100%">
             <el-option
@@ -420,7 +427,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, Refresh, Download } from '@element-plus/icons-vue'
@@ -431,10 +438,10 @@ import {
   createEquipmentApi,
   updateEquipmentApi,
   deleteEquipmentApi,
-  getEquipmentByIdApi,
-  createMaintenanceRecordApi,
-  getLabsApi
-} from '@/api/reservation'
+  getEquipmentByIdApi
+} from '@/api/equipment'
+import { createMaintenanceRecordApi } from '@/api/maintenance'
+import { getLabsApi } from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -470,12 +477,11 @@ const equipmentForm = reactive({
   id: null,
   name: '',
   model: '',
+  serialNumber: '',
   labId: '',
-  status: 'normal',
-  price: 0,
+  status: 'available',
   purchaseDate: '',
   warrantyUntil: '',
-  supplier: '',
   description: ''
 })
 
@@ -505,6 +511,10 @@ const equipmentRules = {
     { required: true, message: '请输入设备型号', trigger: 'blur' },
     { min: 1, max: 50, message: '型号长度在 1 到 50 个字符', trigger: 'blur' }
   ],
+  serialNumber: [
+    { required: true, message: '请输入设备序列号', trigger: 'blur' },
+    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+  ],
   labId: [
     { required: true, message: '请选择所属实验室', trigger: 'change' }
   ],
@@ -519,6 +529,15 @@ const equipmentRules = {
     { required: true, message: '请选择购买日期', trigger: 'change' }
   ]
 }
+
+onMounted(() => {
+  loadTableData()
+  loadLabOptions()
+})
+
+onActivated(() => {
+  loadTableData()
+})
 
 const maintenanceRules = {
   type: [
@@ -551,12 +570,12 @@ const loadTableData = async () => {
   try {
     const params = {
       page: pagination.page,
-      size: pagination.size
+      page_size: pagination.size
     }
     
     if (searchForm.keyword) params.keyword = searchForm.keyword
-    if (searchForm.labId) params.lab_id = searchForm.labId
-    if (searchForm.status) params.status = searchForm.status
+    if (searchForm.labId) params.laboratory_id = searchForm.labId
+    if (searchForm.status) params.status = searchForm.status === 'normal' ? 'available' : (searchForm.status === 'broken' ? 'damaged' : (searchForm.status === 'scrapped' ? 'retired' : searchForm.status))
     if (searchForm.purchaseDateRange && searchForm.purchaseDateRange.length === 2) {
       params.purchase_date_start = searchForm.purchaseDateRange[0]
       params.purchase_date_end = searchForm.purchaseDateRange[1]
@@ -564,7 +583,22 @@ const loadTableData = async () => {
     
     const response = await getEquipmentApi(params)
     if (response.code === 200) {
-      tableData.value = response.data.list
+      tableData.value = (response.data.list || []).map(e => ({
+        id: e.id,
+        name: e.name,
+        model: e.model,
+        lab_id: e.laboratory_id || undefined,
+        lab_name: e.laboratory?.name || '',
+        status: e.status === 'available' ? 'normal' : (e.status === 'damaged' ? 'broken' : (e.status === 'retired' ? 'scrapped' : e.status)),
+        price: e.price || 0,
+        purchase_date: e.purchase_date,
+        warranty_until: e.warranty_date,
+        supplier: e.supplier || '',
+        description: e.description,
+        maintenance_count: e.maintenance_count || 0,
+        created_at: e.created_at,
+        updated_at: e.updated_at
+      }))
       pagination.total = response.data.total
     }
   } catch (error) {
@@ -668,12 +702,11 @@ const handleSubmit = async () => {
     const submitData = {
       name: equipmentForm.name,
       model: equipmentForm.model,
-      lab_id: equipmentForm.labId,
-      status: equipmentForm.status,
-      price: equipmentForm.price,
+      serial_number: equipmentForm.serialNumber,
+      laboratory_id: equipmentForm.labId,
+      status: equipmentForm.status === 'normal' ? 'available' : (equipmentForm.status === 'broken' ? 'damaged' : (equipmentForm.status === 'scrapped' ? 'retired' : equipmentForm.status)),
       purchase_date: equipmentForm.purchaseDate,
-      warranty_until: equipmentForm.warrantyUntil,
-      supplier: equipmentForm.supplier,
+      warranty_date: equipmentForm.warrantyUntil,
       description: equipmentForm.description
     }
     
@@ -751,12 +784,11 @@ const resetForm = () => {
   equipmentForm.id = null
   equipmentForm.name = ''
   equipmentForm.model = ''
+  equipmentForm.serialNumber = ''
   equipmentForm.labId = ''
   equipmentForm.status = 'normal'
-  equipmentForm.price = 0
   equipmentForm.purchaseDate = ''
   equipmentForm.warrantyUntil = ''
-  equipmentForm.supplier = ''
   equipmentForm.description = ''
   
   if (equipmentFormRef.value) {

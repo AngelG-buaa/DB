@@ -332,7 +332,7 @@ const userTypeText = computed(() => {
     teacher: '教师',
     student: '学生'
   }
-  return typeMap[userInfo.value.user_type] || '未知'
+  return typeMap[userInfo.value?.role] || '未知'
 })
 
 const userTypeTagType = computed(() => {
@@ -341,7 +341,7 @@ const userTypeTagType = computed(() => {
     teacher: 'warning',
     student: 'success'
   }
-  return typeMap[userInfo.value.user_type] || 'info'
+  return typeMap[userInfo.value?.role] || 'info'
 })
 
 const gradeOptions = computed(() => {
