@@ -236,7 +236,6 @@ import {
   getReservationStatsApi
 } from '@/api/reservation'
 import { getLabsApi } from '@/api/lab'
-import { getLabsApi } from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()

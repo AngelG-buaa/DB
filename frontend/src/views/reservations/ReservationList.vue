@@ -89,10 +89,10 @@
         
         <el-table-column prop="lab_name" label="实验室" width="150" />
         
-        <el-table-column label="预约时间" width="200">
+        <el-table-column label="预约时间" width="220">
           <template #default="{ row }">
-            <div>{{ formatDateTime(row.start_time) }}</div>
-            <div class="text-secondary">至 {{ formatTime(row.end_time) }}</div>
+            <div>{{ formatDateTimeFromParts(row.reservation_date, row.start_time) }}</div>
+            <div class="text-secondary">至 {{ formatTimeFromParts(row.reservation_date, row.end_time) }}</div>
           </template>
         </el-table-column>
         
@@ -129,14 +129,7 @@
               查看
             </el-button>
             
-            <el-button
-              v-if="canEdit(row)"
-              type="warning"
-              size="small"
-              @click="editReservation(row)"
-            >
-              编辑
-            </el-button>
+            
             
             <el-dropdown
               v-if="canOperate(row)"
@@ -216,10 +209,10 @@
             {{ currentReservation.user_name }}
           </el-descriptions-item>
           <el-descriptions-item label="开始时间">
-            {{ formatDateTime(currentReservation.start_time) }}
+            {{ formatDateTimeFromParts(currentReservation.reservation_date, currentReservation.start_time) }}
           </el-descriptions-item>
           <el-descriptions-item label="结束时间">
-            {{ formatDateTime(currentReservation.end_time) }}
+            {{ formatDateTimeFromParts(currentReservation.reservation_date, currentReservation.end_time) }}
           </el-descriptions-item>
           <el-descriptions-item label="使用目的" :span="2">
             {{ currentReservation.purpose }}
@@ -444,9 +437,7 @@ const viewDetail = async (row) => {
   }
 }
 
-const editReservation = (row) => {
-  router.push(`/reservation/edit/${row.id}`)
-}
+// 编辑功能已移除
 
 const goToCreate = () => {
   router.push('/reservation/create')
@@ -585,11 +576,25 @@ const canDelete = (row) => {
 
 // 工具方法
 const formatDateTime = (dateTime) => {
-  return dayjs(dateTime).format('YYYY-MM-DD HH:mm')
+  return dayjs(dateTime).isValid() ? dayjs(dateTime).format('YYYY-MM-DD HH:mm') : ''
 }
 
-const formatTime = (dateTime) => {
-  return dayjs(dateTime).format('HH:mm')
+const normalizeTime = (t) => {
+  if (!t) return ''
+  const s = String(t)
+  return s.length === 5 ? `${s}:00` : s
+}
+
+const formatDateTimeFromParts = (dateStr, timeStr) => {
+  if (!dateStr || !timeStr) return ''
+  const composed = `${dateStr} ${normalizeTime(timeStr)}`
+  return dayjs(composed).isValid() ? dayjs(composed).format('YYYY-MM-DD HH:mm') : ''
+}
+
+const formatTimeFromParts = (dateStr, timeStr) => {
+  if (!dateStr || !timeStr) return ''
+  const composed = `${dateStr} ${normalizeTime(timeStr)}`
+  return dayjs(composed).isValid() ? dayjs(composed).format('HH:mm') : ''
 }
 
 const getStatusType = (status) => {

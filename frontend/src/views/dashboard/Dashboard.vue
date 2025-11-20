@@ -252,6 +252,7 @@ import {
 import * as echarts from 'echarts'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
+import { getReservationStatsApi, getMyReservationsApi } from '@/api/reservation'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -288,57 +289,25 @@ const welcomeMessage = computed(() => {
 // 方法
 const loadDashboardData = async () => {
   try {
-    // 这里应该调用API获取仪表板数据
-    // 暂时使用模拟数据
-    dashboardStats.totalReservations = 25
-    dashboardStats.activeReservations = 3
-    dashboardStats.pendingReservations = 2
-    dashboardStats.availableLabs = 15
-    
-    recentReservations.value = [
-      {
-        id: 1,
-        lab_name: '计算机实验室A',
-        start_time: '2024-01-15 14:00:00',
-        end_time: '2024-01-15 16:00:00',
-        status: 'approved'
-      },
-      {
-        id: 2,
-        lab_name: '物理实验室B',
-        start_time: '2024-01-16 09:00:00',
-        end_time: '2024-01-16 11:00:00',
-        status: 'pending'
-      },
-      {
-        id: 3,
-        lab_name: '化学实验室C',
-        start_time: '2024-01-17 15:00:00',
-        end_time: '2024-01-17 17:00:00',
-        status: 'completed'
-      }
-    ]
-    
-    recentNotifications.value = [
-      {
-        id: 1,
-        title: '实验室设备维护通知',
-        created_at: '2024-01-15 10:00:00',
-        is_read: false
-      },
-      {
-        id: 2,
-        title: '新学期实验室使用规定',
-        created_at: '2024-01-14 15:30:00',
-        is_read: true
-      },
-      {
-        id: 3,
-        title: '系统维护公告',
-        created_at: '2024-01-13 09:00:00',
-        is_read: true
-      }
-    ]
+    const statsRes = await getReservationStatsApi()
+    if (statsRes.code === 200) {
+      const d = statsRes.data || {}
+      dashboardStats.totalReservations = d.total || 0
+      dashboardStats.activeReservations = d.active || 0
+      dashboardStats.pendingReservations = d.pending || 0
+      dashboardStats.availableLabs = d.availableLabs || 0
+    }
+    const myRes = await getMyReservationsApi({ page: 1, page_size: 5 })
+    if (myRes.code === 200) {
+      const list = myRes.data.list || []
+      recentReservations.value = list.map(r => ({
+        id: r.id,
+        lab_name: r.laboratory?.name || '',
+        start_time: r.start_time,
+        end_time: r.end_time,
+        status: r.status
+      }))
+    }
   } catch (error) {
     console.error('加载仪表板数据失败:', error)
   }

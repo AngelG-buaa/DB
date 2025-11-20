@@ -228,10 +228,12 @@ const loadEquipmentStats = async () => {
   try {
     const response = await getEquipmentStatisticsApi()
     if (response.code === 200) {
-      equipmentStats.total = response.data.total || 0
-      equipmentStats.normal = response.data.available || 0
-      equipmentStats.maintenance = response.data.maintenance || 0
-      equipmentStats.broken = response.data.damaged || 0
+      const d = response.data || {}
+      const dist = d.status_distribution || {}
+      equipmentStats.total = d.total_equipment || 0
+      equipmentStats.normal = dist.available || 0
+      equipmentStats.maintenance = dist.maintenance || 0
+      equipmentStats.broken = dist.damaged || 0
       nextTick(() => {
         initStatusChart()
       })
@@ -243,53 +245,20 @@ const loadEquipmentStats = async () => {
 
 const loadDetailData = async () => {
   try {
-    // TODO: 调用API获取详细统计数据
-    // const response = await api.getEquipmentDetailStats(filterForm)
-    // detailData.value = response.data
-    
-    // 模拟数据
-    detailData.value = [
-      {
-        lab_name: '物理实验室A',
-        total_equipment: 35,
-        normal_count: 28,
-        maintenance_count: 4,
-        broken_count: 3,
-        normal_rate: 80.0,
-        avg_usage: 75.5,
-        maintenance_cost: 12500
-      },
-      {
-        lab_name: '化学实验室B',
-        total_equipment: 42,
-        normal_count: 38,
-        maintenance_count: 2,
-        broken_count: 2,
-        normal_rate: 90.5,
-        avg_usage: 82.3,
-        maintenance_cost: 8900
-      },
-      {
-        lab_name: '生物实验室C',
-        total_equipment: 28,
-        normal_count: 20,
-        maintenance_count: 6,
-        broken_count: 2,
-        normal_rate: 71.4,
-        avg_usage: 68.9,
-        maintenance_cost: 15600
-      },
-      {
-        lab_name: '计算机实验室D',
-        total_equipment: 23,
-        normal_count: 9,
-        maintenance_count: 6,
-        broken_count: 8,
-        normal_rate: 39.1,
-        avg_usage: 45.2,
-        maintenance_cost: 22300
-      }
-    ]
+    const response = await getEquipmentStatisticsApi()
+    if (response.code === 200) {
+      const labs = response.data?.laboratory_distribution || []
+      detailData.value = labs.map(i => ({
+        lab_name: i.laboratory_name,
+        total_equipment: i.equipment_count,
+        normal_count: 0,
+        maintenance_count: 0,
+        broken_count: 0,
+        normal_rate: 0,
+        avg_usage: 0,
+        maintenance_cost: 0
+      }))
+    }
   } catch (error) {
     console.error('加载详细统计失败:', error)
   }

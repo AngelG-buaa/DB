@@ -82,6 +82,7 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { createLabApi } from '@/api/lab'
 
 const router = useRouter()
 const formRef = ref()
@@ -142,11 +143,23 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     loading.value = true
     
-    // TODO: 调用API创建实验室
-    // await api.createLaboratory(form)
-    
-    ElMessage.success('实验室创建成功')
-    router.push('/laboratory/list')
+    const statusMap = {
+      '可用': 'available',
+      '维护中': 'maintenance',
+      '停用': 'occupied'
+    }
+    const payload = {
+      name: form.lab_name,
+      location: form.location,
+      capacity: form.capacity,
+      status: statusMap[form.lab_status],
+      description: ''
+    }
+    const res = await createLabApi(payload)
+    if (res.code === 201 || res.code === 200 || res.success) {
+      ElMessage.success('实验室创建成功')
+      router.push('/laboratory/list')
+    }
   } catch (error) {
     if (error !== false) {
       ElMessage.error('创建失败，请重试')

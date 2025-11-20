@@ -58,6 +58,7 @@ def get_equipment():
         base_sql = """
         SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
                e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               e.laboratory_id,
                l.name as laboratory_name, l.location as laboratory_location
         FROM equipment e
         LEFT JOIN laboratories l ON e.laboratory_id = l.id
@@ -87,6 +88,7 @@ def get_equipment():
                 'status': eq['status'],
                 'purchase_date': eq['purchase_date'].isoformat() if eq['purchase_date'] else None,
                 'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] else None,
+                'laboratory_id': eq.get('laboratory_id'),
                 'laboratory': {
                     'name': eq['laboratory_name'],
                     'location': eq['laboratory_location']

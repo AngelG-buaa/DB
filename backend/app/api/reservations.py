@@ -47,7 +47,7 @@ def get_reservations():
         # 非管理员只能查看自己的预约
         current_user = request.current_user
         if current_user['role'] not in ['admin', 'teacher']:
-            user_id = current_user['id']
+            user_id = current_user.get('user_id')
         
         # 构建查询条件
         where_conditions = []
@@ -174,7 +174,7 @@ def get_my_reservations():
         current_user = request.current_user
 
         where_conditions = ["r.user_id = %s"]
-        query_params = [current_user['id']]
+        query_params = [current_user.get('user_id')]
 
         if status:
             where_conditions.append('r.status = %s')
@@ -214,8 +214,8 @@ def get_my_reservations():
             reservations.append({
                 'id': r['id'],
                 'reservation_date': r['reservation_date'].isoformat() if r['reservation_date'] else None,
-                'start_time': r['start_time'].strftime('%H:%M') if r['start_time'] else None,
-                'end_time': r['end_time'].strftime('%H:%M') if r['end_time'] else None,
+                'start_time': str(r['start_time']) if r['start_time'] else None,
+                'end_time': str(r['end_time']) if r['end_time'] else None,
                 'purpose': r['purpose'],
                 'status': r['status'],
                 'equipment_ids': r['equipment_ids'],
@@ -246,7 +246,7 @@ def get_reservation(reservation_id):
         # 非管理员只能查看自己的预约
         if current_user['role'] not in ['admin', 'teacher']:
             where_condition += " AND r.user_id = %s"
-            query_params.append(current_user['id'])
+            query_params.append(current_user.get('user_id'))
         
         sql = f"""
         SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
@@ -448,8 +448,8 @@ def create_reservation():
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
         """
         
-        # 学生预约需要审核，教师和管理员直接确认
-        status = 'confirmed' if current_user['role'] in ['admin', 'teacher'] else 'pending'
+        # 所有预约均需审核，默认状态为待审核
+        status = 'pending'
 
         # 兼容不同的用户ID字段
         user_id = current_user.get('id') or current_user.get('user_id')
@@ -518,10 +518,10 @@ def create_reservation():
                 'created_at': reservation['created_at'].isoformat() if reservation['created_at'] else None
             }
             
-            message = "预约创建成功" if status == 'confirmed' else "预约创建成功，等待审核"
-            return created_response(reservation_info, message)
+        message = "预约创建成功，等待审核"
+        return created_response(reservation_info, message)
         
-        message = "预约创建成功" if status == 'confirmed' else "预约创建成功，等待审核"
+        message = "预约创建成功，等待审核"
         return created_response(None, message)
         
     except Exception as e:

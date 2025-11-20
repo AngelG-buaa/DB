@@ -167,7 +167,7 @@ const loadTeachers = async () => {
 const loadLaboratories = async () => {
   try {
     const api = await import('@/api/lab')
-    const res = await api.getLabsApi({ page: 1, size: 200 })
+    const res = await api.getLabsApi({ page: 1, page_size: 200 })
     if (res.code === 200) {
       laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
     }

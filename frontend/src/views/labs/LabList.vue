@@ -39,7 +39,7 @@
               <el-option label="全部" value="" />
               <el-option label="可用" value="available" />
               <el-option label="维护中" value="maintenance" />
-              <el-option label="停用" value="disabled" />
+              <el-option label="停用" value="occupied" />
             </el-select>
           </el-col>
           <el-col :span="4">
@@ -124,17 +124,10 @@
         <el-table-column
           v-if="hasPermission(['admin', 'teacher'])"
           label="操作"
-          width="200"
+          width="160"
           fixed="right"
         >
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="showEditDialog(row)"
-            >
-              编辑
-            </el-button>
             <el-button
               type="success"
               size="small"
@@ -354,7 +347,6 @@ import { useUserStore } from '@/stores/user'
 import {
   getLabsApi,
   createLabApi,
-  updateLabApi,
   deleteLabApi,
   getLabByIdApi,
   getLabAvailabilityApi
@@ -406,7 +398,7 @@ const availabilityForm = reactive({
 const userInfo = computed(() => userStore.userInfo)
 
 const dialogTitle = computed(() => {
-  return isEdit.value ? '编辑实验室' : '新建实验室'
+  return '新建实验室'
 })
 
 // 表单验证规则
@@ -493,11 +485,7 @@ const showCreateDialog = () => {
   dialogVisible.value = true
 }
 
-const showEditDialog = (row) => {
-  isEdit.value = true
-  Object.assign(labForm, row)
-  dialogVisible.value = true
-}
+// 编辑功能已移除
 
 const showDetail = async (row) => {
   try {
@@ -547,10 +535,7 @@ const handleSubmit = async () => {
     await labFormRef.value.validate()
     submitLoading.value = true
     
-    const api = isEdit.value ? updateLabApi : createLabApi
-    const params = isEdit.value ? [labForm.id, labForm] : [labForm]
-    
-    const response = await api(...params)
+    const response = await createLabApi(labForm)
     if (response.code === 200) {
       ElMessage.success(isEdit.value ? '更新成功' : '创建成功')
       dialogVisible.value = false
@@ -611,7 +596,7 @@ const getStatusType = (status) => {
   const statusMap = {
     available: 'success',
     maintenance: 'warning',
-    disabled: 'danger'
+    occupied: 'danger'
   }
   return statusMap[status] || 'info'
 }
@@ -620,7 +605,7 @@ const getStatusText = (status) => {
   const statusMap = {
     available: '可用',
     maintenance: '维护中',
-    disabled: '停用'
+    occupied: '停用'
   }
   return statusMap[status] || status
 }

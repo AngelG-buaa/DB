@@ -32,6 +32,15 @@
           />
         </el-form-item>
         
+        <el-form-item label="序列号" prop="serial_number">
+          <el-input
+            v-model="form.serial_number"
+            placeholder="请输入设备序列号"
+            maxlength="100"
+            show-word-limit
+          />
+        </el-form-item>
+        
         <el-form-item label="所属实验室" prop="lab_id">
           <el-select
             v-model="form.lab_id"
@@ -102,6 +111,8 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { getLabsApi } from '@/api/lab'
+import { createEquipmentApi } from '@/api/equipment'
 
 const router = useRouter()
 const formRef = ref()
@@ -111,6 +122,7 @@ const laboratories = ref([])
 const form = reactive({
   equip_name: '',
   model: '',
+  serial_number: '',
   lab_id: null,
   buy_date: '',
   price: 0,
@@ -126,6 +138,9 @@ const rules = {
   model: [
     { required: true, message: '请输入设备型号', trigger: 'blur' },
     { max: 50, message: '长度不能超过 50 个字符', trigger: 'blur' }
+  ],
+  serial_number: [
+    { required: true, message: '请输入设备序列号', trigger: 'blur' }
   ],
   lab_id: [
     { required: true, message: '请选择实验室', trigger: 'change' }
@@ -147,16 +162,10 @@ const rules = {
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' }
-    ]
+    const res = await getLabsApi({ page: 1, page_size: 200 })
+    if (res.code === 200) {
+      laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+    }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
   }
@@ -167,11 +176,26 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     loading.value = true
     
-    // TODO: 调用API创建设备
-    // await api.createEquipment(form)
+    const statusMap = {
+      '正常': 'available',
+      '维修中': 'maintenance',
+      '报废': 'retired'
+    }
+    const payload = {
+      name: form.equip_name,
+      model: form.model,
+      serial_number: form.serial_number,
+      laboratory_id: form.lab_id,
+      status: statusMap[form.equip_status],
+      purchase_date: form.buy_date,
+      description: ''
+    }
+    const res = await createEquipmentApi(payload)
+    if (res.code === 200) {
+      ElMessage.success('设备创建成功')
+      router.push('/equipment/list')
+    }
     
-    ElMessage.success('设备创建成功')
-    router.push('/equipment/list')
   } catch (error) {
     if (error !== false) {
       ElMessage.error('创建失败，请重试')

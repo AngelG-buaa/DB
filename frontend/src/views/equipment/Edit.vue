@@ -73,6 +73,7 @@
           <el-select v-model="form.equip_status" placeholder="请选择状态">
             <el-option label="正常" value="正常" />
             <el-option label="维修中" value="维修中" />
+            <el-option label="故障" value="故障" />
             <el-option label="报废" value="报废" />
           </el-select>
         </el-form-item>
@@ -103,6 +104,8 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { getLabsApi } from '@/api/lab'
+import { getEquipmentByIdApi, updateEquipmentApi } from '@/api/equipment'
 
 const router = useRouter()
 const route = useRoute()
@@ -159,21 +162,26 @@ const loadEquipment = async () => {
   
   pageLoading.value = true
   try {
-    // TODO: 调用API获取设备详情
-    // const response = await api.getEquipment(id)
-    // Object.assign(form, response.data)
-    
-    // 模拟数据
-    Object.assign(form, {
-      equip_id: id,
-      equip_name: '显微镜',
-      model: 'XSP-2CA',
-      lab_id: 1,
-      buy_date: '2023-01-15',
-      price: 5000.00,
-      equip_status: '正常',
-      warn_threshold: 10
-    })
+    const response = await getEquipmentByIdApi(id)
+    if (response.code === 200 && response.data) {
+      const d = response.data
+      const statusMap = {
+        available: '正常',
+        maintenance: '维修中',
+        damaged: '故障',
+        retired: '报废'
+      }
+      Object.assign(form, {
+        equip_id: d.id,
+        equip_name: d.name || '',
+        model: d.model || '',
+        lab_id: d.laboratory_id || null,
+        buy_date: d.purchase_date || '',
+        price: form.price,
+        equip_status: statusMap[d.status] || '正常',
+        warn_threshold: form.warn_threshold
+      })
+    }
   } catch (error) {
     ElMessage.error('加载设备信息失败')
     router.back()
@@ -184,16 +192,10 @@ const loadEquipment = async () => {
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' }
-    ]
+    const res = await getLabsApi({ page: 1, page_size: 200 })
+    if (res.code === 200) {
+      laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+    }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
   }
@@ -204,11 +206,24 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     loading.value = true
     
-    // TODO: 调用API更新设备
-    // await api.updateEquipment(form.equip_id, form)
-    
-    ElMessage.success('设备更新成功')
-    router.push('/equipment/list')
+    const statusRevMap = {
+      '正常': 'available',
+      '维修中': 'maintenance',
+      '故障': 'damaged',
+      '报废': 'retired'
+    }
+    const payload = {
+      name: form.equip_name,
+      model: form.model,
+      laboratory_id: form.lab_id,
+      status: statusRevMap[form.equip_status],
+      purchase_date: form.buy_date
+    }
+    const res = await updateEquipmentApi(form.equip_id, payload)
+    if (res.code === 200) {
+      ElMessage.success('设备更新成功')
+      router.push('/equipment/list')
+    }
   } catch (error) {
     if (error !== false) {
       ElMessage.error('更新失败，请重试')

@@ -288,6 +288,7 @@ import { ElMessage } from 'element-plus'
 import { User } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { updateUserInfoApi, changePasswordApi } from '@/api/auth'
+import { getMyReservationsApi } from '@/api/reservation'
 
 const userStore = useUserStore()
 
@@ -505,12 +506,18 @@ const beforeAvatarUpload = (file) => {
 }
 
 const loadUserStats = async () => {
-  // 这里应该调用API获取用户统计数据
-  // 暂时使用模拟数据
-  userStats.totalReservations = 25
-  userStats.activeReservations = 3
-  userStats.completedReservations = 20
-  userStats.cancelledReservations = 2
+  try {
+    const res = await getMyReservationsApi({ page: 1, page_size: 100 })
+    if (res.code === 200) {
+      const list = res.data.list || []
+      userStats.totalReservations = list.length
+      userStats.activeReservations = list.filter(i => i.status === 'confirmed' || i.status === 'approved').length
+      userStats.completedReservations = list.filter(i => i.status === 'completed').length
+      userStats.cancelledReservations = list.filter(i => i.status === 'cancelled').length
+    }
+  } catch (error) {
+    
+  }
 }
 
 // 生命周期

@@ -285,7 +285,7 @@ const loadCourseOptions = async () => {
   try {
     const response = await getCoursesApi({ 
       page: 1, 
-      size: 100,
+      page_size: 100,
       teacher_id: userInfo.value.id
     })
     if (response.code === 200) {

@@ -107,15 +107,7 @@ const routes = [
               roles: ['admin']
             }
           },
-          {
-            path: 'edit/:id',
-            name: 'EquipmentEdit',
-            component: () => import('@/views/equipment/Edit.vue'),
-            meta: {
-              title: '编辑设备',
-              roles: ['admin', 'teacher']
-            }
-          },
+          
           {
             path: 'maintenance',
             name: 'EquipmentMaintenance',
@@ -153,14 +145,7 @@ const routes = [
               title: '新建预约'
             }
           },
-          {
-            path: 'edit/:id',
-            name: 'ReservationEdit',
-            component: () => import('@/views/reservations/ReservationEdit.vue'),
-            meta: {
-              title: '编辑预约'
-            }
-          },
+          
           {
             path: 'calendar',
             name: 'ReservationCalendar',

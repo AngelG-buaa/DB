@@ -94,7 +94,7 @@ def list_consumables():
                 'createdAt': r.get('created_at').isoformat() if r.get('created_at') else None,
                 'updatedAt': r.get('updated_at').isoformat() if r.get('updated_at') else None,
             })
-        return success_response({'items': items, 'total': result['pagination']['total']}, '获取耗材列表成功')
+        return paginated_response(items, result['pagination'], '获取耗材列表成功')
     except Exception as e:
         logger.error(f"获取耗材列表接口错误: {str(e)}")
         return error_response('获取耗材列表失败')

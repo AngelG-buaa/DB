@@ -111,7 +111,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { getCoursesApi } from '@/api/course'
+import { getCoursesApi, deleteCourseApi } from '@/api/course'
 import { getUsersApi } from '@/api/user'
 
 const router = useRouter()
@@ -207,8 +207,7 @@ const handleDelete = async (row) => {
       }
     )
     
-    // TODO: 调用API删除课程
-    // await api.deleteCourse(row.course_id)
+    await deleteCourseApi(row.course_id)
     
     ElMessage.success('删除成功')
     loadCourses()

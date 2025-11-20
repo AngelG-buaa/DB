@@ -153,13 +153,7 @@
           fixed="right"
         >
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="showEditDialog(row)"
-            >
-              编辑
-            </el-button>
+            
             <el-button
               type="warning"
               size="small"
@@ -636,22 +630,7 @@ const showCreateDialog = () => {
   dialogVisible.value = true
 }
 
-const showEditDialog = (row) => {
-  isEdit.value = true
-  Object.assign(equipmentForm, {
-    id: row.id,
-    name: row.name,
-    model: row.model,
-    labId: row.lab_id,
-    status: row.status,
-    price: row.price,
-    purchaseDate: row.purchase_date,
-    warrantyUntil: row.warranty_until,
-    supplier: row.supplier,
-    description: row.description
-  })
-  dialogVisible.value = true
-}
+// 编辑功能已移除
 
 const showDetail = async (row) => {
   try {

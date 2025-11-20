@@ -14,44 +14,16 @@
         label-width="120px"
         class="consumable-form"
       >
-        <el-form-item label="耗材名称" prop="spec">
-          <el-input
-            v-model="form.spec"
-            placeholder="请输入耗材名称/规格"
-            maxlength="200"
-            show-word-limit
-          />
+        <el-form-item label="耗材名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入耗材名称" maxlength="100" />
         </el-form-item>
         
-        <el-form-item label="当前库存" prop="consume_stock">
-          <el-input-number
-            v-model="form.consume_stock"
-            :min="0"
-            placeholder="请输入当前库存"
-            style="width: 200px"
-          />
-          <span style="margin-left: 10px">个</span>
-        </el-form-item>
-        
-        <el-form-item label="警告阈值" prop="warn_threshold">
-          <el-input-number
-            v-model="form.warn_threshold"
-            :min="0"
-            placeholder="请输入警告阈值"
-            style="width: 200px"
-          />
-          <span style="margin-left: 10px">个</span>
-          <el-text type="info" size="small" style="margin-left: 10px">
-            当库存低于此值时会发出警告
-          </el-text>
+        <el-form-item label="型号/规格" prop="model">
+          <el-input v-model="form.model" placeholder="请输入型号或规格" maxlength="100" />
         </el-form-item>
         
         <el-form-item label="所属实验室" prop="lab_id">
-          <el-select
-            v-model="form.lab_id"
-            placeholder="请选择实验室"
-            filterable
-          >
+          <el-select v-model="form.lab_id" placeholder="请选择实验室" filterable>
             <el-option
               v-for="lab in laboratories"
               :key="lab.lab_id"
@@ -59,6 +31,34 @@
               :value="lab.lab_id"
             />
           </el-select>
+        </el-form-item>
+        
+        <el-form-item label="单位" prop="unit">
+          <el-input v-model="form.unit" placeholder="如：个、瓶、包" />
+        </el-form-item>
+        
+        <el-form-item label="单价" prop="unit_price">
+          <el-input-number v-model="form.unit_price" :min="0" :precision="2" style="width: 200px" />
+        </el-form-item>
+        
+        <el-form-item label="当前库存" prop="current_stock">
+          <el-input-number v-model="form.current_stock" :min="0" :precision="2" style="width: 200px" />
+        </el-form-item>
+        
+        <el-form-item label="最低库存" prop="min_stock">
+          <el-input-number v-model="form.min_stock" :min="0" :precision="2" style="width: 200px" />
+        </el-form-item>
+        
+        <el-form-item label="供应商">
+          <el-input v-model="form.supplier" placeholder="请输入供应商名称" />
+        </el-form-item>
+        
+        <el-form-item label="采购日期" prop="purchase_date">
+          <el-date-picker v-model="form.purchase_date" type="date" placeholder="请选择采购日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" />
+        </el-form-item>
+        
+        <el-form-item label="描述">
+          <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请输入耗材描述" />
         </el-form-item>
         
         <el-form-item label="课程关联" prop="course_id">
@@ -92,6 +92,9 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { getLabsApi } from '@/api/lab'
+import { getCoursesApi } from '@/api/course'
+import { createConsumable } from '@/api/consumable'
 
 const router = useRouter()
 const formRef = ref()
@@ -100,43 +103,54 @@ const laboratories = ref([])
 const courses = ref([])
 
 const form = reactive({
-  spec: '',
-  consume_stock: 0,
-  warn_threshold: 10,
+  name: '',
+  model: '',
   lab_id: null,
+  unit: '个',
+  unit_price: 0,
+  current_stock: 0,
+  min_stock: 0,
+  supplier: '',
+  purchase_date: '',
+  description: '',
   course_id: null
 })
 
 const rules = {
-  spec: [
-    { required: true, message: '请输入耗材名称/规格', trigger: 'blur' },
-    { min: 2, max: 200, message: '长度在 2 到 200 个字符', trigger: 'blur' }
+  name: [
+    { required: true, message: '请输入耗材名称', trigger: 'blur' },
+    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
   ],
-  consume_stock: [
-    { required: true, message: '请输入当前库存', trigger: 'blur' },
-    { type: 'number', min: 0, message: '库存不能为负数', trigger: 'blur' }
-  ],
-  warn_threshold: [
-    { required: true, message: '请输入警告阈值', trigger: 'blur' },
-    { type: 'number', min: 0, message: '警告阈值不能为负数', trigger: 'blur' }
+  model: [
+    { required: true, message: '请输入型号/规格', trigger: 'blur' },
+    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
   ],
   lab_id: [
     { required: true, message: '请选择实验室', trigger: 'change' }
+  ],
+  unit: [
+    { required: true, message: '请输入单位', trigger: 'blur' }
+  ],
+  unit_price: [
+    { required: true, message: '请输入单价', trigger: 'blur' }
+  ],
+  current_stock: [
+    { required: true, message: '请输入当前库存', trigger: 'blur' }
+  ],
+  min_stock: [
+    { required: true, message: '请输入最低库存', trigger: 'blur' }
+  ],
+  purchase_date: [
+    { required: true, message: '请选择采购日期', trigger: 'change' }
   ]
 }
 
 const loadLaboratories = async () => {
   try {
-    // TODO: 调用API获取实验室列表
-    // const response = await api.getLaboratories()
-    // laboratories.value = response.data
-    
-    // 模拟数据
-    laboratories.value = [
-      { lab_id: 1, lab_name: '物理实验室A' },
-      { lab_id: 2, lab_name: '化学实验室B' },
-      { lab_id: 3, lab_name: '生物实验室C' }
-    ]
+    const res = await getLabsApi({ page: 1, page_size: 200 })
+    if (res.code === 200) {
+      laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+    }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
   }
@@ -144,16 +158,10 @@ const loadLaboratories = async () => {
 
 const loadCourses = async () => {
   try {
-    // TODO: 调用API获取课程列表
-    // const response = await api.getCourses()
-    // courses.value = response.data
-    
-    // 模拟数据
-    courses.value = [
-      { course_id: 1, course_name: '大学物理实验' },
-      { course_id: 2, course_name: '有机化学实验' },
-      { course_id: 3, course_name: '生物学基础实验' }
-    ]
+    const res = await getCoursesApi({ page: 1, page_size: 200 })
+    if (res.code === 200) {
+      courses.value = (res.data.list || []).map(c => ({ course_id: c.id, course_name: c.name }))
+    }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
   }
@@ -164,9 +172,19 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     loading.value = true
     
-    // TODO: 调用API创建耗材
-    // await api.createConsumable(form)
-    
+    const payload = {
+      name: form.name,
+      model: form.model,
+      laboratory_id: form.lab_id,
+      unit: form.unit,
+      unit_price: form.unit_price,
+      current_stock: form.current_stock,
+      min_stock: form.min_stock,
+      supplier: form.supplier,
+      purchase_date: form.purchase_date,
+      description: form.description
+    }
+    await createConsumable(payload)
     ElMessage.success('耗材创建成功')
     router.push('/consumable/list')
   } catch (error) {
