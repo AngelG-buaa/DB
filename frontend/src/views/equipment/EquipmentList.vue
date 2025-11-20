@@ -556,7 +556,7 @@ const hasPermission = (roles) => {
 
 const loadLabOptions = async () => {
   try {
-    const response = await getLabsApi({ page: 1, size: 100 })
+    const response = await getLabsApi({ page: 1, page_size: 100 })
     if (response.code === 200) {
       labOptions.value = response.data.list
     }
@@ -573,13 +573,10 @@ const loadTableData = async () => {
       page_size: pagination.size
     }
     
-    if (searchForm.keyword) params.keyword = searchForm.keyword
+    if (searchForm.keyword) params.search = searchForm.keyword
     if (searchForm.labId) params.laboratory_id = searchForm.labId
     if (searchForm.status) params.status = searchForm.status === 'normal' ? 'available' : (searchForm.status === 'broken' ? 'damaged' : (searchForm.status === 'scrapped' ? 'retired' : searchForm.status))
-    if (searchForm.purchaseDateRange && searchForm.purchaseDateRange.length === 2) {
-      params.purchase_date_start = searchForm.purchaseDateRange[0]
-      params.purchase_date_end = searchForm.purchaseDateRange[1]
-    }
+    // 设备列表后端未支持采购日期筛选，先不传递日期参数
     
     const response = await getEquipmentApi(params)
     if (response.code === 200) {

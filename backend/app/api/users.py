@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from config.database import execute_query, execute_update, execute_paginated_query
+from backend.init_database import execute_query, execute_update, execute_paginated_query
 from app.utils import (
     AuthUtils, require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -344,7 +344,7 @@ def delete_user(user_id):
             return not_found_response("用户不存在")
         
         # 防止删除自己
-        current_user_id = request.current_user['user_id']
+        current_user_id = request.current_user.get('id') or request.current_user.get('user_id')
         if user_id == current_user_id:
             return error_response("不能删除自己的账户")
         

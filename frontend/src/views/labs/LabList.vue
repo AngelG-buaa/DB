@@ -442,10 +442,10 @@ const loadTableData = async () => {
   try {
     const params = {
       page: pagination.page,
-      size: pagination.size
+      page_size: pagination.size
     }
     
-    if (searchForm.keyword) params.keyword = searchForm.keyword
+    if (searchForm.keyword) params.search = searchForm.keyword
     if (searchForm.status) params.status = searchForm.status
     if (searchForm.minCapacity) params.min_capacity = searchForm.minCapacity
     if (searchForm.maxCapacity) params.max_capacity = searchForm.maxCapacity

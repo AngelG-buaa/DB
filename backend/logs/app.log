@@ -1556,3 +1556,4 @@
 2025-11-19 14:56:29,873 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "[32mGET /api/labs?page=1&size=200&_t=1763535389867 HTTP/1.1[0m" 307 -
 2025-11-19 14:56:29,932 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "GET /api/users?page=1&page_size=200&role=teacher&_t=1763535389864 HTTP/1.1" 200 -
 2025-11-19 14:56:29,958 - werkzeug - INFO - 127.0.0.1 - - [19/Nov/2025 14:56:29] "GET /api/laboratories HTTP/1.1" 200 -
+2025-11-20 14:01:01,152 - __main__ - ERROR - 导入应用失败: No module named 'backend'

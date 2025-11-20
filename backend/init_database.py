@@ -35,7 +35,8 @@ def get_connection():
         user="u23373478",
         password="Aa614026",
         database="h_db23373478",
-        charset='utf8'
+        charset='utf8',
+        autocommit=True
     )
 
 def execute_update(sql, params=None):
@@ -45,11 +46,15 @@ def execute_update(sql, params=None):
         conn = get_connection()
         with conn.cursor() as cursor:
             if params is not None:
-                cursor.execute(sql, params)
+                affected_rows = cursor.execute(sql, params)
             else:
-                cursor.execute(sql)
+                affected_rows = cursor.execute(sql)
         conn.commit()
-        return { 'success': True }
+        return {
+            'success': True,
+            'affected_rows': affected_rows,
+            'last_insert_id': cursor.lastrowid
+        }
     except Exception as e:
         if conn:
             try:
@@ -57,7 +62,7 @@ def execute_update(sql, params=None):
             except Exception:
                 pass
         logger.error(f"数据库操作失败: {str(e)}")
-        return { 'success': False, 'error': str(e) }
+        return { 'success': False, 'error': str(e), 'affected_rows': 0 }
     finally:
         if conn:
             try:
@@ -87,6 +92,91 @@ def execute_query(sql, params=None):
                 conn.close()
             except Exception:
                 pass
+
+
+def execute_transaction(queries):
+    """执行事务"""
+    conn = None
+    try:
+        conn = get_connection()
+        with conn.cursor() as cursor:
+            results = []
+            for sql, params in queries:
+                if params:
+                    affected_rows = cursor.execute(sql, params)
+                else:
+                    affected_rows = cursor.execute(sql)
+                results.append({
+                    'sql': sql,
+                    'affected_rows': affected_rows,
+                    'last_insert_id': cursor.lastrowid
+                })
+        conn.commit()
+        return {
+            'success': True,
+            'results': results
+        }
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        logger.error(f"事务执行失败: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'results': []
+        }
+    finally:
+        if conn:
+            conn.close()
+
+def execute_paginated_query(sql, params=None, page=1, page_size=10):
+    """执行分页查询"""
+    conn = None
+    try:
+        conn = get_connection()
+        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            # 获取总数
+            count_sql = f"SELECT COUNT(*) as total FROM ({sql}) as count_table"
+            if params:
+                cursor.execute(count_sql, params)
+            else:
+                cursor.execute(count_sql)
+            total_result = cursor.fetchone()
+            total = total_result['total'] if total_result else 0
+
+            # 获取分页数据
+            offset = (page - 1) * page_size
+            paginated_sql = f"{sql} LIMIT %s OFFSET %s"
+            paginated_params = list(params or ()) + [page_size, offset]
+            cursor.execute(paginated_sql, paginated_params)
+            data = cursor.fetchall()
+
+            return {
+                'success': True,
+                'data': data,
+                'pagination': {
+                    'page': page,
+                    'page_size': page_size,
+                    'total': total,
+                    'total_pages': (total + page_size - 1) // page_size
+                }
+            }
+    except Exception as e:
+        logger.error(f"分页查询执行失败: {sql}, 参数: {params}, 错误: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'data': [],
+            'pagination': {
+                'page': page,
+                'page_size': page_size,
+                'total': 0,
+                'total_pages': 0
+            }
+        }
+    finally:
+        if conn:
+            conn.close()
 
 def test_connection():
     """测试数据库连接"""

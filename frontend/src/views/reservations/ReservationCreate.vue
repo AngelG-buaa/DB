@@ -270,7 +270,7 @@ watch(
 // 方法
 const loadLabOptions = async () => {
   try {
-    const response = await getLabsApi({ page: 1, size: 100 })
+    const response = await getLabsApi({ page: 1, page_size: 100 })
     if (response.code === 200) {
       labOptions.value = response.data.list
     }

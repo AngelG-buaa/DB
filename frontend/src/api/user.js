@@ -4,3 +4,8 @@ import { http } from './request'
 export const getUsersApi = (params) => {
   return http.get('/users', params)
 }
+
+// 删除用户
+export const deleteUserApi = (id) => {
+  return http.delete(`/users/${id}`)
+}

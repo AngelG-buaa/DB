@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from config.database import execute_query, execute_update, execute_paginated_query, execute_transaction
+from backend.init_database import execute_query, execute_update, execute_paginated_query, execute_transaction
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -360,16 +360,41 @@ def create_reservation():
         lab_check_sql = "SELECT id, name, status FROM laboratories WHERE id = %s"
         lab_result = execute_query(lab_check_sql, (laboratory_id,))
         
-        if not lab_result['success']:
+        logger.info(f"实验室查询SQL: {lab_check_sql}")
+        logger.info(f"实验室查询参数: {laboratory_id}")
+        logger.info(f"实验室查询结果: {lab_result}")
+        
+        try:
+            if not lab_result['success']:
+                logger.error(f"实验室查询失败: {lab_result.get('error')}")
+                return error_response("创建预约失败，请稍后重试")
+            
+            if not lab_result['data']:
+                logger.error(f"实验室不存在: ID {laboratory_id}")
+                return error_response("指定的实验室不存在")
+            
+            lab = lab_result['data'][0]
+            logger.info(f"实验室数据: {lab}")
+            logger.info(f"实验室数据类型: {type(lab)}")
+            logger.info(f"实验室数据键: {list(lab.keys()) if isinstance(lab, dict) else '不是字典'}")
+            
+            # 检查实验室数据格式
+            if not isinstance(lab, dict):
+                logger.error(f"实验室数据不是字典格式: {lab}")
+                return error_response("实验室数据格式错误")
+                
+            if 'status' not in lab:
+                logger.error(f"实验室数据缺少status字段: {lab}")
+                return error_response("实验室数据格式错误")
+            
+            # 兼容两种可用状态：active（后端新定义）与 available（实验室可用性接口使用）
+            if lab['status'] != 'available':
+                logger.error(f"实验室状态不可用: {lab['status']}")
+                return error_response(f"实验室当前状态为'{lab['status']}'，无法预约")
+                
+        except Exception as e:
+            logger.error(f"检查实验室时发生异常: {str(e)}, 结果: {lab_result}")
             return error_response("创建预约失败，请稍后重试")
-        
-        if not lab_result['data']:
-            return error_response("指定的实验室不存在")
-        
-        lab = lab_result['data'][0]
-        # 兼容两种可用状态：active（后端新定义）与 available（实验室可用性接口使用）
-        if lab['status'] != 'available':
-            return error_response(f"实验室当前状态为“{lab['status']}”，无法预约")
         
         # 检查时间冲突
         conflict_sql = """
@@ -386,10 +411,14 @@ def create_reservation():
             end_time, end_time, start_time, end_time
         ))
         
+        logger.info(f"时间冲突检查结果: {conflict_result}")
+        
         if not conflict_result['success']:
+            logger.error(f"时间冲突查询失败: {conflict_result.get('error')}")
             return error_response("创建预约失败，请稍后重试")
         
         if conflict_result['data']:
+            logger.error(f"发现时间冲突: {conflict_result['data']}")
             return conflict_response("该时间段已被预约")
         
         # 验证设备
@@ -421,11 +450,19 @@ def create_reservation():
         
         # 学生预约需要审核，教师和管理员直接确认
         status = 'confirmed' if current_user['role'] in ['admin', 'teacher'] else 'pending'
-        
+
+        # 兼容不同的用户ID字段
+        user_id = current_user.get('id') or current_user.get('user_id')
+        if not user_id:
+            logger.error(f"当前用户信息缺少ID字段: {current_user}")
+            return error_response("用户信息异常，请重新登录")
+
         insert_result = execute_update(insert_sql, (
-            current_user['id'], laboratory_id, reservation_date, start_time,
+            user_id, laboratory_id, reservation_date, start_time,
             end_time, purpose, equipment_ids_str, status
         ))
+        
+        logger.info(f"预约插入结果: {insert_result}")
         
         if not insert_result['success']:
             logger.error(f"创建预约失败: {insert_result.get('error')}")

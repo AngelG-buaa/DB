@@ -111,7 +111,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { getCoursesApi, getUsersApi } from '@/api/reservation'
+import { getCoursesApi } from '@/api/course'
+import { getUsersApi } from '@/api/user'
 
 const router = useRouter()
 const loading = ref(false)

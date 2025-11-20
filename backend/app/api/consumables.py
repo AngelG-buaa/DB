@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint, request
-from config.database import execute_query, execute_update, execute_paginated_query
+from backend.init_database import execute_query, execute_update, execute_paginated_query
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response,
@@ -19,9 +19,13 @@ consumables_bp = Blueprint('consumables', __name__)
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
     'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
+    'search': {'type': 'string', 'max_length': 100},
     'keyword': {'type': 'string', 'max_length': 100},
+    'laboratory_id': {'type': 'integer', 'min_value': 1},
     'labId': {'type': 'integer', 'min_value': 1},
     'status': {'type': 'string', 'choices': ['normal','low_stock','out_of_stock']},
+    'date_from': {'type': 'string'},
+    'date_to': {'type': 'string'},
     'startDate': {'type': 'string'},
     'endDate': {'type': 'string'}
 })
@@ -33,22 +37,27 @@ def list_consumables():
         where = []
         params = []
 
-        if p.get('keyword'):
+        search = p.get('search') or p.get('keyword')
+        lab_id = p.get('laboratory_id') or p.get('labId')
+        date_from = p.get('date_from') or p.get('startDate')
+        date_to = p.get('date_to') or p.get('endDate')
+
+        if search:
             where.append('(c.name LIKE %s OR c.model LIKE %s OR c.supplier LIKE %s)')
-            kw = f"%{p['keyword']}%"
+            kw = f"%{search}%"
             params.extend([kw, kw, kw])
-        if p.get('labId'):
+        if lab_id:
             where.append('c.laboratory_id = %s')
-            params.append(p['labId'])
+            params.append(lab_id)
         if p.get('status'):
             where.append('c.status = %s')
             params.append(p['status'])
-        if p.get('startDate'):
+        if date_from:
             where.append('c.purchase_date >= %s')
-            params.append(p['startDate'])
-        if p.get('endDate'):
+            params.append(date_from)
+        if date_to:
             where.append('c.purchase_date <= %s')
-            params.append(p['endDate'])
+            params.append(date_to)
 
         base_sql = (
             "SELECT c.id, c.name, c.model, c.laboratory_id, l.name AS lab_name, "
@@ -332,10 +341,15 @@ def consumable_stats():
 @validate_query_params({
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
     'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
+    'consumable_id': {'type': 'integer', 'min_value': 1},
     'consumableId': {'type': 'integer', 'min_value': 1},
+    'user_id': {'type': 'integer', 'min_value': 1},
     'userId': {'type': 'integer', 'min_value': 1},
+    'date_from': {'type': 'string'},
+    'date_to': {'type': 'string'},
     'dateFrom': {'type': 'string'},
     'dateTo': {'type': 'string'},
+    'search': {'type': 'string', 'max_length': 100},
     'keyword': {'type': 'string', 'max_length': 100}
 })
 def list_consumable_usage():
@@ -346,21 +360,27 @@ def list_consumable_usage():
         where = []
         params = []
 
-        if p.get('consumableId'):
+        cid = p.get('consumable_id') or p.get('consumableId')
+        uid = p.get('user_id') or p.get('userId')
+        date_from = p.get('date_from') or p.get('dateFrom')
+        date_to = p.get('date_to') or p.get('dateTo')
+        search = p.get('search') or p.get('keyword')
+
+        if cid:
             where.append('u.consumable_id = %s')
-            params.append(p['consumableId'])
-        if p.get('userId'):
+            params.append(cid)
+        if uid:
             where.append('u.user_id = %s')
-            params.append(p['userId'])
-        if p.get('dateFrom'):
+            params.append(uid)
+        if date_from:
             where.append('u.created_at >= %s')
-            params.append(p['dateFrom'])
-        if p.get('dateTo'):
+            params.append(date_from)
+        if date_to:
             where.append('u.created_at <= %s')
-            params.append(p['dateTo'])
-        if p.get('keyword'):
+            params.append(date_to)
+        if search:
             where.append('(c.name LIKE %s OR c.model LIKE %s OR users.name LIKE %s OR u.purpose LIKE %s)')
-            kw = f"%{p['keyword']}%"
+            kw = f"%{search}%"
             params.extend([kw, kw, kw, kw])
 
         base_sql = (

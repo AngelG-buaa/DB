@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from config.database import execute_query, execute_update
+from backend.init_database import execute_query, execute_update
 from app.utils import (
     AuthUtils, require_auth, validate_json_data, 
     success_response, error_response, unauthorized_response,
@@ -179,7 +179,7 @@ def register():
 def get_profile():
     """获取当前用户信息"""
     try:
-        user_id = request.current_user['user_id']
+        user_id = request.current_user.get('id') or request.current_user.get('user_id')
         
         # 查询用户详细信息
         sql = """
@@ -225,7 +225,7 @@ def get_profile():
 def update_profile():
     """更新当前用户信息"""
     try:
-        user_id = request.current_user['user_id']
+        user_id = request.current_user.get('id') or request.current_user.get('user_id')
         data = request.validated_data
         
         # 构建更新字段
@@ -308,7 +308,7 @@ def update_profile():
 def change_password():
     """修改密码"""
     try:
-        user_id = request.current_user['user_id']
+        user_id = request.current_user.get('id') or request.current_user.get('user_id')
         data = request.validated_data
         old_password = data['old_password']
         new_password = data['new_password']

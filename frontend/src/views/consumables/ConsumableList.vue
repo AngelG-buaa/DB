@@ -458,12 +458,12 @@ import {
   getConsumables, 
   createConsumable, 
   updateConsumable, 
-  deleteConsumable,
-  useConsumable,
+  deleteConsumable, 
+  useConsumable, 
   restockConsumable,
-  getConsumableStats,
-  getLaboratories
+  getConsumableStats
 } from '@/api/consumable'
+import { getLabsApi } from '@/api/lab'
 
 // 响应式数据
 const loading = ref(false)
@@ -580,15 +580,15 @@ const loadData = async () => {
     const params = {
       page: pagination.page,
       page_size: pagination.size,
-      keyword: searchForm.keyword,
-      labId: searchForm.labId || undefined,
+      search: searchForm.keyword,
+      laboratory_id: searchForm.labId || undefined,
       status: searchForm.status,
-      startDate: searchForm.purchaseDateRange?.[0],
-      endDate: searchForm.purchaseDateRange?.[1]
+      date_from: searchForm.purchaseDateRange?.[0],
+      date_to: searchForm.purchaseDateRange?.[1]
     }
     
     const response = await getConsumables(params)
-    tableData.value = response.data.items
+    tableData.value = response.data.list
     pagination.total = response.data.total
   } catch (error) {
     ElMessage.error('加载数据失败')
@@ -600,7 +600,7 @@ const loadData = async () => {
 // 加载实验室选项
 const loadLabOptions = async () => {
   try {
-    const response = await getLaboratories()
+    const response = await getLabsApi({ page: 1, page_size: 1000 })
     labOptions.value = response.code === 200 ? (response.data.list || response.data) : []
   } catch (error) {
     ElMessage.error('加载实验室选项失败')

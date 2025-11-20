@@ -208,7 +208,7 @@ const reservationStats = reactive({
 
 const loadLaboratories = async () => {
   try {
-    const response = await getLabsApi({ page: 1, size: 100 })
+    const response = await getLabsApi({ page: 1, page_size: 100 })
     laboratories.value = response.code === 200 ? (response.data.list || []) : []
   } catch (error) {
     console.error('加载实验室列表失败:', error)

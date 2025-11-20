@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from config.database import execute_query, execute_update, execute_paginated_query, execute_transaction
+from backend.init_database import execute_query, execute_update, execute_paginated_query, execute_transaction, execute_transaction
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,

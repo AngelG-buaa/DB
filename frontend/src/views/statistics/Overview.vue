@@ -149,7 +149,7 @@ const loadStats = async () => {
       getReservationStatsApi({}),
       getEquipmentStatisticsApi(),
       getMaintenanceStatsApi({}),
-      getLabsApi({ page: 1, size: 1 })
+      getLabsApi({ page: 1, page_size: 1 })
     ])
     const totalReservations = resStats.code === 200 ? (resStats.data.total_reservations || 0) : 0
     Object.assign(stats, {

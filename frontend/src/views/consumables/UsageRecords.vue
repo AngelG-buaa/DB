@@ -325,9 +325,9 @@ import {
   deleteConsumableUsage,
   getConsumableUsageStats,
   exportConsumableUsage,
-  getConsumables,
-  getLaboratories
+  getConsumables
 } from '@/api/consumable'
+import { getLabsApi } from '@/api/lab'
 
 // 响应式数据
 const loading = ref(false)
@@ -415,10 +415,10 @@ const loadData = async () => {
     const params = {
       page: pagination.page,
       page_size: pagination.size,
-      consumableId: searchForm.consumableId || undefined,
-      userId: searchForm.userId || undefined,
-      dateFrom: searchForm.usageDateRange?.[0],
-      dateTo: searchForm.usageDateRange?.[1]
+      consumable_id: searchForm.consumableId || undefined,
+      user_id: searchForm.userId || undefined,
+      date_from: searchForm.usageDateRange?.[0],
+      date_to: searchForm.usageDateRange?.[1]
     }
     
     const response = await getConsumableUsageRecords(params)
@@ -434,8 +434,8 @@ const loadData = async () => {
 // 加载耗材选项
 const loadConsumableOptions = async () => {
   try {
-    const response = await getConsumables({ size: 1000 })
-    consumableOptions.value = response.data.items
+    const response = await getConsumables({ page_size: 1000 })
+    consumableOptions.value = response.data.list || []
   } catch (error) {
     ElMessage.error('加载耗材选项失败')
   }
@@ -444,7 +444,7 @@ const loadConsumableOptions = async () => {
 // 加载实验室选项
 const loadLabOptions = async () => {
   try {
-    const response = await getLaboratories()
+    const response = await getLabsApi({ page: 1, page_size: 1000 })
     labOptions.value = response.code === 200 ? (response.data.list || response.data) : []
   } catch (error) {
     ElMessage.error('加载实验室选项失败')
@@ -487,11 +487,11 @@ const handleReset = () => {
 const handleExport = async () => {
   try {
     const params = {
-      consumableId: searchForm.consumableId,
-      labId: searchForm.labId,
-      userId: searchForm.userId,
-      startDate: searchForm.usageDateRange?.[0],
-      endDate: searchForm.usageDateRange?.[1]
+      consumable_id: searchForm.consumableId,
+      laboratory_id: searchForm.labId,
+      user_id: searchForm.userId,
+      date_from: searchForm.usageDateRange?.[0],
+      date_to: searchForm.usageDateRange?.[1]
     }
     
     await exportConsumableUsage(params)

@@ -243,7 +243,7 @@ const loadReservations = async () => {
 
 const loadLaboratories = async () => {
   try {
-    const { code, data } = await (await import('@/api/lab')).getLabsApi({ page: 1, size: 100 })
+    const { code, data } = await (await import('@/api/lab')).getLabsApi({ page: 1, page_size: 100 })
     if (code === 200) {
       laboratories.value = (data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
     }

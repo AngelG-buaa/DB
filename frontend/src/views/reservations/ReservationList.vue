@@ -301,7 +301,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
@@ -377,11 +377,11 @@ const loadReservations = async () => {
     
     const params = {
       page: pagination.page,
-      size: pagination.size,
-      lab_id: searchForm.labId || undefined,
+      page_size: pagination.size,
+      laboratory_id: searchForm.labId || undefined,
       status: searchForm.status || undefined,
-      start_date: searchForm.dateRange?.[0] || undefined,
-      end_date: searchForm.dateRange?.[1] || undefined
+      date_from: searchForm.dateRange?.[0] || undefined,
+      date_to: searchForm.dateRange?.[1] || undefined
     }
     
     const response = await getReservationsApi(params)
@@ -399,7 +399,7 @@ const loadReservations = async () => {
 
 const loadLabOptions = async () => {
   try {
-    const response = await getLabsApi({ page: 1, size: 100 })
+    const response = await getLabsApi({ page: 1, page_size: 100 })
     if (response.code === 200) {
       labOptions.value = response.data.list
     }
@@ -643,8 +643,11 @@ const getApprovalText = (action) => {
 
 // 生命周期
 onMounted(() => {
-  loadReservations()
   loadLabOptions()
+})
+
+onActivated(() => {
+  loadReservations()
 })
 </script>
 
