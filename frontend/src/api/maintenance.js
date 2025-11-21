@@ -28,3 +28,7 @@ export const completeMaintenanceRecordApi = (id, data = {}) => {
 export const getMaintenanceStatsApi = (params) => {
   return http.get('/equipment/maintenance/stats', params)
 }
+
+export const getMaintenanceTrendApi = (params) => {
+  return http.get('/equipment/maintenance/trend', params)
+}

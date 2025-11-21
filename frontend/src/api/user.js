@@ -9,3 +9,8 @@ export const getUsersApi = (params) => {
 export const deleteUserApi = (id) => {
   return http.delete(`/users/${id}`)
 }
+
+// 创建用户
+export const createUserApi = (data) => {
+  return http.post('/users', data)
+}

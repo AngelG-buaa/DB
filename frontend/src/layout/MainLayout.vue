@@ -170,6 +170,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
+import { getReservationStatsApi, getMyReservationsApi } from '@/api/reservation'
+import { getMaintenanceStatsApi } from '@/api/maintenance'
+import { getConsumableStats } from '@/api/consumable'
 
 const route = useRoute()
 const router = useRouter()
@@ -262,29 +265,48 @@ const showNotifications = () => {
 }
 
 const loadNotifications = async () => {
-  // TODO: 调用API获取通知列表
-  // const response = await getNotificationsApi()
-  // notifications.value = response.data
-  
-  // 模拟数据
-  notifications.value = [
-    {
-      id: 1,
-      title: '预约审批通过',
-      content: '您的实验室预约申请已通过审批',
-      is_read: false,
-      created_at: '2024-01-20 14:30:00'
-    },
-    {
-      id: 2,
-      title: '设备维护提醒',
-      content: '网络分析仪需要进行定期维护',
-      is_read: true,
-      created_at: '2024-01-19 09:15:00'
+  try {
+    const role = userStore.userInfo?.role || userStore.userInfo?.user_type
+    const list = []
+    if (['admin', 'teacher'].includes(role)) {
+      const [resStats, maintStats, consStats] = await Promise.all([
+        getReservationStatsApi({}),
+        getMaintenanceStatsApi({}),
+        getConsumableStats()
+      ])
+      if (resStats.code === 200) {
+        const dist = resStats.data?.status_distribution || {}
+        const pending = dist.pending || 0
+        if (pending > 0) list.push({ id: 'pending-resv', title: `待审核预约 ${pending} 条`, content: `待审核预约 ${pending} 条`, is_read: false, created_at: new Date().toISOString() })
+      }
+      if (maintStats.code === 200) {
+        const inProgress = maintStats.data?.inProgress || 0
+        if (inProgress > 0) list.push({ id: 'maint-ip', title: `设备维修进行中 ${inProgress} 条`, content: `设备维修进行中 ${inProgress} 条`, is_read: false, created_at: new Date().toISOString() })
+      }
+      if (consStats.code === 200) {
+        const low = consStats.data?.lowStock || 0
+        if (low > 0) list.push({ id: 'cons-low', title: `耗材低库存 ${low} 项`, content: `耗材低库存 ${low} 项`, is_read: false, created_at: new Date().toISOString() })
+      }
+    } else {
+      const myRes = await getMyReservationsApi({ page: 1, page_size: 200 })
+      if (myRes.code === 200) {
+        const arr = myRes.data?.list || []
+        const now = dayjs()
+        const upcoming = arr.filter(r => {
+          const date = r.reservation_date
+          const start = r.start_time || '00:00:00'
+          const dt = dayjs(`${date} ${start}`)
+          return dt.isAfter(now) && dt.diff(now, 'hour') <= 48 && ['pending', 'confirmed'].includes(r.status)
+        })
+        if (upcoming.length > 0) list.push({ id: 'my-upcoming', title: `未来48小时内有 ${upcoming.length} 条预约`, content: `未来48小时内有 ${upcoming.length} 条预约`, is_read: false, created_at: new Date().toISOString() })
+      }
     }
-  ]
-  
-  notificationCount.value = notifications.value.filter(n => !n.is_read).length
+    notifications.value = list
+    notificationCount.value = notifications.value.filter(n => !n.is_read).length
+  } catch (e) {
+    notifications.value = []
+    notificationCount.value = 0
+  }
 }
 
 const markAsRead = async (notificationId) => {

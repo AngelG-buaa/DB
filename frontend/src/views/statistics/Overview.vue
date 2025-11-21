@@ -128,6 +128,7 @@ import { getReservationStatsApi } from '@/api/reservation'
 import { getEquipmentStatisticsApi } from '@/api/equipment'
 import { getMaintenanceStatsApi } from '@/api/maintenance'
 import { getLabsApi } from '@/api/lab'
+import { getUsersApi } from '@/api/user'
 
 const reservationTrendChart = ref()
 const labUsageChart = ref()
@@ -142,30 +143,33 @@ const stats = reactive({
 })
 
 const recentActivities = ref([])
+const users = ref([])
 
 const loadStats = async () => {
   try {
-    const [resStats, eqStats, mStats, labsRes] = await Promise.all([
+    const [resStats, eqStats, mStats, labsRes, usersRes] = await Promise.all([
       getReservationStatsApi({}),
       getEquipmentStatisticsApi(),
       getMaintenanceStatsApi({}),
-      getLabsApi({ page: 1, page_size: 1 })
+      getLabsApi({ page: 1, page_size: 1 }),
+      getUsersApi({ page: 1, page_size: 1000 })
     ])
     const totalReservations = resStats.code === 200 ? (resStats.data.total_reservations || 0) : 0
     Object.assign(stats, {
       totalLabs: labsRes.code === 200 ? (labsRes?.data?.total || 0) : 0,
       totalEquipment: eqStats.code === 200 ? ((eqStats?.data?.total || eqStats?.data?.count || 0)) : 0,
-      totalUsers: 0,
+      totalUsers: usersRes.code === 200 ? (usersRes?.data?.total || 0) : 0,
       totalReservations
     })
     const daily = resStats.code === 200 ? (resStats.data.daily_trend || resStats.data.by_date || []) : []
     const labDist = resStats.code === 200 ? (resStats.data.laboratory_distribution || resStats.data.by_laboratory || []) : []
     const eqDist = eqStats.code === 200 ? (eqStats.data || {}) : {}
+    users.value = usersRes.code === 200 ? (usersRes?.data?.list || []) : []
     nextTick(() => {
       initReservationTrendChart(daily)
       initLabUsageChart(labDist)
       initEquipmentStatusChart(eqDist)
-      initUserTypeChart()
+      initUserTypeChart(users.value)
     })
   } catch (error) {
     console.error('加载统计数据失败:', error)
@@ -253,8 +257,12 @@ const initEquipmentStatusChart = (eqStats) => {
   chart.setOption(option)
 }
 
-const initUserTypeChart = () => {
+const initUserTypeChart = (list) => {
   const chart = echarts.init(userTypeChart.value)
+  const counts = { student: 0, teacher: 0, admin: 0 }
+  for (const u of (list || [])) {
+    if (u.role && counts.hasOwnProperty(u.role)) counts[u.role] += 1
+  }
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -270,7 +278,7 @@ const initUserTypeChart = () => {
       type: 'value'
     },
     series: [{
-      data: [380, 65, 11],
+      data: [counts.student, counts.teacher, counts.admin],
       type: 'bar',
       itemStyle: {
         color: '#409EFF'
@@ -283,13 +291,6 @@ const initUserTypeChart = () => {
 onMounted(async () => {
   await loadStats()
   await loadRecentActivities()
-  
-  nextTick(() => {
-    initReservationTrendChart()
-    initLabUsageChart()
-    initEquipmentStatusChart()
-    initUserTypeChart()
-  })
 })
 </script>
 

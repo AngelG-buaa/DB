@@ -23,6 +23,15 @@
           />
         </el-form-item>
         
+        <el-form-item label="邮箱" prop="email">
+          <el-input
+            v-model="form.email"
+            placeholder="请输入邮箱"
+            maxlength="100"
+            clearable
+          />
+        </el-form-item>
+        
         <el-form-item label="密码" prop="password">
           <el-input
             v-model="form.password"
@@ -60,6 +69,7 @@
             v-model="form.course_id"
             placeholder="请选择课程"
             filterable
+            @visible-change="onCourseSelectVisible"
           >
             <el-option
               v-for="course in courses"
@@ -128,15 +138,17 @@ import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getCoursesApi } from '@/api/course'
-import { createUserApi } from '@/api/user'
+import { registerApi } from '@/api/auth'
 
 const router = useRouter()
 const formRef = ref()
 const loading = ref(false)
 const courses = ref([])
+const coursesLoaded = ref(false)
 
 const form = reactive({
   user_name: '',
+  email: '',
   password: '',
   confirmPassword: '',
   user_type: 'Student',
@@ -177,6 +189,10 @@ const rules = {
   user_name: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+  ],
+  email: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { type: 'email', message: '邮箱格式不正确', trigger: ['blur', 'change'] }
   ],
   password: [
     { validator: validatePassword, trigger: 'blur' }
@@ -247,18 +263,28 @@ watch(() => form.user_type, (newVal) => {
   if (newVal !== 'Teacher') {
     form.department = ''
   }
+  if (newVal === 'Student' && !coursesLoaded.value) {
+    loadCourses()
+  }
 })
 
 const loadCourses = async () => {
   try {
-    const res = await getCoursesApi({ page: 1, page_size: 500 })
+    const res = await getCoursesApi({ page: 1, page_size: 100 })
     if (res.code === 200) {
       courses.value = (res.data.list || []).map(c => ({ course_id: c.id, course_name: c.name }))
+      coursesLoaded.value = true
     } else {
       ElMessage.error(res.message || '加载课程列表失败')
     }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
+  }
+}
+
+const onCourseSelectVisible = (visible) => {
+  if (visible && form.user_type === 'Student' && !coursesLoaded.value) {
+    loadCourses()
   }
 }
 
@@ -269,9 +295,12 @@ const handleSubmit = async () => {
     
     // 构建提交数据
     const submitData = {
-      user_name: form.user_name,
+      username: form.user_name,
+      name: form.user_name,
+      real_name: form.user_name,
+      email: form.email,
       password: form.password,
-      user_type: form.user_type
+      role: (form.user_type || '').toLowerCase()
     }
     
     if (form.user_type === 'Student') {
@@ -282,14 +311,14 @@ const handleSubmit = async () => {
       submitData.department = form.department
     }
     
-    await createUserApi(submitData)
-    
-    ElMessage.success('用户创建成功')
-    router.push('/user/list')
-  } catch (error) {
-    if (error !== false) {
-      ElMessage.error('创建失败，请重试')
+    const res = await registerApi(submitData)
+    if (res.code === 200) {
+      ElMessage.success('用户创建成功')
+      router.push('/user/list')
     }
+  } catch (error) {
+    const msg = error?.message || '创建失败，请重试'
+    ElMessage.error(msg)
   } finally {
     loading.value = false
   }
@@ -300,7 +329,6 @@ const handleCancel = () => {
 }
 
 onMounted(() => {
-  loadCourses()
 })
 </script>
 

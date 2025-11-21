@@ -309,17 +309,7 @@ const routes = [
           icon: 'UserFilled'
         }
       },
-      // 系统设置
-      {
-        path: 'settings',
-        name: 'Settings',
-        component: () => import('@/views/settings/Index.vue'),
-        meta: {
-          title: '系统设置',
-          icon: 'Setting',
-          roles: ['admin']
-        }
-      }
+      
     ]
   },
   // 404页面

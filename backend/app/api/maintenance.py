@@ -204,7 +204,7 @@ def create_maintenance_record():
 
         insert_params = (
             data['equipment_id'],
-            current_user['id'],
+            (current_user.get('id') or current_user.get('user_id')),
             data['technician'],
             data['description'],
             data.get('remarks') or '',
@@ -223,6 +223,11 @@ def create_maintenance_record():
             return error_response('创建维修记录失败')
 
         new_id = result['last_insert_id']
+        try:
+            if status in ['in_progress']:
+                execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (data['equipment_id'],))
+        except Exception:
+            pass
         detail = execute_query(
             "SELECT r.*, e.name AS equipment_name, e.model AS equipment_model "
             "FROM equipment_repair r LEFT JOIN equipment e ON r.equipment_id = e.id WHERE r.id = %s",
@@ -255,12 +260,13 @@ def update_maintenance_record(record_id):
         data = request.validated_data
 
         # 检查记录存在
-        check = execute_query("SELECT id FROM equipment_repair WHERE id = %s", (record_id,))
+        check = execute_query("SELECT id, equipment_id FROM equipment_repair WHERE id = %s", (record_id,))
         if not check['success']:
             return error_response('更新失败，请稍后重试')
         if not check['data']:
             return not_found_response('维修记录不存在')
 
+        equipment_id = check['data'][0]['equipment_id']
         fields = []
         params = []
 
@@ -284,6 +290,13 @@ def update_maintenance_record(record_id):
         if 'status' in data:
             fields.append("repair_status = %s")
             params.append(data['status'])
+            try:
+                if data['status'] == 'in_progress' and equipment_id:
+                    execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (equipment_id,))
+                elif data['status'] in ['completed', 'cancelled'] and equipment_id:
+                    execute_update("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (equipment_id,))
+            except Exception:
+                pass
 
         if not fields:
             return success_response(None, '无需更新')
@@ -368,7 +381,7 @@ def complete_maintenance_record(record_id):
         data = request.validated_data
 
         # 检查记录存在
-        check = execute_query("SELECT id FROM equipment_repair WHERE id = %s", (record_id,))
+        check = execute_query("SELECT id, equipment_id FROM equipment_repair WHERE id = %s", (record_id,))
         if not check['success']:
             return error_response('完成失败，请稍后重试')
         if not check['data']:
@@ -397,6 +410,12 @@ def complete_maintenance_record(record_id):
         result = execute_update(sql, tuple(params))
         if not result['success']:
             return error_response('更新维修完成状态失败')
+        try:
+            eq_id = check['data'][0]['equipment_id']
+            if eq_id:
+                execute_update("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (eq_id,))
+        except Exception:
+            pass
 
         # 返回最新详情
         detail = execute_query(
@@ -409,3 +428,54 @@ def complete_maintenance_record(record_id):
     except Exception as e:
         logger.error(f"完成维修记录接口错误: {str(e)}")
         return error_response('完成维修记录失败')
+
+@maintenance_bp.route('/trend', methods=['GET'])
+@require_auth
+@require_role(['admin', 'teacher'])
+@validate_query_params({
+    'months': {'type': 'integer', 'min_value': 1, 'max_value': 24, 'default': 6}
+})
+def maintenance_trend():
+    try:
+        params = request.validated_params
+        months = params.get('months', 6)
+
+        trend_sql = (
+            "SELECT DATE_FORMAT(COALESCE(start_time, report_time), '%Y-%m') AS ym, "
+            "       COUNT(*) AS count, COALESCE(SUM(repair_cost), 0) AS total_cost "
+            "FROM equipment_repair "
+            f"WHERE COALESCE(start_time, report_time) >= DATE_SUB(CURDATE(), INTERVAL {months} MONTH) "
+            "GROUP BY ym ORDER BY ym ASC"
+        )
+        result = execute_query(trend_sql, ())
+        data_map = {}
+        if not result['success']:
+            logger.error(f"维修趋势查询失败: {result.get('error')}")
+        else:
+            data_map = {row['ym']: {'month': row['ym'], 'count': row['count'], 'total_cost': float(row['total_cost'])} for row in (result['data'] or [])}
+
+        from datetime import datetime
+        months_list = []
+        now = datetime.now()
+        y = now.year
+        m = now.month
+        seq = []
+        for i in range(months-1, -1, -1):
+            mm = m - i
+            yy = y
+            while mm <= 0:
+                yy -= 1
+                mm += 12
+            seq.append((yy, mm))
+        for yy, mm in seq:
+            months_list.append(f"{yy}-{mm:02d}")
+
+        series = []
+        for ym in months_list:
+            v = data_map.get(ym, {'month': ym, 'count': 0, 'total_cost': 0.0})
+            series.append(v)
+
+        return success_response({'months': months_list, 'series': series}, '获取维修趋势成功')
+    except Exception as e:
+        logger.error(f"维修趋势接口错误: {str(e)}")
+        return error_response('获取维修趋势失败')

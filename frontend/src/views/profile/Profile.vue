@@ -399,7 +399,7 @@ const passwordRules = {
 const initProfileForm = () => {
   const info = userInfo.value
   profileForm.username = info.username || ''
-  profileForm.realName = info.real_name || ''
+  profileForm.realName = info.name || ''
   profileForm.email = info.email || ''
   profileForm.phone = info.phone || ''
   profileForm.department = info.department || ''
@@ -426,7 +426,7 @@ const saveProfile = async () => {
     saveLoading.value = true
     
     const updateData = {
-      real_name: profileForm.realName,
+      name: profileForm.realName,
       email: profileForm.email,
       phone: profileForm.phone,
       department: profileForm.department

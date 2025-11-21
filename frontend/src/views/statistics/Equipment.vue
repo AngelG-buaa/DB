@@ -117,7 +117,7 @@
       <el-col :span="12">
         <el-card>
           <template #header>
-            <span>设备类型分布</span>
+            <span>实验室设备分布</span>
           </template>
           <div ref="typeChart" style="height: 300px;"></div>
         </el-card>
@@ -137,7 +137,7 @@
       <el-col :span="12">
         <el-card>
           <template #header>
-            <span>设备使用频率</span>
+            <span>保修到期分布</span>
           </template>
           <div ref="usageFrequencyChart" style="height: 300px;"></div>
         </el-card>
@@ -160,27 +160,7 @@
       
       <el-table :data="detailData" stripe style="width: 100%">
         <el-table-column prop="lab_name" label="实验室" min-width="120" />
-        <el-table-column prop="total_equipment" label="设备总数" width="100" />
-        <el-table-column prop="normal_count" label="正常" width="80" />
-        <el-table-column prop="maintenance_count" label="维护中" width="80" />
-        <el-table-column prop="broken_count" label="故障" width="80" />
-        <el-table-column prop="normal_rate" label="正常率" width="80">
-          <template #default="{ row }">
-            <el-tag :type="row.normal_rate >= 90 ? 'success' : row.normal_rate >= 80 ? 'warning' : 'danger'">
-              {{ row.normal_rate }}%
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="avg_usage" label="平均使用率" width="100">
-          <template #default="{ row }">
-            {{ row.avg_usage }}%
-          </template>
-        </el-table-column>
-        <el-table-column prop="maintenance_cost" label="维护成本" width="100">
-          <template #default="{ row }">
-            ¥{{ row.maintenance_cost }}
-          </template>
-        </el-table-column>
+        <el-table-column prop="total_equipment" label="设备总数" width="120" />
       </el-table>
     </el-card>
   </div>
@@ -192,6 +172,7 @@ import { Monitor, Check, Tools, Warning } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import { getEquipmentStatisticsApi } from '@/api/equipment'
 import { getLabsApi } from '@/api/lab'
+import { getMaintenanceTrendApi } from '@/api/maintenance'
 
 const statusChart = ref()
 const typeChart = ref()
@@ -201,6 +182,8 @@ const maintenanceTrendChart = ref()
 
 const laboratories = ref([])
 const detailData = ref([])
+const labDist = ref([])
+const warrantySoon = ref([])
 
 const filterForm = reactive({
   lab_id: null,
@@ -234,8 +217,13 @@ const loadEquipmentStats = async () => {
       equipmentStats.normal = dist.available || 0
       equipmentStats.maintenance = dist.maintenance || 0
       equipmentStats.broken = dist.damaged || 0
+      labDist.value = d.laboratory_distribution || []
+      warrantySoon.value = d.warranty_expiring_soon || []
       nextTick(() => {
         initStatusChart()
+        initTypeChart()
+        initLabEquipmentChart()
+        initUsageFrequencyChart()
       })
     }
   } catch (error) {
@@ -250,13 +238,7 @@ const loadDetailData = async () => {
       const labs = response.data?.laboratory_distribution || []
       detailData.value = labs.map(i => ({
         lab_name: i.laboratory_name,
-        total_equipment: i.equipment_count,
-        normal_count: 0,
-        maintenance_count: 0,
-        broken_count: 0,
-        normal_rate: 0,
-        avg_usage: 0,
-        maintenance_cost: 0
+        total_equipment: i.equipment_count
       }))
     }
   } catch (error) {
@@ -293,128 +275,62 @@ const initStatusChart = () => {
 
 const initTypeChart = () => {
   const chart = echarts.init(typeChart.value)
+  const data = (labDist.value || []).map(l => ({ value: l.equipment_count, name: l.laboratory_name }))
   const option = {
-    tooltip: {
-      trigger: 'item'
-    },
-    series: [{
-      type: 'pie',
-      radius: ['40%', '70%'],
-      data: [
-        { value: 35, name: '显微镜' },
-        { value: 28, name: '计算机' },
-        { value: 25, name: '实验台' },
-        { value: 20, name: '测量仪器' },
-        { value: 20, name: '其他设备' }
-      ],
-      itemStyle: {
-        color: function(params) {
-          const colors = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399']
-          return colors[params.dataIndex]
-        }
-      }
-    }]
+    tooltip: { trigger: 'item' },
+    series: [{ type: 'pie', radius: ['40%', '70%'], data }]
   }
   chart.setOption(option)
 }
 
 const initLabEquipmentChart = () => {
   const chart = echarts.init(labEquipmentChart.value)
+  const cats = (labDist.value || []).map(l => l.laboratory_name)
+  const vals = (labDist.value || []).map(l => l.equipment_count)
   const option = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    xAxis: {
-      type: 'category',
-      data: ['物理实验室A', '化学实验室B', '生物实验室C', '计算机实验室D']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [35, 42, 28, 23],
-      type: 'bar',
-      itemStyle: {
-        color: '#409EFF'
-      }
-    }]
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    xAxis: { type: 'category', data: cats },
+    yAxis: { type: 'value' },
+    series: [{ data: vals, type: 'bar', itemStyle: { color: '#409EFF' } }]
   }
   chart.setOption(option)
 }
 
 const initUsageFrequencyChart = () => {
   const chart = echarts.init(usageFrequencyChart.value)
+  const buckets = { '0-7天': 0, '8-15天': 0, '16-30天': 0 }
+  for (const w of (warrantySoon.value || [])) {
+    const days = Number(w.days_left || 0)
+    if (days <= 7) buckets['0-7天'] += 1
+    else if (days <= 15) buckets['8-15天'] += 1
+    else buckets['16-30天'] += 1
+  }
+  const cats = Object.keys(buckets)
+  const vals = cats.map(k => buckets[k])
   const option = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    xAxis: {
-      type: 'category',
-      data: ['高频使用', '中频使用', '低频使用', '闲置']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [45, 38, 25, 20],
-      type: 'bar',
-      itemStyle: {
-        color: function(params) {
-          const colors = ['#67C23A', '#409EFF', '#E6A23C', '#F56C6C']
-          return colors[params.dataIndex]
-        }
-      }
-    }]
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: cats },
+    yAxis: { type: 'value' },
+    series: [{ data: vals, type: 'bar', itemStyle: { color: '#67C23A' } }]
   }
   chart.setOption(option)
 }
 
-const initMaintenanceTrendChart = () => {
+const initMaintenanceTrendChart = async () => {
   const chart = echarts.init(maintenanceTrendChart.value)
+  const res = await getMaintenanceTrendApi({ months: 6 })
+  const months = res.code === 200 ? (res.data.months || []) : []
+  const seriesData = res.code === 200 ? (res.data.series || []) : []
+  const counts = seriesData.map(i => i.count)
+  const costs = seriesData.map(i => i.total_cost)
   const option = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {
-      data: ['维护次数', '维护成本']
-    },
-    xAxis: {
-      type: 'category',
-      data: ['1月', '2月', '3月', '4月', '5月', '6月']
-    },
-    yAxis: [
-      {
-        type: 'value',
-        name: '维护次数',
-        position: 'left'
-      },
-      {
-        type: 'value',
-        name: '维护成本(元)',
-        position: 'right'
-      }
-    ],
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['维护次数', '维护成本'] },
+    xAxis: { type: 'category', data: months },
+    yAxis: [{ type: 'value', name: '维护次数', position: 'left' }, { type: 'value', name: '维护成本(元)', position: 'right' }],
     series: [
-      {
-        name: '维护次数',
-        type: 'bar',
-        data: [12, 8, 15, 10, 18, 14],
-        itemStyle: {
-          color: '#409EFF'
-        }
-      },
-      {
-        name: '维护成本',
-        type: 'line',
-        yAxisIndex: 1,
-        data: [15000, 12000, 18000, 14000, 22000, 16000],
-        itemStyle: {
-          color: '#E6A23C'
-        }
-      }
+      { name: '维护次数', type: 'bar', data: counts, itemStyle: { color: '#409EFF' } },
+      { name: '维护成本', type: 'line', yAxisIndex: 1, data: costs, itemStyle: { color: '#E6A23C' } }
     ]
   }
   chart.setOption(option)

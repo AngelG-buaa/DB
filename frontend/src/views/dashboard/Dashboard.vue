@@ -253,6 +253,9 @@ import * as echarts from 'echarts'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import { getReservationStatsApi, getMyReservationsApi } from '@/api/reservation'
+import { getMaintenanceStatsApi } from '@/api/maintenance'
+import { getConsumableStats } from '@/api/consumable'
+import { getLabsApi } from '@/api/lab'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -267,6 +270,8 @@ const dashboardStats = reactive({
   pendingReservations: 0,
   availableLabs: 0
 })
+
+const dashboardRaw = reactive({ byDate: [], byLaboratory: [] })
 
 const recentReservations = ref([])
 const recentNotifications = ref([])
@@ -292,10 +297,16 @@ const loadDashboardData = async () => {
     const statsRes = await getReservationStatsApi()
     if (statsRes.code === 200) {
       const d = statsRes.data || {}
-      dashboardStats.totalReservations = d.total || 0
-      dashboardStats.activeReservations = d.active || 0
-      dashboardStats.pendingReservations = d.pending || 0
-      dashboardStats.availableLabs = d.availableLabs || 0
+      const dist = d.status_distribution || {}
+      dashboardStats.totalReservations = d.total_reservations || 0
+      dashboardStats.activeReservations = (dist.confirmed || 0) + (dist.approved || 0)
+      dashboardStats.pendingReservations = dist.pending || 0
+      dashboardRaw.byDate = d.by_date || d.daily_trend || []
+      dashboardRaw.byLaboratory = d.by_laboratory || d.laboratory_distribution || []
+    }
+    const labsRes = await getLabsApi({ page: 1, page_size: 1, status: 'available' })
+    if (labsRes.code === 200) {
+      dashboardStats.availableLabs = labsRes.data.total || (Array.isArray(labsRes.data) ? labsRes.data.length : 0)
     }
     const myRes = await getMyReservationsApi({ page: 1, page_size: 5 })
     if (myRes.code === 200) {
@@ -313,75 +324,69 @@ const loadDashboardData = async () => {
   }
 }
 
+const loadDerivedNotifications = async () => {
+  try {
+    const role = userInfo.value?.role
+    const notifications = []
+    if (['admin', 'teacher'].includes(role)) {
+      const [resStats, maintStats, consStats] = await Promise.all([
+        getReservationStatsApi({}),
+        getMaintenanceStatsApi({}),
+        getConsumableStats()
+      ])
+      if (resStats.code === 200) {
+        const dist = resStats.data?.status_distribution || {}
+        const pending = dist.pending || 0
+        if (pending > 0) notifications.push({ id: 'pending-resv', title: `待审核预约 ${pending} 条`, is_read: false, created_at: new Date().toISOString() })
+      }
+      if (maintStats.code === 200) {
+        const inProgress = maintStats.data?.inProgress || 0
+        if (inProgress > 0) notifications.push({ id: 'maint-ip', title: `设备维修进行中 ${inProgress} 条`, is_read: false, created_at: new Date().toISOString() })
+      }
+      if (consStats.code === 200) {
+        const low = consStats.data?.lowStock || 0
+        if (low > 0) notifications.push({ id: 'cons-low', title: `耗材低库存 ${low} 项`, is_read: false, created_at: new Date().toISOString() })
+      }
+    } else {
+      const myRes = await getMyReservationsApi({ page: 1, page_size: 200 })
+      if (myRes.code === 200) {
+        const list = myRes.data?.list || []
+        const now = dayjs()
+        const upcoming = list.filter(r => {
+          const date = r.reservation_date
+          const start = r.start_time || '00:00:00'
+          const dt = dayjs(`${date} ${start}`)
+          return dt.isAfter(now) && dt.diff(now, 'hour') <= 48 && ['pending', 'confirmed'].includes(r.status)
+        })
+        if (upcoming.length > 0) {
+          notifications.push({ id: 'my-upcoming', title: `未来48小时内有 ${upcoming.length} 条预约`, is_read: false, created_at: new Date().toISOString() })
+        }
+      }
+    }
+    recentNotifications.value = notifications
+  } catch (error) {
+    recentNotifications.value = []
+  }
+}
+
 const initCharts = async () => {
   await nextTick()
   
   // 预约趋势图
   if (reservationChartRef.value) {
     const reservationChart = echarts.init(reservationChartRef.value)
-    const reservationOption = {
-      title: {
-        text: '最近7天预约趋势',
-        textStyle: {
-          fontSize: 14,
-          color: '#606266'
-        }
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [5, 8, 12, 6, 9, 4, 7],
-        type: 'line',
-        smooth: true,
-        itemStyle: {
-          color: '#409EFF'
-        }
-      }]
-    }
+    const last7 = (dashboardRaw.byDate || []).slice(-7)
+    const x = last7.map(i => dayjs(i.date).format('MM-DD'))
+    const y = last7.map(i => i.count)
+    const reservationOption = { title: { text: '最近7天预约趋势', textStyle: { fontSize: 14, color: '#606266' } }, tooltip: { trigger: 'axis' }, xAxis: { type: 'category', data: x }, yAxis: { type: 'value' }, series: [{ data: y, type: 'line', smooth: true, itemStyle: { color: '#409EFF' } }] }
     reservationChart.setOption(reservationOption)
   }
   
   // 实验室使用率图
   if (usageChartRef.value) {
     const usageChart = echarts.init(usageChartRef.value)
-    const usageOption = {
-      title: {
-        text: '实验室使用率',
-        textStyle: {
-          fontSize: 14,
-          color: '#606266'
-        }
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-      series: [{
-        type: 'pie',
-        radius: '60%',
-        data: [
-          { value: 35, name: '计算机实验室' },
-          { value: 25, name: '物理实验室' },
-          { value: 20, name: '化学实验室' },
-          { value: 15, name: '生物实验室' },
-          { value: 5, name: '其他' }
-        ],
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }]
-    }
+    const data = (dashboardRaw.byLaboratory || []).map(l => ({ value: l.count || l.reservation_count, name: l.laboratory_name }))
+    const usageOption = { title: { text: '实验室使用率', textStyle: { fontSize: 14, color: '#606266' } }, tooltip: { trigger: 'item' }, series: [{ type: 'pie', radius: '60%', data }] }
     usageChart.setOption(usageOption)
   }
 }
@@ -451,6 +456,7 @@ const goToCourses = () => {
 // 生命周期
 onMounted(async () => {
   await loadDashboardData()
+  await loadDerivedNotifications()
   await initCharts()
 })
 </script>

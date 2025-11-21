@@ -1,0 +1,67 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="60" cy="60" r="58" fill="#409EFF" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- 实验室烧杯主体 -->
+  <g transform="translate(30, 25)">
+    <!-- 烧杯底部 -->
+    <path d="M15 45 L45 45 L50 70 L10 70 Z" fill="#ffffff" opacity="0.9"/>
+    
+    <!-- 烧杯颈部 -->
+    <rect x="20" y="35" width="20" height="15" fill="#ffffff" opacity="0.9"/>
+    
+    <!-- 烧杯口 -->
+    <rect x="18" y="30" width="24" height="8" rx="2" fill="#ffffff"/>
+    
+    <!-- 液体 -->
+    <path d="M16 50 L44 50 L48 68 L12 68 Z" fill="#67C23A" opacity="0.8"/>
+    
+    <!-- 气泡效果 -->
+    <circle cx="25" cy="58" r="2" fill="#ffffff" opacity="0.6"/>
+    <circle cx="35" cy="55" r="1.5" fill="#ffffff" opacity="0.6"/>
+    <circle cx="30" cy="62" r="1" fill="#ffffff" opacity="0.6"/>
+  </g>
+  
+  <!-- 试管架 -->
+  <g transform="translate(65, 35)">
+    <!-- 试管1 -->
+    <rect x="0" y="10" width="6" height="25" rx="3" fill="#ffffff" opacity="0.9"/>
+    <rect x="0" y="25" width="6" height="8" fill="#F56C6C" opacity="0.8"/>
+    
+    <!-- 试管2 -->
+    <rect x="10" y="5" width="6" height="30" rx="3" fill="#ffffff" opacity="0.9"/>
+    <rect x="10" y="25" width="6" height="10" fill="#E6A23C" opacity="0.8"/>
+    
+    <!-- 试管3 -->
+    <rect x="20" y="15" width="6" height="20" rx="3" fill="#ffffff" opacity="0.9"/>
+    <rect x="20" y="28" width="6" height="7" fill="#909399" opacity="0.8"/>
+  </g>
+  
+  <!-- 分子结构装饰 -->
+  <g transform="translate(20, 85)" opacity="0.6">
+    <!-- 原子 -->
+    <circle cx="5" cy="5" r="3" fill="#ffffff"/>
+    <circle cx="15" cy="8" r="2.5" fill="#ffffff"/>
+    <circle cx="25" cy="5" r="3" fill="#ffffff"/>
+    
+    <!-- 化学键 -->
+    <line x1="8" y1="5" x2="12.5" y2="8" stroke="#ffffff" stroke-width="1.5"/>
+    <line x1="17.5" y1="8" x2="22" y2="5" stroke="#ffffff" stroke-width="1.5"/>
+  </g>
+  
+  <!-- 齿轮装饰（代表管理系统） -->
+  <g transform="translate(75, 85)" opacity="0.7">
+    <circle cx="10" cy="10" r="8" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="10" cy="10" r="4" fill="#ffffff"/>
+    <!-- 齿轮齿 -->
+    <rect x="9" y="0" width="2" height="4" fill="#ffffff"/>
+    <rect x="9" y="16" width="2" height="4" fill="#ffffff"/>
+    <rect x="0" y="9" width="4" height="2" fill="#ffffff"/>
+    <rect x="16" y="9" width="4" height="2" fill="#ffffff"/>
+  </g>
+  
+  <!-- 文字标识 -->
+  <text x="60" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff">
+    LAB SYSTEM
+  </text>
+</svg>

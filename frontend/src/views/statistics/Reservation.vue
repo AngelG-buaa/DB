@@ -180,7 +180,8 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Calendar, Check, Clock, TrendCharts } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
-import { getReservationStatsApi } from '@/api/reservation'
+import dayjs from 'dayjs'
+import { getReservationStatsApi, getReservationCalendarApi } from '@/api/reservation'
 import { getLabsApi } from '@/api/lab'
 
 const statusChart = ref()
@@ -243,35 +244,42 @@ const loadReservationStats = async () => {
 
 const loadDetailData = async () => {
   try {
-    const params = {}
+    const now = new Date()
+    const start = filterForm.dateRange?.[0] || dayjs(now).subtract(30, 'day').format('YYYY-MM-DD')
+    const end = filterForm.dateRange?.[1] || dayjs(now).format('YYYY-MM-DD')
+    const params = { start_date: start, end_date: end }
     if (filterForm.lab_id) params.laboratory_id = filterForm.lab_id
-    if (filterForm.dateRange?.length === 2) {
-      params.date_from = filterForm.dateRange[0]
-      params.date_to = filterForm.dateRange[1]
-    }
-    const response = await getReservationStatsApi(params)
-    if (response.code === 200) {
-      const statusDist = response.data.status_distribution || {}
-      const labs = response.data.by_laboratory || response.data.laboratory_distribution || []
-      detailData.value = labs.map(l => {
-        const total = l.reservation_count || l.count || 0
-        const approved = statusDist.confirmed || 0
-        const pending = statusDist.pending || 0
-        const rejected = statusDist.cancelled || 0
-        const completed = statusDist.completed || 0
-        const approvalRate = total > 0 ? Number(((approved / total) * 100).toFixed(1)) : 0
-        return {
-          lab_name: l.laboratory_name,
-          total_reservations: total,
-          approved_count: approved,
-          pending_count: pending,
-          rejected_count: rejected,
-          completed_count: completed,
-          approval_rate: approvalRate,
-          utilization_rate: 0
+    if (filterForm.status) params.status = filterForm.status
+    const res = await getReservationCalendarApi(params)
+    const groups = {}
+    if (res.code === 200) {
+      for (const r of (res.data || [])) {
+        const name = r.laboratory_name || '未知实验室'
+        if (!groups[name]) {
+          groups[name] = { total: 0, approved: 0, pending: 0, rejected: 0, completed: 0 }
         }
-      })
+        groups[name].total += 1
+        const s = r.status
+        if (s === 'confirmed') groups[name].approved += 1
+        else if (s === 'pending') groups[name].pending += 1
+        else if (s === 'cancelled') groups[name].rejected += 1
+        else if (s === 'completed') groups[name].completed += 1
+      }
     }
+    detailData.value = Object.keys(groups).map(name => {
+      const g = groups[name]
+      const approvalRate = g.total > 0 ? Number(((g.approved / g.total) * 100).toFixed(1)) : 0
+      return {
+        lab_name: name,
+        total_reservations: g.total,
+        approved_count: g.approved,
+        pending_count: g.pending,
+        rejected_count: g.rejected,
+        completed_count: g.completed,
+        approval_rate: approvalRate,
+        utilization_rate: 0
+      }
+    })
   } catch (error) {
     console.error('加载详细统计失败:', error)
   }
@@ -338,27 +346,25 @@ const initLabRankingChartData = (labs) => {
   chart.setOption(option)
 }
 
-const initTimeSlotChart = () => {
-  const chart = echarts.init(timeSlotChart.value)
-  const option = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    xAxis: {
-      type: 'category',
-      data: ['8:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [25, 45, 35, 65, 55, 40, 20],
-      type: 'bar',
-      itemStyle: {
-        color: '#E6A23C'
-      }
-    }]
+const loadTimeSlotData = async () => {
+  const now = new Date()
+  const start = filterForm.dateRange?.[0] || dayjs(now).subtract(7, 'day').format('YYYY-MM-DD')
+  const end = filterForm.dateRange?.[1] || dayjs(now).format('YYYY-MM-DD')
+  const params = { start_date: start, end_date: end }
+  if (filterForm.lab_id) params.laboratory_id = filterForm.lab_id
+  if (filterForm.status) params.status = filterForm.status
+  const res = await getReservationCalendarApi(params)
+  const slots = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
+  const counts = new Array(slots.length).fill(0)
+  if (res.code === 200) {
+    for (const r of (res.data || [])) {
+      const h = dayjs(r.start_time).format('HH:mm')
+      const idx = slots.findIndex(s => h <= s)
+      if (idx >= 0) counts[idx] += 1
+    }
   }
+  const chart = echarts.init(timeSlotChart.value)
+  const option = { tooltip: { trigger: 'axis' }, xAxis: { type: 'category', data: slots.map(s => s.replace(':', ':')) }, yAxis: { type: 'value' }, series: [{ data: counts, type: 'bar', itemStyle: { color: '#E6A23C' } }] }
   chart.setOption(option)
 }
 
@@ -368,9 +374,7 @@ const handleFilter = async () => {
   
   nextTick(() => {
     initStatusChart()
-    initDailyTrendChart()
-    initLabRankingChart()
-    initTimeSlotChart()
+    loadTimeSlotData()
   })
 }
 
@@ -390,9 +394,7 @@ onMounted(async () => {
   
   nextTick(() => {
     initStatusChart()
-    initDailyTrendChart()
-    initLabRankingChart()
-    initTimeSlotChart()
+    loadTimeSlotData()
   })
 })
 </script>

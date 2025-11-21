@@ -98,10 +98,10 @@
         
         <el-table-column prop="purpose" label="使用目的" min-width="150" show-overflow-tooltip />
         
-        <el-table-column label="预约人" width="120">
+        <el-table-column label="预约人" width="140">
           <template #default="{ row }">
-            <div>{{ row.user_name }}</div>
-            <div class="text-secondary">{{ getUserTypeText(row.user_type) }}</div>
+            <div>{{ getUserName(row) }}</div>
+            <div class="text-secondary">{{ getUserTypeText(normalizeUserType(row)) }}</div>
           </template>
         </el-table-column>
         
@@ -121,16 +121,9 @@
         
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="viewDetail(row)"
-            >
-              查看
-            </el-button>
-            
-            
-            
+            <el-button type="primary" size="small" @click="viewDetail(row)">查看</el-button>
+            <el-button v-if="canDelete(row)" type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+
             <el-dropdown
               v-if="canOperate(row)"
               @command="handleCommand"
@@ -571,7 +564,9 @@ const canCancel = (row) => {
 
 const canDelete = (row) => {
   const userInfo = userStore.userInfo
-  return userInfo.user_type === 'admin'
+  if (userInfo.user_type === 'admin') return true
+  if (userInfo.user_type === 'teacher') return row.user_id === userInfo.id
+  return false
 }
 
 // 工具方法
@@ -628,6 +623,14 @@ const getUserTypeText = (userType) => {
   return typeMap[userType] || '未知'
 }
 
+const normalizeUserType = (row) => {
+  return row.user_type || row.role || row.userRole || (row.user && (row.user.role || row.user.user_type)) || ''
+}
+
+const getUserName = (row) => {
+  return row.user_name || row.real_name || row.username || (row.user && (row.user.real_name || row.user.username)) || '未知'
+}
+
 const getApprovalType = (action) => {
   const typeMap = {
     approve: 'success',
@@ -649,6 +652,7 @@ const getApprovalText = (action) => {
 // 生命周期
 onMounted(() => {
   loadLabOptions()
+  loadReservations()
 })
 
 onActivated(() => {

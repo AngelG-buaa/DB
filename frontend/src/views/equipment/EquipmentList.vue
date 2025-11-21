@@ -78,10 +78,7 @@
               <el-icon><Refresh /></el-icon>
               重置
             </el-button>
-            <el-button type="success" @click="exportData">
-              <el-icon><Download /></el-icon>
-              导出
-            </el-button>
+            
           </el-col>
         </el-row>
       </div>
@@ -424,7 +421,7 @@
 import { ref, reactive, computed, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Search, Refresh, Download } from '@element-plus/icons-vue'
+import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user'
 import {
@@ -485,7 +482,10 @@ const maintenanceForm = reactive({
   description: '',
   cost: 0,
   technician: '',
-  expectedCompletionDate: ''
+  startDate: dayjs().format('YYYY-MM-DD'),
+  expectedCompletionDate: '',
+  status: 'in_progress',
+  remarks: ''
 })
 
 // 计算属性
@@ -583,7 +583,7 @@ const loadTableData = async () => {
         status: e.status === 'available' ? 'normal' : (e.status === 'damaged' ? 'broken' : (e.status === 'retired' ? 'scrapped' : e.status)),
         price: e.price || 0,
         purchase_date: e.purchase_date,
-        warranty_until: e.warranty_date,
+        warranty_until: e.warranty_until || e.warranty_date,
         supplier: e.supplier || '',
         description: e.description,
         maintenance_count: e.maintenance_count || 0,
@@ -651,7 +651,10 @@ const showMaintenanceDialog = (row) => {
   maintenanceForm.description = ''
   maintenanceForm.cost = 0
   maintenanceForm.technician = ''
+  maintenanceForm.startDate = dayjs().format('YYYY-MM-DD')
   maintenanceForm.expectedCompletionDate = ''
+  maintenanceForm.status = 'in_progress'
+  maintenanceForm.remarks = ''
   maintenanceDialogVisible.value = true
 }
 
@@ -663,10 +666,7 @@ const goToLab = (labId) => {
   router.push(`/laboratory/list?id=${labId}`)
 }
 
-const exportData = () => {
-  // 导出功能实现
-  ElMessage.info('导出功能开发中...')
-}
+
 
 const handleSubmit = async () => {
   if (!equipmentFormRef.value) return
@@ -710,12 +710,30 @@ const handleMaintenanceSubmit = async () => {
     maintenanceSubmitLoading.value = true
     
     const submitData = {
-      equipment_id: maintenanceForm.equipmentId,
-      type: maintenanceForm.type,
-      description: maintenanceForm.description,
-      cost: maintenanceForm.cost,
+      equipment_id: Number(maintenanceForm.equipmentId),
+      equipment: { id: Number(maintenanceForm.equipmentId) },
+      reporter_id: Number(userInfo.value?.id),
+      repair_person: maintenanceForm.technician,
       technician: maintenanceForm.technician,
-      expected_completion_date: maintenanceForm.expectedCompletionDate
+      fault_description: maintenanceForm.description,
+      description: maintenanceForm.description,
+      repair_description: '',
+      repair_cost: Number(maintenanceForm.cost) || 0,
+      cost: Number(maintenanceForm.cost) || 0,
+      repair_status: maintenanceForm.status || 'reported',
+      status: maintenanceForm.status || 'reported',
+      priority: 'medium',
+      report_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      start_time: maintenanceForm.startDate ? dayjs(maintenanceForm.startDate).format('YYYY-MM-DD HH:mm:ss') : null,
+      start_date: maintenanceForm.startDate || null,
+      finish_time: null,
+      expected_finish_date: maintenanceForm.expectedCompletionDate || null,
+      expected_completion_date: maintenanceForm.expectedCompletionDate || null,
+      parts_used: null,
+      warranty_info: '',
+      remarks: maintenanceForm.remarks || '',
+      repair_type: maintenanceForm.type,
+      type: maintenanceForm.type
     }
     
     const response = await createMaintenanceRecordApi(submitData)
@@ -725,7 +743,8 @@ const handleMaintenanceSubmit = async () => {
       loadTableData()
     }
   } catch (error) {
-    console.error('提交维修记录失败:', error)
+    const msg = error?.response?.data?.message || error?.message || '创建维修记录失败'
+    ElMessage.error(msg)
   } finally {
     maintenanceSubmitLoading.value = false
   }
@@ -778,7 +797,7 @@ const formatDateTime = (datetime) => {
 }
 
 const formatDate = (date) => {
-  return dayjs(date).format('YYYY-MM-DD')
+  return dayjs(date).isValid() ? dayjs(date).format('YYYY-MM-DD') : '-'
 }
 
 const formatPrice = (price) => {
@@ -786,7 +805,7 @@ const formatPrice = (price) => {
 }
 
 const isWarrantyExpired = (warrantyUntil) => {
-  return dayjs(warrantyUntil).isBefore(dayjs())
+  return dayjs(warrantyUntil).isValid() ? dayjs(warrantyUntil).isBefore(dayjs()) : false
 }
 
 const getStatusType = (status) => {

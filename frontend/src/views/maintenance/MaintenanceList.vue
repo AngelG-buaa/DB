@@ -516,7 +516,7 @@ const hasPermission = (roles) => {
 
 const loadEquipmentOptions = async () => {
   try {
-    const response = await getEquipmentApi({ page: 1, size: 1000 })
+    const response = await getEquipmentApi({ page: 1, page_size: 1000 })
     if (response.code === 200) {
       equipmentOptions.value = response.data.list
     }
@@ -663,15 +663,31 @@ const handleSubmit = async () => {
     submitLoading.value = true
     
     const submitData = {
-      equipment_id: maintenanceForm.equipmentId,
-      type: maintenanceForm.type,
-      description: maintenanceForm.description,
+      equipment_id: Number(maintenanceForm.equipmentId),
+      equipment: { id: Number(maintenanceForm.equipmentId) },
+      reporter_id: Number(userInfo.value?.id),
+      repair_person: maintenanceForm.technician,
       technician: maintenanceForm.technician,
-      cost: maintenanceForm.cost,
-      start_date: maintenanceForm.startDate,
-      expected_completion_date: maintenanceForm.expectedCompletionDate,
-      status: maintenanceForm.status,
-      remarks: maintenanceForm.remarks
+      fault_description: maintenanceForm.description,
+      description: maintenanceForm.description,
+      repair_description: '',
+      repair_cost: Number(maintenanceForm.cost) || 0,
+      cost: Number(maintenanceForm.cost) || 0,
+      repair_status: maintenanceForm.status || 'reported',
+      status: maintenanceForm.status || 'reported',
+      priority: 'medium',
+      report_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      start_time: maintenanceForm.startDate ? dayjs(maintenanceForm.startDate).format('YYYY-MM-DD HH:mm:ss') : null,
+      start_date: maintenanceForm.startDate || null,
+      finish_time: maintenanceForm.actualCompletionDate ? dayjs(maintenanceForm.actualCompletionDate).format('YYYY-MM-DD HH:mm:ss') : null,
+      actual_completion_date: maintenanceForm.actualCompletionDate || null,
+      expected_finish_date: maintenanceForm.expectedCompletionDate || null,
+      expected_completion_date: maintenanceForm.expectedCompletionDate || null,
+      parts_used: null,
+      warranty_info: '',
+      remarks: maintenanceForm.remarks || '',
+      repair_type: maintenanceForm.type,
+      type: maintenanceForm.type
     }
     
     if (maintenanceForm.actualCompletionDate) {
@@ -689,7 +705,8 @@ const handleSubmit = async () => {
       loadStats()
     }
   } catch (error) {
-    console.error('提交失败:', error)
+    const msg = error?.response?.data?.message || error?.message || '创建维修记录失败'
+    ElMessage.error(msg)
   } finally {
     submitLoading.value = false
   }

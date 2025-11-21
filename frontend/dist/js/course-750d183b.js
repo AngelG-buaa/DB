@@ -1,0 +1,1 @@
+import{aK as r}from"./index-0407e335.js";const o=e=>r.get("/courses",e),u=e=>r.get(`/courses/${e}`),n=e=>r.post("/courses",e),c=(e,s)=>r.put(`/courses/${e}`,s),p=e=>r.delete(`/courses/${e}`),i=(e,s)=>r.get(`/courses/${e}/reservations`,s);export{n as createCourseApi,p as deleteCourseApi,u as getCourseByIdApi,i as getCourseReservationsApi,o as getCoursesApi,c as updateCourseApi};

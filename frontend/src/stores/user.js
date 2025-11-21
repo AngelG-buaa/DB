@@ -19,18 +19,18 @@ export const useUserStore = defineStore('user', () => {
   // 登录
   const login = async (loginForm) => {
     try {
-      const response = await loginApi(loginForm)
-      if (response.success) {
-        const { token: userToken, user: info } = response.data
+      const payload = { username: loginForm.username, password: loginForm.password }
+      const response = await loginApi(payload)
+      const ok = response.success === true || response.code === 200
+      if (ok) {
+        const data = response.data || {}
+        const userToken = data.token || data.access_token || ''
+        const info = data.user || data.profile || data
         
-        // 保存token
         token.value = userToken
-        Cookies.set('token', userToken, { expires: 7 }) // 7天过期
+        if (userToken) Cookies.set('token', userToken, { expires: 7 })
         
-        // 保存用户信息
         userInfo.value = info
-        
-        // 获取用户权限
         await getUserPermissions()
         
         ElMessage.success('登录成功')
@@ -40,7 +40,6 @@ export const useUserStore = defineStore('user', () => {
         return Promise.reject(response)
       }
     } catch (error) {
-      // 错误提示已由请求拦截器统一处理，这里仅透传错误
       return Promise.reject(error)
     }
   }
