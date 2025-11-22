@@ -373,8 +373,21 @@ const loadReservations = async () => {
     const response = await getReservationsApi(params)
     
     if (response.code === 200) {
-      reservationList.value = response.data.list
-      pagination.total = response.data.total
+      const list = response.data.list || []
+      reservationList.value = list.map(r => ({
+        id: r.id,
+        lab_name: r.laboratory?.name || '',
+        reservation_date: r.reservation_date,
+        start_time: r.start_time,
+        end_time: r.end_time,
+        purpose: r.purpose,
+        status: r.status,
+        user_name: r.user?.name || '',
+        created_at: r.created_at,
+        updated_at: r.updated_at,
+        user_type: r.user?.role || r.user?.user_type
+      }))
+      pagination.total = response.data.total || list.length
     }
   } catch (error) {
     console.error('加载预约列表失败:', error)
@@ -422,7 +435,12 @@ const viewDetail = async (row) => {
   try {
     const response = await getReservationByIdApi(row.id)
     if (response.code === 200) {
-      currentReservation.value = response.data
+      const d = response.data
+      currentReservation.value = {
+        ...d,
+        lab_name: d.laboratory?.name || '',
+        user_name: d.user?.name || ''
+      }
       detailDialogVisible.value = true
     }
   } catch (error) {
@@ -628,7 +646,7 @@ const normalizeUserType = (row) => {
 }
 
 const getUserName = (row) => {
-  return row.user_name || row.real_name || row.username || (row.user && (row.user.real_name || row.user.username)) || '未知'
+  return row.user_name || row.username || (row.user && (row.user.name || row.user.username)) || '未知'
 }
 
 const getApprovalType = (action) => {

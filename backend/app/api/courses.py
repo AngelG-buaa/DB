@@ -67,13 +67,30 @@ def get_courses():
             query_params.extend([search_param, search_param, search_param])
         
         # 构建SQL
-        base_sql = """
-        SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
-               c.status, c.created_at, c.updated_at,
-               u.name as teacher_name, u.email as teacher_email
-        FROM courses c
-        LEFT JOIN users u ON c.teacher_id = u.id
-        """
+        # 检查课程表是否有实验室相关字段
+        has_cols = execute_query(
+            "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME IN ('requires_lab','laboratory_id') LIMIT 1"
+        )
+        has_lab_fields = has_cols.get('success') and bool(has_cols.get('data'))
+        if has_lab_fields:
+            base_sql = """
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester,
+                   c.status, c.created_at, c.updated_at,
+                   c.requires_lab, c.laboratory_id,
+                   u.name as teacher_name, u.email as teacher_email,
+                   l.name as laboratory_name
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            LEFT JOIN laboratories l ON c.laboratory_id = l.id
+            """
+        else:
+            base_sql = """
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
+                   c.status, c.created_at, c.updated_at,
+                   u.name as teacher_name, u.email as teacher_email
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            """
         
         if where_conditions:
             base_sql += ' WHERE ' + ' AND '.join(where_conditions)
@@ -97,7 +114,7 @@ def get_courses():
             if student_count_result['success'] and student_count_result['data']:
                 student_count = student_count_result['data'][0]['count']
             
-            courses.append({
+            item = {
                 'id': course['id'],
                 'name': course['name'],
                 'code': course['code'],
@@ -112,7 +129,12 @@ def get_courses():
                 } if course['teacher_name'] else None,
                 'created_at': course['created_at'].isoformat() if course['created_at'] else None,
                 'updated_at': course['updated_at'].isoformat() if course['updated_at'] else None
-            })
+            }
+            if has_lab_fields:
+                item['requires_lab'] = bool(course.get('requires_lab'))
+                item['laboratory_id'] = course.get('laboratory_id')
+                item['laboratory_name'] = course.get('laboratory_name')
+            courses.append(item)
         
         return paginated_response(courses, result['pagination'], "获取课程列表成功")
         
@@ -136,14 +158,30 @@ def get_course(course_id):
             where_condition += " AND c.teacher_id = %s"
             query_params.append(current_user['id'])
         
-        sql = f"""
-        SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
-               c.status, c.created_at, c.updated_at,
-               c.teacher_id, u.name as teacher_name, u.email as teacher_email
-        FROM courses c
-        LEFT JOIN users u ON c.teacher_id = u.id
-        WHERE {where_condition}
-        """
+        has_cols = execute_query(
+            "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME IN ('requires_lab','laboratory_id') LIMIT 1"
+        )
+        has_lab_fields = has_cols.get('success') and bool(has_cols.get('data'))
+        if has_lab_fields:
+            sql = f"""
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester,
+                   c.status, c.created_at, c.updated_at,
+                   c.teacher_id, u.name as teacher_name, u.email as teacher_email,
+                   c.requires_lab, c.laboratory_id, l.name as laboratory_name
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            LEFT JOIN laboratories l ON c.laboratory_id = l.id
+            WHERE {where_condition}
+            """
+        else:
+            sql = f"""
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
+                   c.status, c.created_at, c.updated_at,
+                   c.teacher_id, u.name as teacher_name, u.email as teacher_email
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            WHERE {where_condition}
+            """
         
         result = execute_query(sql, tuple(query_params))
         
@@ -195,6 +233,10 @@ def get_course(course_id):
             'created_at': course['created_at'].isoformat() if course['created_at'] else None,
             'updated_at': course['updated_at'].isoformat() if course['updated_at'] else None
         }
+        if has_lab_fields:
+            course_info['requires_lab'] = bool(course.get('requires_lab'))
+            course_info['laboratory_id'] = course.get('laboratory_id')
+            course_info['laboratory_name'] = course.get('laboratory_name')
         
         return success_response(course_info, "获取课程详情成功")
         
@@ -212,7 +254,9 @@ def get_course(course_id):
     'credits': {'required': True, 'type': 'integer', 'min_value': 1, 'max_value': 10},
     'semester': {'required': True, 'type': 'string', 'min_length': 1, 'max_length': 20},
     'teacher_id': {'required': False, 'type': 'integer', 'min_value': 1},
-    'status': {'required': False, 'type': 'string', 'choices': ['active', 'inactive', 'completed']}
+    'status': {'required': False, 'type': 'string', 'choices': ['active', 'inactive', 'completed']},
+    'requires_lab': {'required': False, 'type': 'integer', 'min_value': 0, 'max_value': 1},
+    'laboratory_id': {'required': False, 'type': 'integer', 'min_value': 1}
 })
 def create_course():
     """创建课程"""
@@ -226,6 +270,9 @@ def create_course():
         credits = data['credits']
         semester = data['semester']
         status = data.get('status', 'active')
+        requires_lab_flag = int(data.get('requires_lab') or 0)
+        requires_lab = 1 if requires_lab_flag == 1 else 0
+        laboratory_id = data.get('laboratory_id')
         
         # 确定教师ID
         if current_user['role'] == 'admin':
@@ -254,14 +301,35 @@ def create_course():
         if code_result['data']:
             return conflict_response("该学期已存在相同课程代码")
         
-        # 插入新课程
-        insert_sql = """
-        INSERT INTO courses (name, code, description, credits, semester, teacher_id, status, created_at)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
-        """
-        insert_result = execute_update(insert_sql, (
-            name, code, description, credits, semester, teacher_id, status
-        ))
+        # 验证实验室（如果需要）
+        if requires_lab == 1:
+            if not laboratory_id:
+                return error_response("请选择关联实验室")
+            lab_check = execute_query("SELECT id FROM laboratories WHERE id = %s", (laboratory_id,))
+            if not (lab_check['success'] and lab_check['data']):
+                return not_found_response("关联实验室不存在")
+
+        # 插入新课程（兼容无新列的环境）
+        has_cols = execute_query(
+            "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME='requires_lab' LIMIT 1"
+        )
+        has_lab_fields = has_cols.get('success') and bool(has_cols.get('data'))
+        if has_lab_fields:
+            insert_sql = """
+            INSERT INTO courses (name, code, description, credits, semester, teacher_id, status, requires_lab, laboratory_id, created_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+            """
+            insert_result = execute_update(insert_sql, (
+                name, code, description, credits, semester, teacher_id, status, requires_lab, laboratory_id
+            ))
+        else:
+            insert_sql = """
+            INSERT INTO courses (name, code, description, credits, semester, teacher_id, status, created_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+            """
+            insert_result = execute_update(insert_sql, (
+                name, code, description, credits, semester, teacher_id, status
+            ))
         
         if not insert_result['success']:
             logger.error(f"创建课程失败: {insert_result.get('error')}")
@@ -269,14 +337,27 @@ def create_course():
         
         # 获取新创建的课程信息
         course_id = insert_result['last_insert_id']
-        course_sql = """
-        SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
-               c.status, c.created_at,
-               u.name as teacher_name, u.email as teacher_email
-        FROM courses c
-        LEFT JOIN users u ON c.teacher_id = u.id
-        WHERE c.id = %s
-        """
+        if has_lab_fields:
+            course_sql = """
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester,
+                   c.status, c.created_at,
+                   c.requires_lab, c.laboratory_id,
+                   u.name as teacher_name, u.email as teacher_email,
+                   l.name as laboratory_name
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            LEFT JOIN laboratories l ON c.laboratory_id = l.id
+            WHERE c.id = %s
+            """
+        else:
+            course_sql = """
+            SELECT c.id, c.name, c.code, c.description, c.credits, c.semester, 
+                   c.status, c.created_at,
+                   u.name as teacher_name, u.email as teacher_email
+            FROM courses c
+            LEFT JOIN users u ON c.teacher_id = u.id
+            WHERE c.id = %s
+            """
         course_result = execute_query(course_sql, (course_id,))
         
         if course_result['success'] and course_result['data']:
@@ -296,6 +377,10 @@ def create_course():
                 'student_count': 0,
                 'created_at': course['created_at'].isoformat() if course['created_at'] else None
             }
+            if has_lab_fields:
+                course_info['requires_lab'] = bool(course.get('requires_lab'))
+                course_info['laboratory_id'] = course.get('laboratory_id')
+                course_info['laboratory_name'] = course.get('laboratory_name')
             
             return created_response(course_info, "课程创建成功")
         
@@ -315,7 +400,9 @@ def create_course():
     'credits': {'required': False, 'type': 'integer', 'min_value': 1, 'max_value': 10},
     'semester': {'required': False, 'type': 'string', 'min_length': 1, 'max_length': 20},
     'teacher_id': {'required': False, 'type': 'integer', 'min_value': 1},
-    'status': {'required': False, 'type': 'string', 'choices': ['active', 'inactive', 'completed']}
+    'status': {'required': False, 'type': 'string', 'choices': ['active', 'inactive', 'completed']},
+    'requires_lab': {'required': False, 'type': 'integer', 'min_value': 0, 'max_value': 1},
+    'laboratory_id': {'required': False, 'type': 'integer', 'min_value': 1}
 })
 def update_course(course_id):
     """更新课程信息"""
@@ -409,6 +496,30 @@ def update_course(course_id):
         if 'status' in data and data['status'] is not None:
             update_fields.append('status = %s')
             update_values.append(data['status'])
+
+        # 课程实验室设置
+        has_cols = execute_query(
+            "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME='requires_lab' LIMIT 1"
+        )
+        has_lab_fields = has_cols.get('success') and bool(has_cols.get('data'))
+        if has_lab_fields:
+            if 'requires_lab' in data and data['requires_lab'] is not None:
+                rl = 1 if int(data['requires_lab']) == 1 else 0
+                update_fields.append('requires_lab = %s')
+                update_values.append(rl)
+                # 如果不需要实验室，清空 laboratory_id
+                if rl == 0:
+                    update_fields.append('laboratory_id = %s')
+                    update_values.append(None)
+            if 'laboratory_id' in data:
+                lab_id = data.get('laboratory_id')
+                if lab_id is not None:
+                    # 验证实验室存在
+                    lab_check = execute_query("SELECT id FROM laboratories WHERE id = %s", (lab_id,))
+                    if not (lab_check['success'] and lab_check['data']):
+                        return not_found_response("关联实验室不存在")
+                update_fields.append('laboratory_id = %s')
+                update_values.append(lab_id)
         
         if not update_fields:
             return error_response("没有需要更新的字段")

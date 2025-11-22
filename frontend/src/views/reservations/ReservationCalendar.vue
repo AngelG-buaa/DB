@@ -117,23 +117,6 @@
         </el-calendar>
       </div>
       
-      <!-- 统计信息 -->
-      <div class="stats-section">
-        <el-row :gutter="20">
-          <el-col :span="6">
-            <el-statistic title="总预约数" :value="stats.total" />
-          </el-col>
-          <el-col :span="6">
-            <el-statistic title="待审核" :value="stats.pending" />
-          </el-col>
-          <el-col :span="6">
-            <el-statistic title="已通过" :value="stats.approved" />
-          </el-col>
-          <el-col :span="6">
-            <el-statistic title="本月预约" :value="stats.thisMonth" />
-          </el-col>
-        </el-row>
-      </div>
     </el-card>
     
     <!-- 预约详情对话框 -->
@@ -232,8 +215,7 @@ import {
   getReservationCalendarApi,
   approveReservationApi,
   rejectReservationApi,
-  cancelReservationApi,
-  getReservationStatsApi
+  cancelReservationApi
 } from '@/api/reservation'
 import { getLabsApi } from '@/api/lab'
 
@@ -246,12 +228,6 @@ const detailDialogVisible = ref(false)
 const selectedReservation = ref(null)
 const labOptions = ref([])
 const reservations = ref([])
-const stats = ref({
-  total: 0,
-  pending: 0,
-  approved: 0,
-  thisMonth: 0
-})
 
 const filterForm = reactive({
   labId: '',
@@ -304,19 +280,6 @@ const loadCalendarData = async () => {
   }
 }
 
-const loadStats = async () => {
-  try {
-    const params = {}
-    if (filterForm.onlyMine) params.user_id = userInfo.value.id
-    
-    const response = await getReservationStatsApi(params)
-    if (response.code === 200) {
-      stats.value = response.data
-    }
-  } catch (error) {
-    console.error('加载统计数据失败:', error)
-  }
-}
 
 const getDateReservations = (date) => {
   return reservations.value.filter(reservation => {
@@ -357,7 +320,6 @@ const goToCreate = () => {
 
 const refreshCalendar = () => {
   loadCalendarData()
-  loadStats()
 }
 
 const editReservation = () => {
@@ -490,7 +452,6 @@ watch(currentDate, () => {
 onMounted(() => {
   loadLabOptions()
   loadCalendarData()
-  loadStats()
 })
 </script>
 

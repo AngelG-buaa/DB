@@ -87,9 +87,9 @@
             <el-dropdown @command="handleUserCommand">
               <div class="user-info">
                 <el-avatar :size="32" :src="userStore.userInfo?.avatar">
-                  {{ userStore.userInfo?.real_name?.charAt(0) }}
+                  {{ (userStore.userInfo?.name || userStore.userInfo?.username || '').charAt(0) }}
                 </el-avatar>
-                <span class="username">{{ userStore.userInfo?.real_name }}</span>
+                <span class="username">{{ userStore.userInfo?.name || userStore.userInfo?.username }}</span>
                 <el-icon><ArrowDown /></el-icon>
               </div>
               <template #dropdown>
@@ -98,10 +98,7 @@
                     <el-icon><User /></el-icon>
                     个人中心
                   </el-dropdown-item>
-                  <el-dropdown-item command="settings" v-if="userStore.isAdmin">
-                    <el-icon><Setting /></el-icon>
-                    系统设置
-                  </el-dropdown-item>
+                  
                   <el-dropdown-item divided command="logout">
                     <el-icon><SwitchButton /></el-icon>
                     退出登录
@@ -234,9 +231,6 @@ const handleUserCommand = (command) => {
     case 'profile':
       router.push('/profile')
       break
-    case 'settings':
-      router.push('/settings')
-      break
     case 'logout':
       handleLogout()
       break
@@ -310,9 +304,6 @@ const loadNotifications = async () => {
 }
 
 const markAsRead = async (notificationId) => {
-  // TODO: 调用API标记通知为已读
-  // await markNotificationAsReadApi(notificationId)
-  
   const notification = notifications.value.find(n => n.id === notificationId)
   if (notification) {
     notification.is_read = true
@@ -375,7 +366,8 @@ watch(route, () => {
     
     .el-menu-item,
     .el-sub-menu__title {
-      color: #bfcbd9;
+      color: #eef5ff;
+      font-weight: 500;
       
       &:hover {
         background-color: #263445;
@@ -391,13 +383,16 @@ watch(route, () => {
     .el-sub-menu {
       .el-menu-item {
         background-color: #1f2d3d;
+        color: #e6f0ff;
         
         &:hover {
-          background-color: #001528;
+          background-color: #162231;
+          color: #ffffff;
         }
         
         &.is-active {
           background-color: #409eff;
+          color: #ffffff;
         }
       }
     }

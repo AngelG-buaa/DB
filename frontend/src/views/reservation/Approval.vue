@@ -301,9 +301,13 @@ const handleBatchApproval = async (status) => {
     )
     
     const ids = selectedReservations.value.map(item => item.reservation_id)
-    
-    // TODO: 调用API批量更新预约状态
-    // await api.batchUpdateReservationStatus(ids, status)
+    loading.value = true
+    const apiMod = await import('@/api/reservation')
+    const requests = ids.map(id => status === '已批准'
+      ? apiMod.approveReservationApi(id, {})
+      : apiMod.rejectReservationApi(id, {})
+    )
+    await Promise.all(requests)
     
     ElMessage.success(`批量${action}成功`)
     loadReservations()
@@ -311,6 +315,9 @@ const handleBatchApproval = async (status) => {
     if (error !== 'cancel') {
       ElMessage.error(`批量操作失败，请重试`)
     }
+  }
+  finally {
+    loading.value = false
   }
 }
 

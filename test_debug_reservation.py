@@ -9,6 +9,85 @@ import json
 import sys
 from datetime import datetime, timedelta
 
+def test_lab_manager_selection():
+    """验证实验室创建时设置真实负责人用户，并检查列表/详情返回"""
+    base_url = "http://localhost:3000/api"
+    print("=== 调试实验室负责人设置 ===")
+    # 登录
+    login_data = {"username": "admin", "password": "admin123"}
+    try:
+        r = requests.post(f"{base_url}/auth/login", json=login_data, timeout=10)
+        print(f"登录状态码: {r.status_code}")
+        if r.status_code != 200:
+            print(f"❌ 登录失败: {r.text}")
+            return
+        token = r.json()['data']['token']
+        headers = {"Authorization": f"Bearer {token}"}
+        print("✅ 登录成功")
+    except Exception as e:
+        print(f"❌ 登录异常: {e}")
+        return
+
+    # 获取一个教师用户作为负责人
+    try:
+        ur = requests.get(f"{base_url}/users", params={"page":1,"page_size":50,"role":"teacher"}, headers=headers, timeout=10)
+        print(f"用户列表状态码: {ur.status_code}")
+        if ur.status_code != 200:
+            print(f"❌ 获取用户列表失败: {ur.text}")
+            return
+        users = ur.json().get('data', [])
+        print(f"教师用户数量: {len(users)}")
+        if not users:
+            print("❌ 没有教师用户，无法设置负责人")
+            return
+        manager_id = users[0]['id']
+        manager_name = users[0]['name']
+        print(f"选用负责人: {manager_name} (ID={manager_id})")
+    except Exception as e:
+        print(f"❌ 获取用户列表异常: {e}")
+        return
+
+    # 创建实验室，设置 manager_id
+    try:
+        payload = {
+            "name": f"调试实验室-{int(datetime.now().timestamp())}",
+            "location": "A-101",
+            "capacity": 30,
+            "status": "available",
+            "description": "用于负责人测试",
+            "manager_id": manager_id
+        }
+        cr = requests.post(f"{base_url}/laboratories", json=payload, headers=headers, timeout=10)
+        print(f"创建实验室状态码: {cr.status_code}")
+        print(f"创建响应: {cr.text}")
+        if cr.status_code not in (200, 201):
+            print("❌ 创建实验室失败")
+            try:
+                print(json.dumps(cr.json(), ensure_ascii=False, indent=2))
+            except Exception:
+                pass
+            return
+        lab = cr.json().get('data') or {}
+        lab_id = lab.get('id')
+        print(f"新建实验室ID: {lab_id}, 负责人: {lab.get('manager_name')} ({lab.get('manager_id')})")
+    except Exception as e:
+        print(f"❌ 创建实验室异常: {e}")
+        return
+
+    # 列表检查是否返回负责人
+    try:
+        lr = requests.get(f"{base_url}/laboratories", params={"page":1,"page_size":10}, headers=headers, timeout=10)
+        print(f"实验室列表状态码: {lr.status_code}")
+        if lr.status_code == 200:
+            lst = lr.json().get('data', [])
+            found = next((x for x in lst if x.get('id') == lab_id), None)
+            print("列表项:", json.dumps(found, ensure_ascii=False, indent=2))
+        else:
+            print(f"❌ 获取实验室列表失败: {lr.text}")
+    except Exception as e:
+        print(f"❌ 获取实验室列表异常: {e}")
+        return
+
 def test_reservation_creation():
     """测试预约创建并获取详细错误信息"""
     base_url = "http://localhost:3000/api"
@@ -123,3 +202,5 @@ def test_reservation_creation():
 
 if __name__ == "__main__":
     test_reservation_creation()
+    print("\n==============================\n")
+    test_lab_manager_selection()

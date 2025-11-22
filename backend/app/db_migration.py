@@ -72,6 +72,8 @@ def run():
         _ensure_equipment_repair_table()
         _ensure_equipment_repair_columns()
         _ensure_reservations_columns()
+        _ensure_laboratories_manager()
+        _ensure_courses_lab_fields()
         _ensure_consumables_tables()
         logger.info("数据库轻量迁移执行完成")
     except Exception as e:
@@ -270,3 +272,68 @@ def _ensure_reservations_columns():
                 logger.warning(f"⚠️ 添加 idx_datetime 失败: {r.get('error')}")
     except Exception as e:
         logger.error(f"reservations 列迁移异常: {str(e)}")
+
+def _ensure_laboratories_manager():
+    try:
+        cols = set(_get_existing_columns('laboratories'))
+        if 'manager_id' not in cols:
+            r = execute_update("ALTER TABLE laboratories ADD COLUMN `manager_id` INT NULL COMMENT '负责人用户ID' AFTER `capacity`")
+            if r['success']:
+                logger.info("✅ laboratories.manager_id 列已添加")
+            else:
+                logger.warning(f"⚠️ 添加 manager_id 失败: {r.get('error')}")
+        # 索引（可选）
+        idxs = execute_query(
+            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='laboratories'",
+            (db_config.database,)
+        )
+        existing = {row.get('INDEX_NAME') for row in (idxs['data'] or [])} if idxs['success'] else set()
+        if 'idx_manager_id' not in existing:
+            r2 = execute_update("ALTER TABLE laboratories ADD INDEX idx_manager_id (manager_id)")
+            if r2['success']:
+                logger.info("✅ laboratories.idx_manager_id 索引已添加")
+            else:
+                logger.warning(f"⚠️ 添加 idx_manager_id 失败: {r2.get('error')}")
+    except Exception as e:
+        logger.error(f"laboratories 列迁移异常: {str(e)}")
+
+def _ensure_courses_lab_fields():
+    """为 courses 表添加 requires_lab 与 laboratory_id 字段（如缺失）"""
+    try:
+        cols = set(_get_existing_columns('courses'))
+        alters: List[Dict[str, str]] = []
+        if 'requires_lab' not in cols:
+            alters.append({
+                'sql': "ALTER TABLE courses ADD COLUMN `requires_lab` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否需要实验室' AFTER `semester`",
+                'desc': '添加 courses.requires_lab 字段'
+            })
+        if 'laboratory_id' not in cols:
+            alters.append({
+                'sql': "ALTER TABLE courses ADD COLUMN `laboratory_id` INT NULL COMMENT '关联实验室ID' AFTER `requires_lab`",
+                'desc': '添加 courses.laboratory_id 字段'
+            })
+
+        for alter in alters:
+            try:
+                r = execute_update(alter['sql'])
+                if r['success']:
+                    logger.info(f"✅ {alter['desc']}")
+                else:
+                    logger.warning(f"⚠️ 执行失败：{alter['desc']} - {r.get('error')}")
+            except Exception as e:
+                logger.error(f"❌ 执行异常：{alter['desc']} - {str(e)}")
+
+        # 索引（可选）
+        idxs = execute_query(
+            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='courses'",
+            (db_config.database,)
+        )
+        existing = {row.get('INDEX_NAME') for row in (idxs['data'] or [])} if idxs['success'] else set()
+        if 'idx_courses_laboratory_id' not in existing:
+            r2 = execute_update("ALTER TABLE courses ADD INDEX idx_courses_laboratory_id (laboratory_id)")
+            if r2['success']:
+                logger.info("✅ courses.idx_courses_laboratory_id 索引已添加")
+            else:
+                logger.warning(f"⚠️ 添加 idx_courses_laboratory_id 失败: {r2.get('error')}")
+    except Exception as e:
+        logger.error(f"courses 列迁移异常: {str(e)}")

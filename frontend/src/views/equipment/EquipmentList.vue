@@ -636,7 +636,11 @@ const showDetail = async (row) => {
   try {
     const response = await getEquipmentByIdApi(row.id)
     if (response.code === 200) {
-      selectedEquipment.value = response.data
+      const eq = response.data
+      selectedEquipment.value = {
+        ...eq,
+        warranty_until: eq.warranty_date
+      }
       detailDialogVisible.value = true
     }
   } catch (error) {

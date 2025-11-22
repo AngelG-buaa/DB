@@ -1,1 +1,0 @@
-import{aK as e}from"./index-0407e335.js";const i=t=>e.get("/equipment",t),u=t=>e.get(`/equipment/${t}`),s=t=>e.post("/equipment",t),r=(t,n)=>e.put(`/equipment/${t}`,n),m=t=>e.delete(`/equipment/${t}`),a=()=>e.get("/equipment/statistics");export{u as a,a as b,s as c,m as d,i as g,r as u};

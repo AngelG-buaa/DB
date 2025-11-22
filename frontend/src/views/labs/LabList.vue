@@ -196,12 +196,15 @@
             style="width: 100%"
           />
         </el-form-item>
-        <el-form-item label="负责人" prop="manager">
-          <el-input
-            v-model="labForm.manager"
-            placeholder="请输入负责人姓名"
-            clearable
-          />
+        <el-form-item label="负责人" prop="manager_id">
+          <el-select v-model="labForm.manager_id" filterable style="width: 100%" placeholder="请选择负责人">
+            <el-option
+              v-for="u in userOptions"
+              :key="u.id"
+              :label="`${u.name}（${u.role}）`"
+              :value="u.id"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-select v-model="labForm.status" style="width: 100%">
@@ -349,8 +352,11 @@ import {
   createLabApi,
   deleteLabApi,
   getLabByIdApi,
-  getLabAvailabilityApi
+  getLabAvailabilityApi,
+  getLabEquipmentApi
 } from '@/api/lab'
+import { getReservationsApi } from '@/api/reservation'
+import { getUsersApi } from '@/api/user'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -361,7 +367,6 @@ const submitLoading = ref(false)
 const dialogVisible = ref(false)
 const detailDialogVisible = ref(false)
 const availabilityDialogVisible = ref(false)
-const isEdit = ref(false)
 const tableData = ref([])
 const selectedLab = ref(null)
 const availabilityData = ref([])
@@ -385,10 +390,24 @@ const labForm = reactive({
   name: '',
   location: '',
   capacity: 1,
-  manager: '',
+  manager_id: null,
   status: 'available',
   description: ''
 })
+
+const userOptions = ref([])
+
+const loadUserOptions = async () => {
+  try {
+    const res = await getUsersApi({ page: 1, page_size: 500 })
+    if (res.code === 200) {
+      const list = res.data?.list || res.data || []
+      userOptions.value = list.map(u => ({ id: u.id, name: u.name || u.username, role: u.role }))
+    }
+  } catch (error) {
+    console.error('加载用户选项失败:', error)
+  }
+}
 
 const availabilityForm = reactive({
   date: dayjs().format('YYYY-MM-DD')
@@ -415,9 +434,8 @@ const labRules = {
     { required: true, message: '请输入容量', trigger: 'blur' },
     { type: 'number', min: 1, max: 1000, message: '容量必须在 1 到 1000 之间', trigger: 'blur' }
   ],
-  manager: [
-    { required: true, message: '请输入负责人姓名', trigger: 'blur' },
-    { min: 2, max: 20, message: '负责人姓名长度在 2 到 20 个字符', trigger: 'blur' }
+  manager_id: [
+    { required: true, message: '请选择负责人', trigger: 'change' }
   ],
   status: [
     { required: true, message: '请选择状态', trigger: 'change' }
@@ -444,7 +462,42 @@ const loadTableData = async () => {
     
     const response = await getLabsApi(params)
     if (response.code === 200) {
-      tableData.value = response.data.list
+      const list = response.data?.list || []
+      const enriched = await Promise.all(
+        list.map(async (lab) => {
+          const [eqRes, resvTotalRes] = await Promise.all([
+            getLabEquipmentApi(lab.id),
+            getReservationsApi({ laboratory_id: lab.id, page: 1, page_size: 1 })
+          ])
+          const equipment_count = eqRes.code === 200
+            ? (Array.isArray(eqRes.data) ? eqRes.data.length : (eqRes.data?.list?.length || 0))
+            : 0
+          const reservation_count = resvTotalRes.code === 200 ? (resvTotalRes.data?.total || 0) : 0
+          let managerName = lab.manager_name || lab.manager || ''
+          if (!managerName && reservation_count > 0) {
+            const pageSize = Math.min(reservation_count, 200)
+            const resvRes = await getReservationsApi({ laboratory_id: lab.id, page: 1, page_size: pageSize })
+            if (resvRes.code === 200) {
+              const list = resvRes.data?.list || resvRes.data || []
+              const freq = {}
+              for (const r of list) {
+                const name = r.user?.name || r.user_name || ''
+                if (!name) continue
+                freq[name] = (freq[name] || 0) + 1
+              }
+              const top = Object.entries(freq).sort((a, b) => b[1] - a[1])[0]
+              if (top) managerName = top[0]
+            }
+          }
+          return {
+            ...lab,
+            manager: managerName || '未设置',
+            equipment_count,
+            reservation_count
+          }
+        })
+      )
+      tableData.value = enriched
       pagination.total = response.data.total
     }
   } catch (error) {
@@ -480,8 +533,8 @@ const handleCurrentChange = (page) => {
 }
 
 const showCreateDialog = () => {
-  isEdit.value = false
   resetForm()
+  loadUserOptions()
   dialogVisible.value = true
 }
 
@@ -491,7 +544,32 @@ const showDetail = async (row) => {
   try {
     const response = await getLabByIdApi(row.id)
     if (response.code === 200) {
-      selectedLab.value = response.data
+      const lab = response.data
+      const eqCount = Array.isArray(lab?.equipment) ? lab.equipment.length : 0
+      const resvTotalRes = await getReservationsApi({ laboratory_id: lab.id, page: 1, page_size: 1 })
+      const resCount = resvTotalRes.code === 200 ? (resvTotalRes.data?.total || 0) : 0
+      let managerName = lab.manager_name || lab.manager || ''
+      if (!managerName && resCount > 0) {
+        const pageSize = Math.min(resCount, 200)
+        const resvRes = await getReservationsApi({ laboratory_id: lab.id, page: 1, page_size: pageSize })
+        if (resvRes.code === 200) {
+          const list = resvRes.data?.list || resvRes.data || []
+          const freq = {}
+          for (const r of list) {
+            const name = r.user?.name || r.user_name || ''
+            if (!name) continue
+            freq[name] = (freq[name] || 0) + 1
+          }
+          const top = Object.entries(freq).sort((a, b) => b[1] - a[1])[0]
+          if (top) managerName = top[0]
+        }
+      }
+      selectedLab.value = {
+        ...lab,
+        manager: managerName || '未设置',
+        equipment_count: eqCount,
+        reservation_count: resCount
+      }
       detailDialogVisible.value = true
     }
   } catch (error) {
@@ -535,9 +613,17 @@ const handleSubmit = async () => {
     await labFormRef.value.validate()
     submitLoading.value = true
     
-    const response = await createLabApi(labForm)
+    const payload = {
+      name: labForm.name,
+      location: labForm.location,
+      capacity: labForm.capacity,
+      description: labForm.description,
+      status: labForm.status,
+      manager_id: labForm.manager_id
+    }
+    const response = await createLabApi(payload)
     if (response.code === 200) {
-      ElMessage.success(isEdit.value ? '更新成功' : '创建成功')
+      ElMessage.success('创建成功')
       dialogVisible.value = false
       loadTableData()
     }
@@ -578,7 +664,7 @@ const resetForm = () => {
   labForm.name = ''
   labForm.location = ''
   labForm.capacity = 1
-  labForm.manager = ''
+  labForm.manager_id = null
   labForm.status = 'available'
   labForm.description = ''
   

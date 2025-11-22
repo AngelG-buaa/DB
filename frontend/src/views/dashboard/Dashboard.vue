@@ -5,7 +5,7 @@
       <el-card class="welcome-card">
         <div class="welcome-content">
           <div class="welcome-text">
-            <h2>欢迎回来，{{ userInfo.real_name || userInfo.username }}！</h2>
+            <h2>欢迎回来，{{ userInfo.name || userInfo.username }}！</h2>
             <p>今天是 {{ currentDate }}，{{ welcomeMessage }}</p>
           </div>
           <div class="welcome-avatar">
@@ -98,9 +98,9 @@
             >
               <div class="reservation-info">
                 <div class="lab-name">{{ reservation.lab_name }}</div>
-                <div class="reservation-time">
-                  {{ formatDateTime(reservation.start_time) }} - {{ formatTime(reservation.end_time) }}
-                </div>
+              <div class="reservation-time">
+                {{ formatDateTimeFromParts(reservation.reservation_date, reservation.start_time) }} - {{ formatTimeFromParts(reservation.reservation_date, reservation.end_time) }}
+              </div>
               </div>
               <div class="reservation-status">
                 <el-tag :type="getStatusType(reservation.status)">
@@ -134,12 +134,11 @@
               @click="readNotification(notification)"
             >
               <div class="notification-content">
-                <div class="notification-title">
-                  <span :class="{ 'unread': !notification.is_read }">
-                    {{ notification.title }}
-                  </span>
-                  <el-tag v-if="!notification.is_read" type="danger" size="small">新</el-tag>
-                </div>
+          <div class="notification-title">
+            <span :class="{ 'unread': !notification.is_read }">
+              {{ notification.title }}
+            </span>
+          </div>
                 <div class="notification-time">
                   {{ formatDateTime(notification.created_at) }}
                 </div>
@@ -314,6 +313,7 @@ const loadDashboardData = async () => {
       recentReservations.value = list.map(r => ({
         id: r.id,
         lab_name: r.laboratory?.name || '',
+        reservation_date: r.reservation_date,
         start_time: r.start_time,
         end_time: r.end_time,
         status: r.status
@@ -399,6 +399,24 @@ const formatTime = (dateTime) => {
   return dayjs(dateTime).format('HH:mm')
 }
 
+const normalizeTime = (t) => {
+  if (!t) return ''
+  const s = String(t)
+  return s.length === 5 ? `${s}:00` : s
+}
+
+const formatDateTimeFromParts = (dateStr, timeStr) => {
+  if (!dateStr || !timeStr) return ''
+  const composed = `${dateStr} ${normalizeTime(timeStr)}`
+  return dayjs(composed).isValid() ? dayjs(composed).format('MM-DD HH:mm') : ''
+}
+
+const formatTimeFromParts = (dateStr, timeStr) => {
+  if (!dateStr || !timeStr) return ''
+  const composed = `${dateStr} ${normalizeTime(timeStr)}`
+  return dayjs(composed).isValid() ? dayjs(composed).format('HH:mm') : ''
+}
+
 const getStatusType = (status) => {
   const statusMap = {
     pending: 'warning',
@@ -422,10 +440,7 @@ const getStatusText = (status) => {
 }
 
 const readNotification = (notification) => {
-  if (!notification.is_read) {
-    notification.is_read = true
-    // 这里应该调用API标记通知为已读
-  }
+  // 暂无“标记已读”功能，保留点击行为用于未来扩展
 }
 
 // 导航方法
@@ -593,7 +608,7 @@ onMounted(async () => {
         cursor: pointer;
         
         &:hover {
-          background: #f8f9fa;
+          background: var(--background-base);
         }
         
         &:last-child {
@@ -610,7 +625,7 @@ onMounted(async () => {
         
         .reservation-time {
           font-size: 14px;
-          color: #909399;
+          color: var(--text-regular);
         }
       }
       
@@ -631,7 +646,7 @@ onMounted(async () => {
         
         .notification-time {
           font-size: 14px;
-          color: #909399;
+          color: var(--text-regular);
         }
       }
     }

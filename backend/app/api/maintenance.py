@@ -224,7 +224,7 @@ def create_maintenance_record():
 
         new_id = result['last_insert_id']
         try:
-            if status in ['in_progress']:
+            if status in ['in_progress', 'reported']:
                 execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (data['equipment_id'],))
         except Exception:
             pass
@@ -291,7 +291,7 @@ def update_maintenance_record(record_id):
             fields.append("repair_status = %s")
             params.append(data['status'])
             try:
-                if data['status'] == 'in_progress' and equipment_id:
+                if data['status'] in ['in_progress', 'reported'] and equipment_id:
                     execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (equipment_id,))
                 elif data['status'] in ['completed', 'cancelled'] and equipment_id:
                     execute_update("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (equipment_id,))

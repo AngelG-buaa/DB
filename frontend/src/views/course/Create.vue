@@ -48,31 +48,29 @@
           </el-select>
         </el-form-item>
         
-        <el-form-item label="需要实验室" prop="need_lab">
-          <el-radio-group v-model="form.need_lab">
-            <el-radio :label="true">是</el-radio>
-            <el-radio :label="false">否</el-radio>
-          </el-radio-group>
+        <el-form-item label="是否需要实验室">
+          <el-switch
+            v-model="form.requires_lab"
+            active-text="需要"
+            inactive-text="不需要"
+          />
         </el-form-item>
-        
-        <el-form-item 
-          v-if="form.need_lab" 
-          label="关联实验室" 
-          prop="lab_id"
-        >
+        <el-form-item v-if="form.requires_lab" label="关联实验室" prop="laboratory_id">
           <el-select
-            v-model="form.lab_id"
+            v-model="form.laboratory_id"
             placeholder="请选择实验室"
             filterable
+            style="width: 300px"
           >
             <el-option
-              v-for="lab in laboratories"
-              :key="lab.lab_id"
-              :label="lab.lab_name"
-              :value="lab.lab_id"
+              v-for="lab in labs"
+              :key="lab.id"
+              :label="lab.name"
+              :value="lab.id"
             />
           </el-select>
         </el-form-item>
+        
         
         <el-form-item label="课程描述" prop="description">
           <el-input
@@ -98,22 +96,23 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const formRef = ref()
 const loading = ref(false)
 const teachers = ref([])
-const laboratories = ref([])
+const labs = ref([])
+const route = useRoute()
 
 const form = reactive({
   course_name: '',
   credit: 1,
   teacher_id: null,
-  need_lab: false,
-  lab_id: null,
-  description: ''
+  description: '',
+  requires_lab: false,
+  laboratory_id: null
 })
 
 const rules = {
@@ -128,29 +127,20 @@ const rules = {
   teacher_id: [
     { required: true, message: '请选择授课教师', trigger: 'change' }
   ],
-  need_lab: [
-    { required: true, message: '请选择是否需要实验室', trigger: 'change' }
-  ],
-  lab_id: [
-    { 
-      validator: (rule, value, callback) => {
-        if (form.need_lab && !value) {
-          callback(new Error('需要实验室时必须选择实验室'))
-        } else {
-          callback()
+  laboratory_id: [
+    {
+      validator: (_rule, value, callback) => {
+        if (form.requires_lab && !value) {
+          callback(new Error('请选择关联实验室'))
+          return
         }
-      }, 
-      trigger: 'change' 
+        callback()
+      },
+      trigger: 'change'
     }
   ]
 }
 
-// 监听需要实验室的变化，清空实验室选择
-watch(() => form.need_lab, (newVal) => {
-  if (!newVal) {
-    form.lab_id = null
-  }
-})
 
 const loadTeachers = async () => {
   try {
@@ -164,15 +154,37 @@ const loadTeachers = async () => {
   }
 }
 
-const loadLaboratories = async () => {
+const loadLabs = async () => {
   try {
     const api = await import('@/api/lab')
-    const res = await api.getLabsApi({ page: 1, page_size: 200 })
+    const res = await api.getLabsApi({ page: 1, page_size: 500 })
     if (res.code === 200) {
-      laboratories.value = (res.data.list || []).map(l => ({ lab_id: l.id, lab_name: l.name }))
+      labs.value = (res.data.list || []).map(l => ({ id: l.id, name: l.name }))
     }
   } catch (error) {
     ElMessage.error('加载实验室列表失败')
+  }
+}
+
+const isEdit = ref(false)
+const courseId = ref(null)
+const dialogTitle = ref('新增课程')
+
+const loadCourseDetail = async (id) => {
+  try {
+    const api = await import('@/api/course')
+    const res = await api.getCourseByIdApi(id)
+    if (res.code === 200 && res.data) {
+      const d = res.data
+      form.course_name = d.name || ''
+      form.credit = d.credits || 1
+      form.teacher_id = d.teacher?.id || null
+      form.description = d.description || ''
+      form.requires_lab = !!d.requires_lab
+      form.laboratory_id = d.laboratory_id || null
+    }
+  } catch (error) {
+    ElMessage.error('加载课程详情失败')
   }
 }
 
@@ -182,21 +194,40 @@ const handleSubmit = async () => {
     loading.value = true
     
     const api = await import('@/api/course')
-    const semester = `${new Date().getFullYear()}秋`
-    const code = `C${Date.now()}`
-    const payload = {
-      name: form.course_name,
-      code,
-      description: form.description,
-      credits: form.credit,
-      semester,
-      teacher_id: form.teacher_id,
-      status: 'active'
-    }
-    const res = await api.createCourseApi(payload)
-    if (res.code === 200) {
-      ElMessage.success('课程创建成功')
-      router.push('/course/list')
+    if (isEdit.value && courseId.value) {
+      const payload = {
+        name: form.course_name,
+        description: form.description,
+        credits: form.credit,
+        teacher_id: form.teacher_id,
+        status: 'active',
+        requires_lab: form.requires_lab ? 1 : 0,
+        laboratory_id: form.requires_lab ? form.laboratory_id : null
+      }
+      const res = await api.updateCourseApi(courseId.value, payload)
+      if (res.code === 200) {
+        ElMessage.success('课程更新成功')
+        router.push('/course/list')
+      }
+    } else {
+      const semester = `${new Date().getFullYear()}秋`
+      const code = `C${Date.now()}`
+      const payload = {
+        name: form.course_name,
+        code,
+        description: form.description,
+        credits: form.credit,
+        semester,
+        teacher_id: form.teacher_id,
+        status: 'active',
+        requires_lab: form.requires_lab ? 1 : 0,
+        laboratory_id: form.requires_lab ? form.laboratory_id : null
+      }
+      const res = await api.createCourseApi(payload)
+      if (res.code === 200) {
+        ElMessage.success('课程创建成功')
+        router.push('/course/list')
+      }
     }
   } catch (error) {
     if (error !== false) {
@@ -213,7 +244,22 @@ const handleCancel = () => {
 
 onMounted(() => {
   loadTeachers()
-  loadLaboratories()
+  loadLabs()
+  const editId = route.query?.edit
+  if (editId) {
+    isEdit.value = true
+    courseId.value = Number(editId)
+    dialogTitle.value = '编辑课程'
+    loadCourseDetail(courseId.value)
+  }
+})
+
+watch(() => form.requires_lab, (val) => {
+  if (!val) {
+    form.laboratory_id = null
+    // 清除潜在的校验错误
+    formRef.value?.clearValidate(['laboratory_id'])
+  }
 })
 </script>
 

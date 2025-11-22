@@ -68,15 +68,7 @@ const routes = [
               roles: ['admin']
             }
           },
-          {
-            path: 'edit/:id',
-            name: 'LaboratoryEdit',
-            component: () => import('@/views/laboratory/Edit.vue'),
-            meta: {
-              title: '编辑实验室',
-              roles: ['admin']
-            }
-          }
+          
         ]
       },
       // 设备管理

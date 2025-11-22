@@ -113,28 +113,29 @@ const rules = {
   ],
   lab_status: [
     { required: true, message: '请选择状态', trigger: 'change' }
+  ],
+  manager_id: [
+    { required: true, message: '请选择负责人', trigger: 'change' }
   ]
 }
 
 const searchUsers = async (query) => {
-  if (query) {
-    userLoading.value = true
-    try {
-      // TODO: 调用API搜索用户
-      // const response = await api.searchUsers(query)
-      // users.value = response.data
-      
-      // 模拟数据
-      users.value = [
-        { user_id: 1, name: '张老师' },
-        { user_id: 2, name: '李老师' },
-        { user_id: 3, name: '王老师' }
-      ]
-    } catch (error) {
-      ElMessage.error('搜索用户失败')
-    } finally {
-      userLoading.value = false
-    }
+  const q = (query || '').trim()
+  if (!q) {
+    users.value = []
+    return
+  }
+  userLoading.value = true
+  try {
+    const api = await import('@/api/user')
+    const res = await api.getUsersApi({ page: 1, page_size: 50, search: q })
+    users.value = res.code === 200
+      ? (res.data?.list || res.data || []).map(u => ({ user_id: u.id, name: u.name || u.username }))
+      : []
+  } catch (error) {
+    ElMessage.error('搜索用户失败')
+  } finally {
+    userLoading.value = false
   }
 }
 
@@ -153,7 +154,8 @@ const handleSubmit = async () => {
       location: form.location,
       capacity: form.capacity,
       status: statusMap[form.lab_status],
-      description: ''
+      description: '',
+      manager_id: form.manager_id
     }
     const res = await createLabApi(payload)
     if (res.code === 201 || res.code === 200 || res.success) {

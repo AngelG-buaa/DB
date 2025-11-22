@@ -214,9 +214,10 @@ const loadEquipmentStats = async () => {
       const d = response.data || {}
       const dist = d.status_distribution || {}
       equipmentStats.total = d.total_equipment || 0
-      equipmentStats.normal = dist.available || 0
-      equipmentStats.maintenance = dist.maintenance || 0
-      equipmentStats.broken = dist.damaged || 0
+      const aliasSum = (obj, keys) => keys.reduce((s, k) => s + Number(obj[k] || 0), 0)
+      equipmentStats.normal = aliasSum(dist, ['available', 'normal', 'Normal', '正常'])
+      equipmentStats.maintenance = aliasSum(dist, ['maintenance', 'Maintenance', '维修中'])
+      equipmentStats.broken = aliasSum(dist, ['damaged', 'broken', 'Broken', '故障'])
       labDist.value = d.laboratory_distribution || []
       warrantySoon.value = d.warranty_expiring_soon || []
       nextTick(() => {
@@ -408,21 +409,10 @@ onMounted(async () => {
   color: white;
 }
 
-.total-icon {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.normal-icon {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-}
-
-.maintenance-icon {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-.broken-icon {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-}
+.total-icon { background: var(--primary-color); }
+.normal-icon { background: var(--success-color); }
+.maintenance-icon { background: var(--warning-color); }
+.broken-icon { background: var(--danger-color); }
 
 .stat-info {
   flex: 1;

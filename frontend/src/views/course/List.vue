@@ -103,6 +103,16 @@
         />
       </div>
     </el-card>
+    <el-dialog v-model="studentsDialogVisible" title="学生列表" width="600px">
+      <div v-if="currentCourseStudents.length === 0">暂无学生数据</div>
+      <el-table v-else :data="currentCourseStudents" stripe>
+        <el-table-column prop="id" label="学生ID" width="120" />
+        <el-table-column prop="name" label="姓名" />
+      </el-table>
+      <template #footer>
+        <el-button @click="studentsDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -139,18 +149,18 @@ const loadCourses = async () => {
       search: searchForm.course_name || undefined,
       teacher_id: searchForm.teacher_id || undefined
     }
-    const response = await getCoursesApi(params)
-    if (response.code === 200) {
+  const response = await getCoursesApi(params)
+  if (response.code === 200) {
       courseList.value = (response.data.list || []).map(c => ({
-        course_id: c.id,
-        course_name: c.name,
-        teacher_name: c.teacher?.name || '',
-        credit: c.credits,
-        need_lab: false,
-        lab_name: ''
+          course_id: c.id,
+          course_name: c.name,
+          teacher_name: c.teacher?.name || '',
+          credit: c.credits,
+          need_lab: (typeof c.requires_lab === 'undefined' ? !!c.laboratory_id : !!c.requires_lab),
+          lab_name: c.laboratory_name || ''
       }))
       pagination.total = response.data.total || 0
-    }
+  }
   } catch (error) {
     ElMessage.error('加载课程列表失败')
   } finally {
@@ -188,11 +198,20 @@ const handleCreate = () => {
 }
 
 const handleEdit = (row) => {
-  router.push(`/course/edit/${row.course_id}`)
+  router.push({ path: '/course/create', query: { edit: row.course_id } })
 }
 
-const handleViewStudents = (row) => {
-  router.push(`/course/${row.course_id}/students`)
+const studentsDialogVisible = ref(false)
+const currentCourseStudents = ref([])
+
+const handleViewStudents = async (row) => {
+  try {
+    // 目前后端未提供课程学生列表接口，这里展示占位信息避免404
+    currentCourseStudents.value = []
+    studentsDialogVisible.value = true
+  } catch (error) {
+    ElMessage.error('加载学生列表失败')
+  }
 }
 
 const handleDelete = async (row) => {
