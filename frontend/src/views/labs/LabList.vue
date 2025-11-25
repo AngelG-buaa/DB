@@ -444,7 +444,7 @@ const labRules = {
 
 // 方法
 const hasPermission = (roles) => {
-  return roles.includes(userInfo.value.user_type)
+  return roles.includes(userInfo.value?.role)
 }
 
 const loadTableData = async () => {
@@ -602,7 +602,7 @@ const loadAvailability = async () => {
       availabilityData.value = response.data
     }
   } catch (error) {
-    console.error('获取可用性数据失败:', error)
+    ElMessage.error('获取可用性数据失败')
   }
 }
 

@@ -26,7 +26,7 @@
                 <span>{{ route.meta.title }}</span>
               </template>
               <el-menu-item
-                v-for="child in route.children"
+                v-for="child in route.children.filter(c => !c.meta?.roles || userStore.hasRole(c.meta.roles))"
                 :key="child.path"
                 :index="fullPath(route.path, child.path)"
               >

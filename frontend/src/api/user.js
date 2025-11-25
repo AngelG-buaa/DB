@@ -14,3 +14,13 @@ export const deleteUserApi = (id) => {
 export const createUserApi = (data) => {
   return http.post('/users', data)
 }
+
+// 获取用户详情
+export const getUserByIdApi = (id) => {
+  return http.get(`/users/${id}`)
+}
+
+// 更新用户
+export const updateUserApi = (id, data) => {
+  return http.put(`/users/${id}`, data)
+}

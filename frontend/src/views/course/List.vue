@@ -121,7 +121,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { getCoursesApi, deleteCourseApi } from '@/api/course'
+import { getCoursesApi, deleteCourseApi, getCourseByIdApi } from '@/api/course'
 import { getUsersApi } from '@/api/user'
 
 const router = useRouter()
@@ -206,10 +206,16 @@ const currentCourseStudents = ref([])
 
 const handleViewStudents = async (row) => {
   try {
-    // 目前后端未提供课程学生列表接口，这里展示占位信息避免404
-    currentCourseStudents.value = []
+    const res = await getCourseByIdApi(row.course_id)
+    if (res.code === 200) {
+      currentCourseStudents.value = res.data?.students || []
+    } else {
+      currentCourseStudents.value = []
+    }
     studentsDialogVisible.value = true
   } catch (error) {
+    currentCourseStudents.value = []
+    studentsDialogVisible.value = true
     ElMessage.error('加载学生列表失败')
   }
 }

@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update, execute_paginated_query
+from backend.database import execute_query, execute_update, execute_paginated_query
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -448,24 +448,7 @@ def delete_equipment(equipment_id):
         if not check_result['data']:
             return not_found_response("设备不存在")
         
-        # 检查设备是否有相关的预约记录
-        reservation_check_sql = """
-        SELECT COUNT(*) as count 
-        FROM reservations 
-        WHERE equipment_ids LIKE %s OR equipment_ids LIKE %s OR equipment_ids LIKE %s OR equipment_ids = %s
-        """
-        equipment_id_str = str(equipment_id)
-        reservation_result = execute_query(reservation_check_sql, (
-            f'%,{equipment_id_str},%',  # 中间
-            f'{equipment_id_str},%',    # 开头
-            f'%,{equipment_id_str}',    # 结尾
-            equipment_id_str            # 单独
-        ))
-        
-        if reservation_result['success'] and reservation_result['data']:
-            reservation_count = reservation_result['data'][0]['count']
-            if reservation_count > 0:
-                return error_response("该设备有相关的预约记录，无法删除")
+
         
         # 删除设备
         delete_sql = "DELETE FROM equipment WHERE id = %s"

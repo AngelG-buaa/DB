@@ -7,7 +7,7 @@
 
 import logging
 from typing import List, Dict
-from config.database import execute_query, execute_update, db_config
+from backend.database import execute_query, execute_update
 
 logger = logging.getLogger(__name__)
 
@@ -16,9 +16,9 @@ def _get_existing_columns(table_name: str) -> List[str]:
     try:
         sql = (
             "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS "
-            "WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s"
+            "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s"
         )
-        res = execute_query(sql, (db_config.database, table_name))
+        res = execute_query(sql, (table_name,))
         if res['success']:
             return [row['COLUMN_NAME'] for row in res['data']]
         logger.warning(f"查询表列失败: {res.get('error')}\n表: {table_name}")
@@ -65,6 +65,26 @@ def _ensure_equipment_repair_columns():
             logger.error(f"❌ 执行异常：{alter['desc']} - {str(e)}")
 
 
+def _get_schema_version():
+    try:
+        res = execute_query("SELECT version FROM schema_version LIMIT 1")
+        if res['success'] and res['data']:
+            return int(res['data'][0].get('version') or 0)
+        return 0
+    except Exception:
+        return 0
+
+def _set_schema_version(ver: int):
+    try:
+        execute_update("CREATE TABLE IF NOT EXISTS schema_version (version INT NOT NULL)")
+        cur = execute_query("SELECT COUNT(*) AS c FROM schema_version")
+        if cur['success'] and cur['data'] and cur['data'][0]['c'] > 0:
+            execute_update("UPDATE schema_version SET version=%s", (ver,))
+        else:
+            execute_update("INSERT INTO schema_version (version) VALUES (%s)", (ver,))
+    except Exception:
+        pass
+
 def run():
     """执行轻量迁移"""
     try:
@@ -75,6 +95,16 @@ def run():
         _ensure_laboratories_manager()
         _ensure_courses_lab_fields()
         _ensure_consumables_tables()
+            try:
+                current_ver = _get_schema_version()
+                # 仅当版本落后时才创建/更新触发器和存储过程
+                if current_ver < 1:
+                    from backend.database import create_triggers, create_stored_procedures
+                    create_triggers()
+                    create_stored_procedures()
+                    _set_schema_version(1)
+            except Exception as e:
+                logger.warning(f"触发器/存储过程创建失败或未执行: {str(e)}")
         logger.info("数据库轻量迁移执行完成")
     except Exception as e:
         logger.error(f"数据库迁移执行失败: {str(e)}")
@@ -123,8 +153,7 @@ def _ensure_equipment_repair_table():
     """若缺失，则创建 equipment_repair 表"""
     try:
         exists = execute_query(
-            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=%s AND TABLE_NAME='equipment_repair' LIMIT 1",
-            (db_config.database,)
+            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='equipment_repair' LIMIT 1"
         )
         if exists['success'] and exists['data']:
             return
@@ -166,8 +195,7 @@ def _ensure_consumables_tables():
     try:
         # consumables
         exists = execute_query(
-            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=%s AND TABLE_NAME='consumables' LIMIT 1",
-            (db_config.database,)
+            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='consumables' LIMIT 1"
         )
         if not (exists['success'] and exists['data']):
             sql = (
@@ -200,8 +228,7 @@ def _ensure_consumables_tables():
 
         # consumable_usage
         exists2 = execute_query(
-            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=%s AND TABLE_NAME='consumable_usage' LIMIT 1",
-            (db_config.database,)
+            "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='consumable_usage' LIMIT 1"
         )
         if not (exists2['success'] and exists2['data']):
             sql2 = (
@@ -229,8 +256,7 @@ def _ensure_reservations_columns():
         cols = set(_get_existing_columns('reservations'))
         if 'reservation_date' not in cols:
             has_old = execute_query(
-                "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='reservations' AND COLUMN_NAME='date' LIMIT 1",
-                (db_config.database,)
+                "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='reservations' AND COLUMN_NAME='date' LIMIT 1"
             )
             if has_old['success'] and has_old['data']:
                 r = execute_update("ALTER TABLE reservations CHANGE COLUMN `date` `reservation_date` DATE NOT NULL")
@@ -254,8 +280,7 @@ def _ensure_reservations_columns():
                 logger.warning(f"⚠️ 添加 equipment_ids 失败: {r.get('error')}")
 
         idxs = execute_query(
-            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='reservations'",
-            (db_config.database,)
+            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='reservations'"
         )
         existing = {row.get('INDEX_NAME') for row in (idxs['data'] or [])} if idxs['success'] else set()
         if 'idx_reservation_date' not in existing:
@@ -284,8 +309,7 @@ def _ensure_laboratories_manager():
                 logger.warning(f"⚠️ 添加 manager_id 失败: {r.get('error')}")
         # 索引（可选）
         idxs = execute_query(
-            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='laboratories'",
-            (db_config.database,)
+            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='laboratories'"
         )
         existing = {row.get('INDEX_NAME') for row in (idxs['data'] or [])} if idxs['success'] else set()
         if 'idx_manager_id' not in existing:
@@ -325,8 +349,7 @@ def _ensure_courses_lab_fields():
 
         # 索引（可选）
         idxs = execute_query(
-            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='courses'",
-            (db_config.database,)
+            "SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='courses'"
         )
         existing = {row.get('INDEX_NAME') for row in (idxs['data'] or [])} if idxs['success'] else set()
         if 'idx_courses_laboratory_id' not in existing:

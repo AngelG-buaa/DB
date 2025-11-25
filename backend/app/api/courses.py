@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update, execute_paginated_query, execute_transaction, execute_transaction
+from backend.database import execute_query, execute_update, execute_paginated_query, execute_transaction
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -47,7 +47,7 @@ def get_courses():
         
         # 教师只能查看自己的课程
         if current_user['role'] == 'teacher':
-            teacher_id = current_user['id']
+            teacher_id = current_user.get('id') or current_user.get('user_id')
         
         if teacher_id:
             where_conditions.append('c.teacher_id = %s')
@@ -104,15 +104,21 @@ def get_courses():
             logger.error(f"查询课程列表失败: {result.get('error')}")
             return error_response("获取课程列表失败")
         
+        cs_exists = execute_query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='course_students'")
+        has_course_students = cs_exists.get('success') and bool(cs_exists.get('data'))
+
         # 格式化数据
         courses = []
         for course in result['data']:
-            # 获取课程学生数量
-            student_count_sql = "SELECT COUNT(*) as count FROM course_students WHERE course_id = %s"
-            student_count_result = execute_query(student_count_sql, (course['id'],))
             student_count = 0
-            if student_count_result['success'] and student_count_result['data']:
-                student_count = student_count_result['data'][0]['count']
+            if has_course_students:
+                cols = {row.get('COLUMN_NAME') for row in cs_exists.get('data')}
+                course_col = 'course_id' if 'course_id' in cols else ('courseId' if 'courseId' in cols else None)
+                if course_col:
+                    student_count_sql = f"SELECT COUNT(*) as count FROM course_students WHERE {course_col} = %s"
+                    student_count_result = execute_query(student_count_sql, (course['id'],))
+                    if student_count_result['success'] and student_count_result['data']:
+                        student_count = student_count_result['data'][0]['count']
             
             item = {
                 'id': course['id'],
@@ -156,7 +162,7 @@ def get_course(course_id):
         # 教师只能查看自己的课程
         if current_user['role'] == 'teacher':
             where_condition += " AND c.teacher_id = %s"
-            query_params.append(current_user['id'])
+            query_params.append(current_user.get('id') or current_user.get('user_id'))
         
         has_cols = execute_query(
             "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME IN ('requires_lab','laboratory_id') LIMIT 1"
@@ -194,26 +200,30 @@ def get_course(course_id):
         
         course = result['data'][0]
         
-        # 获取课程学生列表
-        students_sql = """
-        SELECT u.id, u.name, u.email, u.student_id, cs.enrolled_at
-        FROM course_students cs
-        JOIN users u ON cs.student_id = u.id
-        WHERE cs.course_id = %s
-        ORDER BY u.name ASC
-        """
-        students_result = execute_query(students_sql, (course_id,))
-        
         students = []
-        if students_result['success']:
-            for student in students_result['data']:
-                students.append({
-                    'id': student['id'],
-                    'name': student['name'],
-                    'email': student['email'],
-                    'student_id': student['student_id'],
-                    'enrolled_at': student['enrolled_at'].isoformat() if student['enrolled_at'] else None
-                })
+        cs_exists = execute_query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='course_students'")
+        if cs_exists.get('success') and cs_exists.get('data'):
+            cols = {row.get('COLUMN_NAME') for row in cs_exists.get('data')}
+            course_col = 'course_id' if 'course_id' in cols else ('courseId' if 'courseId' in cols else None)
+            student_col = 'student_id' if 'student_id' in cols else ('studentId' if 'studentId' in cols else None)
+            enrolled_col = 'enrolled_at' if 'enrolled_at' in cols else ('enrolledAt' if 'enrolledAt' in cols else None)
+            if course_col and student_col:
+                select_enrolled = f", cs.{enrolled_col} AS enrolled_at" if enrolled_col else ""
+                students_sql = (
+                    f"SELECT u.id, u.name, u.email, u.student_id{select_enrolled} "
+                    f"FROM course_students cs JOIN users u ON cs.{student_col} = u.id "
+                    f"WHERE cs.{course_col} = %s ORDER BY u.name ASC"
+                )
+                students_result = execute_query(students_sql, (course_id,))
+                if students_result['success']:
+                    for student in students_result['data']:
+                        students.append({
+                            'id': student.get('id'),
+                            'name': student.get('name'),
+                            'email': student.get('email'),
+                            'student_id': student.get('student_id'),
+                            'enrolled_at': (student.get('enrolled_at').isoformat() if student.get('enrolled_at') else None)
+                        })
         
         course_info = {
             'id': course['id'],
@@ -289,7 +299,7 @@ def create_course():
                     return error_response("指定的教师不存在")
         else:
             # 教师创建课程时，自动设置为自己
-            teacher_id = current_user['id']
+            teacher_id = current_user.get('id') or current_user.get('user_id')
         
         # 检查课程代码是否已存在
         code_check_sql = "SELECT id FROM courses WHERE code = %s AND semester = %s"
@@ -424,7 +434,7 @@ def update_course(course_id):
         
         # 权限检查：教师只能修改自己的课程
         if (current_user['role'] == 'teacher' and 
-            current_user['id'] != course['teacher_id']):
+            (current_user.get('id') or current_user.get('user_id')) != course['teacher_id']):
             return error_response("没有权限修改此课程")
         
         # 构建更新字段
@@ -612,7 +622,7 @@ def add_students_to_course(course_id):
         
         # 权限检查：教师只能操作自己的课程
         if (current_user['role'] == 'teacher' and 
-            current_user['id'] != course['teacher_id']):
+            (current_user.get('id') or current_user.get('user_id')) != course['teacher_id']):
             return error_response("没有权限操作此课程")
         
         # 验证学生是否存在
@@ -702,7 +712,7 @@ def remove_student_from_course(course_id, student_id):
         
         # 权限检查：教师只能操作自己的课程
         if (current_user['role'] == 'teacher' and 
-            current_user['id'] != course['teacher_id']):
+            (current_user.get('id') or current_user.get('user_id')) != course['teacher_id']):
             return error_response("没有权限操作此课程")
         
         # 检查学生是否在该课程中
@@ -751,7 +761,7 @@ def get_my_courses():
         ORDER BY c.semester DESC, c.name ASC
         """
         
-        result = execute_query(sql, (current_user['id'],))
+        result = execute_query(sql, (current_user.get('id') or current_user.get('user_id'),))
         
         if not result['success']:
             logger.error(f"查询学生课程失败: {result.get('error')}")

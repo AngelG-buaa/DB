@@ -63,6 +63,7 @@
           </el-col>
           <el-col :span="6">
             <el-switch
+              v-if="isStaff"
               v-model="filterForm.onlyMine"
               active-text="仅我的预约"
               @change="loadCalendarData"
@@ -238,6 +239,7 @@ const filterForm = reactive({
 
 // 计算属性
 const userInfo = computed(() => userStore.userInfo)
+const isStaff = computed(() => ['admin', 'teacher'].includes(userStore.userInfo?.role || userStore.userInfo?.user_type))
 
 const calendarRange = computed(() => {
   const start = dayjs(currentDate.value).startOf(filterForm.viewType)
@@ -267,8 +269,11 @@ const loadCalendarData = async () => {
       end_date: end
     }
     
-    if (filterForm.labId) params.lab_id = filterForm.labId
-    if (filterForm.status) params.status = filterForm.status
+    if (filterForm.labId) params.laboratory_id = filterForm.labId
+    if (filterForm.status) {
+      const map = { approved: 'confirmed', rejected: 'cancelled' }
+      params.status = map[filterForm.status] || filterForm.status
+    }
     if (filterForm.onlyMine) params.user_id = userInfo.value.id
     
     const response = await getReservationCalendarApi(params)
@@ -399,12 +404,12 @@ const canCancel = (reservation) => {
 }
 
 const canApprove = (reservation) => {
-  return ['admin', 'teacher'].includes(userInfo.value.user_type) && 
+  return ['admin', 'teacher'].includes(userInfo.value.role) && 
          reservation.status === 'pending'
 }
 
 const canReject = (reservation) => {
-  return ['admin', 'teacher'].includes(userInfo.value.user_type) && 
+  return ['admin', 'teacher'].includes(userInfo.value.role) && 
          reservation.status === 'pending'
 }
 
@@ -451,6 +456,10 @@ watch(currentDate, () => {
 // 生命周期
 onMounted(() => {
   loadLabOptions()
+  const role = userStore.userInfo?.role || userStore.userInfo?.user_type
+  if (!['admin', 'teacher'].includes(role)) {
+    filterForm.onlyMine = true
+  }
   loadCalendarData()
 })
 </script>

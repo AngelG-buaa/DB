@@ -207,6 +207,8 @@
             <el-button
               type="danger"
               size="small"
+              :loading="deleteProcessingId === row.id"
+              :disabled="deleteProcessingId === row.id"
               @click="handleDelete(row)"
             >
               删除
@@ -634,18 +636,29 @@ const completeRecord = async (row) => {
     })
     
     const updateData = {
-      status: 'completed',
       actual_completion_date: dayjs().format('YYYY-MM-DD')
     }
     
-    const response = await updateMaintenanceRecordApi(row.id, updateData)
-    if (response.code === 200) {
+    try {
+      const response = await completeMaintenanceRecordApi(row.id, updateData)
+      if (response.code === 200) {
+        ElMessage.success('维修记录已标记为完成')
+        loadTableData()
+        loadStats()
+        return
+      }
+    } catch (e) {}
+
+    const response2 = await updateMaintenanceRecordApi(row.id, { status: 'completed', actual_completion_date: updateData.actual_completion_date })
+    if (response2.code === 200) {
       ElMessage.success('维修记录已标记为完成')
       loadTableData()
       loadStats()
+      return
     }
   } catch (error) {
     if (error !== 'cancel') {
+      ElMessage.error('完成操作失败')
       console.error('完成维修记录失败:', error)
     }
   }
@@ -662,37 +675,32 @@ const handleSubmit = async () => {
     await maintenanceFormRef.value.validate()
     submitLoading.value = true
     
-    const submitData = {
-      equipment_id: Number(maintenanceForm.equipmentId),
-      equipment: { id: Number(maintenanceForm.equipmentId) },
-      reporter_id: Number(userInfo.value?.id),
-      repair_person: maintenanceForm.technician,
-      technician: maintenanceForm.technician,
-      fault_description: maintenanceForm.description,
-      description: maintenanceForm.description,
-      repair_description: '',
-      repair_cost: Number(maintenanceForm.cost) || 0,
-      cost: Number(maintenanceForm.cost) || 0,
-      repair_status: maintenanceForm.status || 'reported',
-      status: maintenanceForm.status || 'reported',
-      priority: 'medium',
-      report_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      start_time: maintenanceForm.startDate ? dayjs(maintenanceForm.startDate).format('YYYY-MM-DD HH:mm:ss') : null,
-      start_date: maintenanceForm.startDate || null,
-      finish_time: maintenanceForm.actualCompletionDate ? dayjs(maintenanceForm.actualCompletionDate).format('YYYY-MM-DD HH:mm:ss') : null,
-      actual_completion_date: maintenanceForm.actualCompletionDate || null,
-      expected_finish_date: maintenanceForm.expectedCompletionDate || null,
-      expected_completion_date: maintenanceForm.expectedCompletionDate || null,
-      parts_used: null,
-      warranty_info: '',
-      remarks: maintenanceForm.remarks || '',
-      repair_type: maintenanceForm.type,
-      type: maintenanceForm.type
+    const submitData = {}
+    submitData.equipment_id = Number(maintenanceForm.equipmentId)
+    submitData.repair_person = maintenanceForm.technician
+    submitData.technician = maintenanceForm.technician
+    submitData.fault_description = maintenanceForm.description
+    submitData.description = maintenanceForm.description
+    submitData.repair_cost = Number(maintenanceForm.cost) || 0
+    submitData.cost = Number(maintenanceForm.cost) || 0
+    submitData.status = maintenanceForm.status || 'reported'
+    submitData.repair_status = submitData.status
+    submitData.priority = 'medium'
+    submitData.remarks = maintenanceForm.remarks || ''
+    submitData.repair_type = maintenanceForm.type
+    submitData.type = maintenanceForm.type
+    // 仅在有值时提交日期字段，避免覆盖为空
+    if (maintenanceForm.startDate) {
+      submitData.start_date = maintenanceForm.startDate
     }
-    
+    if (maintenanceForm.expectedCompletionDate) {
+      submitData.expected_completion_date = maintenanceForm.expectedCompletionDate
+    }
     if (maintenanceForm.actualCompletionDate) {
       submitData.actual_completion_date = maintenanceForm.actualCompletionDate
     }
+    
+    
     
     const api = isEdit.value ? updateMaintenanceRecordApi : createMaintenanceRecordApi
     const params = isEdit.value ? [maintenanceForm.id, submitData] : [submitData]
@@ -712,8 +720,11 @@ const handleSubmit = async () => {
   }
 }
 
+const deleteProcessingId = ref(null)
+
 const handleDelete = async (row) => {
   try {
+    deleteProcessingId.value = row.id
     await ElMessageBox.confirm(
       `确定要删除这条维修记录吗？此操作不可恢复。`,
       '确认删除',
@@ -725,11 +736,15 @@ const handleDelete = async (row) => {
       ElMessage.success('删除成功')
       loadTableData()
       loadStats()
+      return
     }
+    ElMessage.error('删除失败')
   } catch (error) {
     if (error !== 'cancel') {
-      console.error('删除失败:', error)
+      ElMessage.error('删除失败')
     }
+  } finally {
+    deleteProcessingId.value = null
   }
 }
 
@@ -762,7 +777,8 @@ const formatDateTime = (datetime) => {
 }
 
 const formatDate = (date) => {
-  return dayjs(date).format('YYYY-MM-DD')
+  const d = dayjs(date)
+  return d.isValid() ? d.format('YYYY-MM-DD') : '-'
 }
 
 const formatPrice = (price) => {

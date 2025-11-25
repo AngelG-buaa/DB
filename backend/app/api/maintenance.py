@@ -7,7 +7,7 @@
 
 from flask import Blueprint, request
 from datetime import datetime, date
-from backend.init_database import execute_query, execute_update, execute_paginated_query
+from backend.database import execute_query, execute_update, execute_paginated_query
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response,
@@ -172,11 +172,12 @@ def get_maintenance_detail(record_id):
     'description': {'required': True, 'type': 'string', 'min_length': 5, 'max_length': 1000},
     'technician': {'required': True, 'type': 'string', 'min_length': 2, 'max_length': 100},
     'cost': {'required': False, 'type': 'number'},
-    'start_date': {'required': True, 'type': 'date_string'},
-    'expected_completion_date': {'required': False, 'type': 'date_string'},
-    'actual_completion_date': {'required': False, 'type': 'date_string'},
+    'start_date': {'required': True, 'type': 'date'},
+    'expected_completion_date': {'required': False, 'type': 'date'},
+    'actual_completion_date': {'required': False, 'type': 'date'},
     'status': {'required': False, 'type': 'string', 'choices': ['in_progress', 'completed', 'cancelled'], 'default': 'in_progress'},
-    'remarks': {'required': False, 'type': 'string', 'max_length': 1000}
+    'remarks': {'required': False, 'type': 'string', 'max_length': 1000},
+    'repair_description': {'required': False, 'type': 'string', 'max_length': 1000}
 })
 def create_maintenance_record():
     try:
@@ -207,10 +208,10 @@ def create_maintenance_record():
             (current_user.get('id') or current_user.get('user_id')),
             data['technician'],
             data['description'],
-            data.get('remarks') or '',
+            (data.get('repair_description') or ''),
             data.get('cost'),
             status,
-            data['start_date'],
+            (data.get('start_date') or None),
             data.get('actual_completion_date'),
             data.get('expected_completion_date'),
             data.get('remarks'),
@@ -223,11 +224,6 @@ def create_maintenance_record():
             return error_response('创建维修记录失败')
 
         new_id = result['last_insert_id']
-        try:
-            if status in ['in_progress', 'reported']:
-                execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (data['equipment_id'],))
-        except Exception:
-            pass
         detail = execute_query(
             "SELECT r.*, e.name AS equipment_name, e.model AS equipment_model "
             "FROM equipment_repair r LEFT JOIN equipment e ON r.equipment_id = e.id WHERE r.id = %s",
@@ -249,11 +245,12 @@ def create_maintenance_record():
     'description': {'required': False, 'type': 'string', 'min_length': 5, 'max_length': 1000},
     'technician': {'required': False, 'type': 'string', 'min_length': 2, 'max_length': 100},
     'cost': {'required': False, 'type': 'number'},
-    'start_date': {'required': False, 'type': 'date_string'},
-    'expected_completion_date': {'required': False, 'type': 'date_string'},
-    'actual_completion_date': {'required': False, 'type': 'date_string'},
+    'start_date': {'required': False, 'type': 'date'},
+    'expected_completion_date': {'required': False, 'type': 'date'},
+    'actual_completion_date': {'required': False, 'type': 'date'},
     'status': {'required': False, 'type': 'string', 'choices': ['in_progress', 'completed', 'cancelled']},
-    'remarks': {'required': False, 'type': 'string', 'max_length': 1000}
+    'remarks': {'required': False, 'type': 'string', 'max_length': 1000},
+    'repair_description': {'required': False, 'type': 'string', 'max_length': 1000}
 })
 def update_maintenance_record(record_id):
     try:
@@ -280,23 +277,23 @@ def update_maintenance_record(record_id):
             'expected_completion_date': ('expected_finish_date', None),
             'actual_completion_date': ('finish_time', None),
             'remarks': ('remarks', None),
+            'repair_description': ('repair_description', None),
         }
 
         for key, (col, _) in mapping.items():
             if key in data:
+                val = data.get(key)
+                # 跳过空字符串或 None，避免将已有值覆盖为 NULL
+                if val is None:
+                    continue
+                if isinstance(val, str) and val.strip() == '':
+                    continue
                 fields.append(f"{col} = %s")
-                params.append(data.get(key))
+                params.append(val)
 
         if 'status' in data:
             fields.append("repair_status = %s")
             params.append(data['status'])
-            try:
-                if data['status'] in ['in_progress', 'reported'] and equipment_id:
-                    execute_update("UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s", (equipment_id,))
-                elif data['status'] in ['completed', 'cancelled'] and equipment_id:
-                    execute_update("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (equipment_id,))
-            except Exception:
-                pass
 
         if not fields:
             return success_response(None, '无需更新')
@@ -410,12 +407,6 @@ def complete_maintenance_record(record_id):
         result = execute_update(sql, tuple(params))
         if not result['success']:
             return error_response('更新维修完成状态失败')
-        try:
-            eq_id = check['data'][0]['equipment_id']
-            if eq_id:
-                execute_update("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (eq_id,))
-        except Exception:
-            pass
 
         # 返回最新详情
         detail = execute_query(
@@ -441,10 +432,10 @@ def maintenance_trend():
         months = params.get('months', 6)
 
         trend_sql = (
-            "SELECT DATE_FORMAT(COALESCE(start_time, report_time), '%Y-%m') AS ym, "
+            "SELECT DATE_FORMAT(COALESCE(finish_time, start_time, report_time, created_at), '%Y-%m') AS ym, "
             "       COUNT(*) AS count, COALESCE(SUM(repair_cost), 0) AS total_cost "
             "FROM equipment_repair "
-            f"WHERE COALESCE(start_time, report_time) >= DATE_SUB(CURDATE(), INTERVAL {months} MONTH) "
+            f"WHERE COALESCE(finish_time, start_time, report_time, created_at) >= DATE_SUB(CURDATE(), INTERVAL {months} MONTH) "
             "GROUP BY ym ORDER BY ym ASC"
         )
         result = execute_query(trend_sql, ())

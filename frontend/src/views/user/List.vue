@@ -75,7 +75,7 @@
         <el-table-column prop="major" label="专业" min-width="120" />
         <el-table-column prop="grade" label="年级" width="80" />
         <el-table-column prop="created_at" label="创建时间" width="160" />
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
             <el-button
               type="primary"
@@ -83,13 +83,6 @@
               @click="handleEdit(row)"
             >
               编辑
-            </el-button>
-            <el-button
-              type="info"
-              size="small"
-              @click="handleViewReservations(row)"
-            >
-              预约记录
             </el-button>
             <el-button
               type="danger"
@@ -219,12 +212,9 @@ const handleCreate = () => {
 }
 
 const handleEdit = (row) => {
-  router.push(`/user/edit/${row.user_id}`)
+  router.push(`/user/create?id=${row.user_id}`)
 }
 
-const handleViewReservations = (row) => {
-  router.push(`/reservation/list?user_id=${row.user_id}`)
-}
 
 const handleDelete = async (row) => {
   try {

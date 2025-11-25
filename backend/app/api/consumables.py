@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update, execute_paginated_query
+from backend.database import execute_query, execute_update, execute_paginated_query, get_connection
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response,
@@ -262,26 +262,38 @@ def delete_consumable(cid):
 def use_consumable(cid):
     try:
         d = request.validated_data
-        # 获取当前库存
-        cur = execute_query("SELECT current_stock FROM consumables WHERE id = %s", (cid,))
-        if not cur['success'] or not cur['data']:
-            return not_found_response('耗材不存在')
-        stock = float(cur['data'][0]['current_stock'] or 0)
         qty = float(d['quantity'])
-        if qty <= 0 or stock < qty:
-            return error_response('库存不足或数量非法')
-        # 扣减库存并增加使用次数
-        u1 = execute_update("UPDATE consumables SET current_stock = current_stock - %s, usage_count = usage_count + 1, updated_at = NOW() WHERE id = %s", (qty, cid))
-        if not u1['success']:
-            return error_response('更新库存失败')
-        # 写入使用记录
-        u2 = execute_update(
-            "INSERT INTO consumable_usage (consumable_id, user_id, quantity, purpose, created_at) VALUES (%s,%s,%s,%s,NOW())",
-            (cid, d['userId'], qty, d['purpose'])
-        )
-        if not u2['success']:
-            logger.error(f"保存使用记录失败: {u2.get('error')}")
-        return updated_response(None, '使用记录已保存')
+        conn = None
+        try:
+            conn = get_connection()
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE consumables SET current_stock = current_stock - %s, usage_count = usage_count + 1, updated_at = NOW() WHERE id = %s AND current_stock >= %s",
+                    (qty, cid, qty)
+                )
+                if cursor.rowcount == 0:
+                    conn.rollback()
+                    return error_response('保存使用记录失败')
+                cursor.execute(
+                    "INSERT INTO consumable_usage (consumable_id, user_id, quantity, purpose, created_at) VALUES (%s, %s, %s, %s, NOW())",
+                    (cid, d['userId'], qty, d['purpose'])
+                )
+            conn.commit()
+            return updated_response(None, '使用记录已保存')
+        except Exception as e:
+            if conn:
+                try:
+                    conn.rollback()
+                except Exception:
+                    pass
+            logger.error(f"使用耗材事务执行失败: {str(e)}")
+            return error_response('保存使用记录失败')
+        finally:
+            if conn:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
     except Exception as e:
         logger.error(f"使用耗材接口错误: {str(e)}")
         return error_response('保存使用记录失败')

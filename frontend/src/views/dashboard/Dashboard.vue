@@ -293,15 +293,18 @@ const welcomeMessage = computed(() => {
 // 方法
 const loadDashboardData = async () => {
   try {
-    const statsRes = await getReservationStatsApi()
-    if (statsRes.code === 200) {
-      const d = statsRes.data || {}
-      const dist = d.status_distribution || {}
-      dashboardStats.totalReservations = d.total_reservations || 0
-      dashboardStats.activeReservations = (dist.confirmed || 0) + (dist.approved || 0)
-      dashboardStats.pendingReservations = dist.pending || 0
-      dashboardRaw.byDate = d.by_date || d.daily_trend || []
-      dashboardRaw.byLaboratory = d.by_laboratory || d.laboratory_distribution || []
+    const role = userInfo.value?.role
+    if (['admin', 'teacher'].includes(role)) {
+      const statsRes = await getReservationStatsApi()
+      if (statsRes.code === 200) {
+        const d = statsRes.data || {}
+        const dist = d.status_distribution || {}
+        dashboardStats.totalReservations = d.total_reservations || 0
+        dashboardStats.activeReservations = (dist.confirmed || 0)
+        dashboardStats.pendingReservations = dist.pending || 0
+        dashboardRaw.byDate = d.by_date || d.daily_trend || []
+        dashboardRaw.byLaboratory = d.by_laboratory || d.laboratory_distribution || []
+      }
     }
     const labsRes = await getLabsApi({ page: 1, page_size: 1, status: 'available' })
     if (labsRes.code === 200) {

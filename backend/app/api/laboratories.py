@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update, execute_paginated_query
+from backend.database import execute_query, execute_update, execute_paginated_query
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -24,7 +24,9 @@ laboratories_bp = Blueprint('laboratories', __name__)
     'page': {'type': 'integer', 'min_value': 1, 'default': 1},
     'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'status': {'type': 'string', 'choices': ['available', 'maintenance', 'occupied']},
-    'search': {'type': 'string', 'max_length': 100}
+    'search': {'type': 'string', 'max_length': 100},
+    'min_capacity': {'type': 'integer', 'min_value': 0},
+    'max_capacity': {'type': 'integer', 'min_value': 0}
 })
 def get_laboratories():
     """获取实验室列表"""
@@ -34,19 +36,20 @@ def get_laboratories():
         page_size = params['page_size']
         status = params.get('status')
         search = params.get('search')
+        min_capacity = params.get('min_capacity') or request.args.get('minCapacity')
+        max_capacity = params.get('max_capacity') or request.args.get('maxCapacity')
         
         # 构建查询条件
         where_conditions = []
         query_params = []
         
-        if status:
-            where_conditions.append('status = %s')
-            query_params.append(status)
-        
         if search:
-            where_conditions.append('(name LIKE %s OR location LIKE %s OR description LIKE %s)')
+            # 避免与 users.name/status 等列名歧义，统一限定到实验室表别名
+            # lab_ref 在下方根据是否联表设置为 'l' 或 'laboratories'
+            # 此处先暂存，待 lab_ref 设置后再补前缀
             search_param = f'%{search}%'
             query_params.extend([search_param, search_param, search_param])
+            where_conditions.append('SEARCH_PLACEHOLDER')
         
         # 构建SQL（兼容未添加 manager_id 字段的旧库）
         has_manager_col = execute_query(
@@ -59,11 +62,39 @@ def get_laboratories():
                 "       l.created_at, l.updated_at, l.manager_id, u.name AS manager_name "
                 "FROM laboratories l LEFT JOIN users u ON l.manager_id = u.id"
             )
+            lab_ref = 'l'
         else:
             base_sql = (
                 "SELECT id, name, location, capacity, description, status, created_at, updated_at "
                 "FROM laboratories"
             )
+            lab_ref = 'laboratories'
+
+        if status:
+            if status == 'occupied':
+                where_conditions.append(
+                    f"EXISTS (SELECT 1 FROM reservations r WHERE r.laboratory_id = {lab_ref}.id AND r.status IN ('confirmed','pending') AND r.reservation_date >= CURDATE())"
+                )
+            else:
+                mapped = 'active' if status == 'available' else status
+                where_conditions.append(f"{lab_ref}.status = %s")
+                query_params.append(mapped)
+
+        # 容量筛选
+        try:
+            if min_capacity is not None and str(min_capacity) != '':
+                where_conditions.append(f"{lab_ref}.capacity >= %s")
+                query_params.append(int(min_capacity))
+            if max_capacity is not None and str(max_capacity) != '':
+                where_conditions.append(f"{lab_ref}.capacity <= %s")
+                query_params.append(int(max_capacity))
+        except Exception:
+            pass
+
+        # 回填搜索条件前缀（避免歧义）
+        for i, cond in enumerate(where_conditions):
+            if cond == 'SEARCH_PLACEHOLDER':
+                where_conditions[i] = f"({lab_ref}.name LIKE %s OR {lab_ref}.location LIKE %s OR {lab_ref}.description LIKE %s)"
         
         if where_conditions:
             base_sql += ' WHERE ' + ' AND '.join(where_conditions)
@@ -211,6 +242,69 @@ def get_laboratory_equipment(lab_id):
     except Exception as e:
         logger.error(f"获取实验室设备接口错误: {str(e)}")
         return error_response("获取设备列表失败")
+
+@laboratories_bp.route('/<int:lab_id>/availability', methods=['GET'])
+@require_auth
+@validate_query_params({
+    'date': {'required': True, 'type': 'date_string'}
+})
+def get_laboratory_availability(lab_id):
+    """获取指定日期的实验室可用性时间线"""
+    try:
+        params = request.validated_params
+        query_date = params['date']
+
+        lab_check = execute_query("SELECT id, name FROM laboratories WHERE id = %s", (lab_id,))
+        if not lab_check['success']:
+            return error_response("查询失败，请稍后重试")
+        if not lab_check['data']:
+            return not_found_response("实验室不存在")
+
+        res_sql = (
+            "SELECT r.id, r.start_time, r.end_time, r.purpose, r.status, u.name AS user_name "
+            "FROM reservations r JOIN users u ON r.user_id = u.id "
+            "WHERE r.laboratory_id = %s AND r.reservation_date = %s AND r.status IN ('confirmed','pending')"
+        )
+        res_result = execute_query(res_sql, (lab_id, query_date))
+        if not res_result['success']:
+            logger.error(f"查询实验室可用性失败: {res_result.get('error')}")
+            return error_response("获取可用性数据失败")
+
+        reservations = res_result['data'] or []
+
+        def overlaps(slot_min, start_tm, end_tm):
+            try:
+                s = int(str(start_tm).split(":")[0]) * 60 + int(str(start_tm).split(":")[1])
+                e = int(str(end_tm).split(":")[0]) * 60 + int(str(end_tm).split(":")[1])
+                return s <= slot_min < e
+            except Exception:
+                return False
+
+        slots = []
+        start_hour = 8
+        end_hour = 22
+        cur = start_hour * 60
+        end_min = end_hour * 60
+        while cur < end_min:
+            hh = cur // 60
+            mm = cur % 60
+            label = f"{hh:02d}:{mm:02d}"
+            occ = None
+            for r in reservations:
+                if overlaps(cur, r.get('start_time'), r.get('end_time')):
+                    occ = r
+                    break
+            slots.append({
+                'time': label,
+                'available': False if occ else True,
+                'reservation_info': None if not occ else f"{occ.get('user_name')} {str(occ.get('start_time'))[:5]}-{str(occ.get('end_time'))[:5]} {occ.get('purpose')}",
+            })
+            cur += 30
+
+        return success_response(slots, "获取可用性数据成功")
+    except Exception as e:
+        logger.error(f"实验室可用性接口错误: {str(e)}")
+        return error_response("获取可用性数据失败")
 
 @laboratories_bp.route('', methods=['POST'])
 @require_auth
@@ -458,24 +552,6 @@ def delete_laboratory(lab_id):
         
         if not check_result['data']:
             return not_found_response("实验室不存在")
-        
-        # 检查实验室是否有相关的设备
-        equipment_check_sql = "SELECT COUNT(*) as count FROM equipment WHERE laboratory_id = %s"
-        equipment_result = execute_query(equipment_check_sql, (lab_id,))
-        
-        if equipment_result['success'] and equipment_result['data']:
-            equipment_count = equipment_result['data'][0]['count']
-            if equipment_count > 0:
-                return error_response("该实验室有相关设备，请先删除设备")
-        
-        # 检查实验室是否有相关的预约记录
-        reservation_check_sql = "SELECT COUNT(*) as count FROM reservations WHERE laboratory_id = %s"
-        reservation_result = execute_query(reservation_check_sql, (lab_id,))
-        
-        if reservation_result['success'] and reservation_result['data']:
-            reservation_count = reservation_result['data'][0]['count']
-            if reservation_count > 0:
-                return error_response("该实验室有相关的预约记录，无法删除")
         
         # 删除实验室
         delete_sql = "DELETE FROM laboratories WHERE id = %s"

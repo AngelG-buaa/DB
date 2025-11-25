@@ -1,51 +1,9 @@
 <template>
   <div class="equipment-statistics">
-    <!-- 筛选条件 -->
-    <el-card class="filter-card">
-      <el-form :model="filterForm" inline>
-        <el-form-item label="实验室">
-          <el-select
-            v-model="filterForm.lab_id"
-            placeholder="请选择实验室"
-            clearable
-            filterable
-          >
-            <el-option
-              v-for="lab in laboratories"
-              :key="lab.lab_id"
-              :label="lab.lab_name"
-              :value="lab.lab_id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="设备状态">
-          <el-select
-            v-model="filterForm.status"
-            placeholder="请选择状态"
-            clearable
-          >
-            <el-option label="正常" value="Normal" />
-            <el-option label="维护中" value="Maintenance" />
-            <el-option label="故障" value="Broken" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="设备类型">
-          <el-input
-            v-model="filterForm.equipment_type"
-            placeholder="请输入设备类型"
-            clearable
-            style="width: 200px"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="handleFilter">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+    
     
     <!-- 统计卡片 -->
-    <el-row :gutter="20" class="stats-cards">
+<el-row :gutter="20" class="stats-cards">
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
@@ -103,6 +61,7 @@
       </el-col>
     </el-row>
     
+    
     <!-- 图表区域 -->
     <el-row :gutter="20" class="charts-row">
       <el-col :span="12">
@@ -134,29 +93,14 @@
         </el-card>
       </el-col>
       
-      <el-col :span="12">
-        <el-card>
-          <template #header>
-            <span>保修到期分布</span>
-          </template>
-          <div ref="usageFrequencyChart" style="height: 300px;"></div>
-        </el-card>
-      </el-col>
-    </el-row>
-    
-    <!-- 维护记录趋势 -->
-    <el-card class="maintenance-trend-card">
-      <template #header>
-        <span>设备维护趋势</span>
-      </template>
-      <div ref="maintenanceTrendChart" style="height: 400px;"></div>
-    </el-card>
-    
-    <!-- 详细数据表格 -->
-    <el-card class="table-card">
-      <template #header>
-        <span>设备详细统计</span>
-      </template>
+      
+  </el-row>
+  
+  <!-- 详细数据表格 -->
+  <el-card class="table-card">
+    <template #header>
+      <span>设备详细统计</span>
+    </template>
       
       <el-table :data="detailData" stripe style="width: 100%">
         <el-table-column prop="lab_name" label="实验室" min-width="120" />
@@ -171,25 +115,18 @@ import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Monitor, Check, Tools, Warning } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import { getEquipmentStatisticsApi } from '@/api/equipment'
-import { getLabsApi } from '@/api/lab'
-import { getMaintenanceTrendApi } from '@/api/maintenance'
 
 const statusChart = ref()
 const typeChart = ref()
 const labEquipmentChart = ref()
-const usageFrequencyChart = ref()
-const maintenanceTrendChart = ref()
+ 
 
-const laboratories = ref([])
+ 
 const detailData = ref([])
 const labDist = ref([])
-const warrantySoon = ref([])
+ 
 
-const filterForm = reactive({
-  lab_id: null,
-  status: null,
-  equipment_type: ''
-})
+ 
 
 const equipmentStats = reactive({
   total: 0,
@@ -198,14 +135,7 @@ const equipmentStats = reactive({
   broken: 0
 })
 
-const loadLaboratories = async () => {
-  try {
-    const response = await getLabsApi({ page: 1, page_size: 100 })
-    laboratories.value = response.code === 200 ? (response.data.list || []) : []
-  } catch (error) {
-    console.error('加载实验室列表失败:', error)
-  }
-}
+ 
 
 const loadEquipmentStats = async () => {
   try {
@@ -218,13 +148,12 @@ const loadEquipmentStats = async () => {
       equipmentStats.normal = aliasSum(dist, ['available', 'normal', 'Normal', '正常'])
       equipmentStats.maintenance = aliasSum(dist, ['maintenance', 'Maintenance', '维修中'])
       equipmentStats.broken = aliasSum(dist, ['damaged', 'broken', 'Broken', '故障'])
+      
       labDist.value = d.laboratory_distribution || []
-      warrantySoon.value = d.warranty_expiring_soon || []
       nextTick(() => {
         initStatusChart()
         initTypeChart()
         initLabEquipmentChart()
-        initUsageFrequencyChart()
       })
     }
   } catch (error) {
@@ -297,81 +226,22 @@ const initLabEquipmentChart = () => {
   chart.setOption(option)
 }
 
-const initUsageFrequencyChart = () => {
-  const chart = echarts.init(usageFrequencyChart.value)
-  const buckets = { '0-7天': 0, '8-15天': 0, '16-30天': 0 }
-  for (const w of (warrantySoon.value || [])) {
-    const days = Number(w.days_left || 0)
-    if (days <= 7) buckets['0-7天'] += 1
-    else if (days <= 15) buckets['8-15天'] += 1
-    else buckets['16-30天'] += 1
-  }
-  const cats = Object.keys(buckets)
-  const vals = cats.map(k => buckets[k])
-  const option = {
-    tooltip: { trigger: 'axis' },
-    xAxis: { type: 'category', data: cats },
-    yAxis: { type: 'value' },
-    series: [{ data: vals, type: 'bar', itemStyle: { color: '#67C23A' } }]
-  }
-  chart.setOption(option)
-}
+ 
 
-const initMaintenanceTrendChart = async () => {
-  const chart = echarts.init(maintenanceTrendChart.value)
-  const res = await getMaintenanceTrendApi({ months: 6 })
-  const months = res.code === 200 ? (res.data.months || []) : []
-  const seriesData = res.code === 200 ? (res.data.series || []) : []
-  const counts = seriesData.map(i => i.count)
-  const costs = seriesData.map(i => i.total_cost)
-  const option = {
-    tooltip: { trigger: 'axis' },
-    legend: { data: ['维护次数', '维护成本'] },
-    xAxis: { type: 'category', data: months },
-    yAxis: [{ type: 'value', name: '维护次数', position: 'left' }, { type: 'value', name: '维护成本(元)', position: 'right' }],
-    series: [
-      { name: '维护次数', type: 'bar', data: counts, itemStyle: { color: '#409EFF' } },
-      { name: '维护成本', type: 'line', yAxisIndex: 1, data: costs, itemStyle: { color: '#E6A23C' } }
-    ]
-  }
-  chart.setOption(option)
-}
 
-const handleFilter = async () => {
-  await loadEquipmentStats()
-  await loadDetailData()
-  
-  nextTick(() => {
-    initStatusChart()
-    initTypeChart()
-    initLabEquipmentChart()
-    initUsageFrequencyChart()
-    initMaintenanceTrendChart()
+ 
+
+ 
+
+  onMounted(async () => {
+    await loadEquipmentStats()
+    await loadDetailData()
+    nextTick(() => {
+      initStatusChart()
+      initTypeChart()
+      initLabEquipmentChart()
+    })
   })
-}
-
-const handleReset = () => {
-  Object.assign(filterForm, {
-    lab_id: null,
-    status: null,
-    equipment_type: ''
-  })
-  handleFilter()
-}
-
-onMounted(async () => {
-  await loadLaboratories()
-  await loadEquipmentStats()
-  await loadDetailData()
-  
-  nextTick(() => {
-    initStatusChart()
-    initTypeChart()
-    initLabEquipmentChart()
-    initUsageFrequencyChart()
-    initMaintenanceTrendChart()
-  })
-})
 </script>
 
 <style scoped>
@@ -435,9 +305,6 @@ onMounted(async () => {
   margin-bottom: 20px;
 }
 
-.maintenance-trend-card {
-  margin-bottom: 20px;
-}
 
 .table-card {
   margin-top: 20px;

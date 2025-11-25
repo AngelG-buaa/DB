@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update, execute_paginated_query, execute_transaction
+from backend.database import execute_query, execute_update, execute_paginated_query, execute_transaction
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response, conflict_response,
@@ -81,8 +81,8 @@ def get_reservations():
         # 构建SQL
         base_sql = """
         SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
-               r.status, r.equipment_ids, r.created_at, r.updated_at,
-               u.name as user_name, u.email as user_email,
+               r.status, r.participant_count, r.equipment_ids, r.created_at, r.updated_at,
+               u.id as user_id, u.name as user_name, u.email as user_email,
                l.name as laboratory_name, l.location as laboratory_location
         FROM reservations r
         JOIN users u ON r.user_id = u.id
@@ -131,7 +131,9 @@ def get_reservations():
                 'end_time': str(reservation['end_time']) if reservation['end_time'] else None,
                 'purpose': reservation['purpose'],
                 'status': reservation['status'],
+                'participant_count': reservation.get('participant_count'),
                 'equipment': equipment_list,
+                'user_id': reservation.get('user_id'),
                 'user': {
                     'name': reservation['user_name'],
                     'email': reservation['user_email']
@@ -174,7 +176,7 @@ def get_my_reservations():
         current_user = request.current_user
 
         where_conditions = ["r.user_id = %s"]
-        query_params = [current_user.get('user_id')]
+        query_params = [current_user.get('id') or current_user.get('user_id')]
 
         if status:
             where_conditions.append('r.status = %s')
@@ -327,6 +329,8 @@ def get_reservation(reservation_id):
     'start_time': {'required': True, 'type': 'string'},  # HH:MM格式
     'end_time': {'required': True, 'type': 'string'},    # HH:MM格式
     'purpose': {'required': True, 'type': 'string', 'min_length': 1, 'max_length': 500},
+    'participant_count': {'required': False, 'type': 'integer', 'min_value': 1},
+    'remarks': {'required': False, 'type': 'string', 'max_length': 500},
     'equipment_ids': {'required': False, 'type': 'list'}  # 设备ID列表
 })
 def create_reservation():
@@ -444,8 +448,8 @@ def create_reservation():
         # 创建预约
         insert_sql = """
         INSERT INTO reservations (user_id, laboratory_id, reservation_date, start_time, 
-                                end_time, purpose, equipment_ids, status, created_at)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
+                                end_time, purpose, participant_count, equipment_ids, status, notes, created_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
         """
         
         # 所有预约均需审核，默认状态为待审核
@@ -459,7 +463,7 @@ def create_reservation():
 
         insert_result = execute_update(insert_sql, (
             user_id, laboratory_id, reservation_date, start_time,
-            end_time, purpose, equipment_ids_str, status
+            end_time, purpose, int(data.get('participant_count') or 1), equipment_ids_str, status, (data.get('remarks') or None)
         ))
         
         logger.info(f"预约插入结果: {insert_result}")
@@ -472,7 +476,7 @@ def create_reservation():
         reservation_id = insert_result['last_insert_id']
         reservation_sql = """
         SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
-               r.status, r.equipment_ids, r.created_at,
+               r.status, r.participant_count, r.equipment_ids, r.created_at,
                l.name as laboratory_name, l.location as laboratory_location
         FROM reservations r
         JOIN laboratories l ON r.laboratory_id = l.id
@@ -510,6 +514,7 @@ def create_reservation():
                 'end_time': str(reservation['end_time']) if reservation['end_time'] else None,
                 'purpose': reservation['purpose'],
                 'status': reservation['status'],
+                'participant_count': reservation.get('participant_count'),
                 'equipment': equipment_list,
                 'laboratory': {
                     'name': reservation['laboratory_name'],
@@ -717,11 +722,26 @@ def delete_reservation(reservation_id):
         if reservation['status'] == 'completed':
             return error_response("已完成的预约不能删除")
         
-        # 检查是否是过去的预约
-        reservation_datetime = datetime.combine(
-            reservation['reservation_date'], 
-            reservation['start_time']
-        )
+        # 检查是否是过去的预约（兼容不同类型的日期/时间字段）
+        try:
+            res_date = reservation.get('reservation_date')
+            start_t = reservation.get('start_time')
+
+            res_date_str = (
+                res_date.isoformat() if hasattr(res_date, 'isoformat') else str(res_date)
+            )
+            # 统一时间为 HH:MM:SS
+            start_t_str = (
+                start_t.strftime('%H:%M:%S') if hasattr(start_t, 'strftime') else str(start_t)
+            )
+            # 允许后端保存为 'HH:MM'，补全秒
+            if len(start_t_str) == 5:
+                start_t_str = f"{start_t_str}:00"
+
+            reservation_datetime = datetime.strptime(f"{res_date_str} {start_t_str}", "%Y-%m-%d %H:%M:%S")
+        except Exception:
+            # 若解析失败，保守处理为过去时间，走“取消”分支避免硬删除
+            reservation_datetime = datetime.now()
         
         if reservation_datetime <= datetime.now():
             # 过去的预约标记为取消而不是删除
@@ -1196,3 +1216,38 @@ def reject_reservation(reservation_id):
     except Exception as e:
         logger.error(f"拒绝预约接口错误: {str(e)}")
         return error_response("审批失败，请稍后重试")
+
+@reservations_bp.route('/<int:reservation_id>/complete', methods=['POST'])
+@require_auth
+@require_role(['admin', 'teacher'])
+def complete_reservation(reservation_id):
+    """完成预约"""
+    try:
+        # 检查预约是否存在
+        check_sql = "SELECT id, status FROM reservations WHERE id = %s"
+        check_result = execute_query(check_sql, (reservation_id,))
+        
+        if not check_result['success']:
+            return error_response("完成预约失败，请稍后重试")
+        
+        if not check_result['data']:
+            return not_found_response("预约不存在")
+            
+        reservation = check_result['data'][0]
+        
+        # 检查预约状态
+        if reservation['status'] != 'confirmed':
+            return error_response(f"只有‘已确认’的预约才能被完成，当前状态为‘{reservation['status']}’")
+            
+        # 更新预约状态为'completed'
+        update_sql = "UPDATE reservations SET status = 'completed', updated_at = NOW() WHERE id = %s"
+        update_result = execute_update(update_sql, (reservation_id,))
+        
+        if not update_result['success']:
+            return error_response("完成预约失败，请稍后重试")
+            
+        return updated_response(None, "预约已完成")
+        
+    except Exception as e:
+        logger.error(f"完成预约接口错误: {str(e)}")
+        return error_response("完成预约失败，请稍后重试")

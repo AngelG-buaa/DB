@@ -5,7 +5,7 @@
 """
 
 from flask import Blueprint, request
-from backend.init_database import execute_query, execute_update
+from backend.database import execute_query, execute_update
 from app.utils import (
     AuthUtils, require_auth, validate_json_data, 
     success_response, error_response, unauthorized_response,
@@ -96,7 +96,8 @@ def logout():
     'name': {'required': True, 'type': 'string', 'min_length': 1, 'max_length': 100},
     'email': {'required': True, 'type': 'email'},
     'phone': {'required': False, 'type': 'phone'},
-    'role': {'required': False, 'type': 'string', 'choices': ['student', 'teacher', 'admin']}
+    'role': {'required': False, 'type': 'string', 'choices': ['student', 'teacher', 'admin']},
+    'course_id': {'required': False, 'type': 'integer', 'min_value': 1}
 })
 def register():
     """用户注册"""
@@ -145,6 +146,22 @@ def register():
             logger.error(f"创建用户失败: {insert_result.get('error')}")
             return error_response("注册失败，请稍后重试")
         
+        # 若为学生且提供了课程，写入选课记录
+        try:
+            cid = request.get_json().get('course_id') if hasattr(request, 'get_json') else None
+        except Exception:
+            cid = None
+        if role == 'student' and cid:
+            # 验证课程存在
+            cchk = execute_query("SELECT id FROM courses WHERE id = %s", (cid,))
+            if cchk.get('success') and cchk.get('data'):
+                _en = execute_update(
+                    "INSERT INTO course_students (course_id, student_id, enrolled_at) VALUES (%s, %s, NOW())",
+                    (cid, insert_result['last_insert_id'])
+                )
+                if not _en.get('success'):
+                    logger.warning(f"写入课程选课失败: {_en.get('error')}")
+
         # 获取新创建的用户信息
         user_id = insert_result['last_insert_id']
         user_sql = """

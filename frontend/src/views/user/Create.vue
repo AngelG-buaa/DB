@@ -3,7 +3,7 @@
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>新增用户</span>
+          <span>{{ isEdit ? '编辑用户' : '新增用户' }}</span>
         </div>
       </template>
       
@@ -20,6 +20,7 @@
             placeholder="请输入用户名"
             maxlength="50"
             show-word-limit
+            :disabled="isEdit"
           />
         </el-form-item>
         
@@ -32,7 +33,7 @@
           />
         </el-form-item>
         
-        <el-form-item label="密码" prop="password">
+        <el-form-item v-if="!isEdit" label="密码" prop="password">
           <el-input
             v-model="form.password"
             type="password"
@@ -42,7 +43,7 @@
           />
         </el-form-item>
         
-        <el-form-item label="确认密码" prop="confirmPassword">
+        <el-form-item v-if="!isEdit" label="确认密码" prop="confirmPassword">
           <el-input
             v-model="form.confirmPassword"
             type="password"
@@ -124,7 +125,7 @@
         
         <el-form-item>
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            创建
+            {{ isEdit ? '保存' : '创建' }}
           </el-button>
           <el-button @click="handleCancel">取消</el-button>
         </el-form-item>
@@ -135,16 +136,19 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getCoursesApi } from '@/api/course'
 import { registerApi } from '@/api/auth'
+import { getUserByIdApi, updateUserApi } from '@/api/user'
 
 const router = useRouter()
+const route = useRoute()
 const formRef = ref()
 const loading = ref(false)
 const courses = ref([])
 const coursesLoaded = ref(false)
+const isEdit = ref(false)
 
 const form = reactive({
   user_name: '',
@@ -299,7 +303,6 @@ const handleSubmit = async () => {
       name: form.user_name,
       real_name: form.user_name,
       email: form.email,
-      password: form.password,
       role: (form.user_type || '').toLowerCase()
     }
     
@@ -310,11 +313,25 @@ const handleSubmit = async () => {
     } else if (form.user_type === 'Teacher') {
       submitData.department = form.department
     }
-    
-    const res = await registerApi(submitData)
-    if (res.code === 200) {
-      ElMessage.success('用户创建成功')
-      router.push('/user/list')
+    if (!isEdit.value) {
+      submitData.password = form.password
+      const res = await registerApi(submitData)
+      if (res.code === 200) {
+        ElMessage.success('用户创建成功')
+        router.push('/user/list')
+      }
+    } else {
+      const updatePayload = {
+        name: form.user_name,
+        email: form.email,
+        role: (form.user_type || '').toLowerCase()
+      }
+      const uid = Number(route.query.id)
+      const res = await updateUserApi(uid, updatePayload)
+      if (res.code === 200) {
+        ElMessage.success('用户信息更新成功')
+        router.push('/user/list')
+      }
     }
   } catch (error) {
     const msg = error?.message || '创建失败，请重试'
@@ -328,7 +345,22 @@ const handleCancel = () => {
   router.back()
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const id = route.query.id ? Number(route.query.id) : null
+  if (id) {
+    isEdit.value = true
+    try {
+      const res = await getUserByIdApi(id)
+      if (res.code === 200 && res.data) {
+        const u = res.data
+        form.user_name = u.name || u.username
+        form.email = u.email || ''
+        form.user_type = (u.role || '').replace(/^[a-z]/, c => c.toUpperCase()) || 'Student'
+      }
+    } catch (e) {
+      ElMessage.error('加载用户信息失败')
+    }
+  }
 })
 </script>
 

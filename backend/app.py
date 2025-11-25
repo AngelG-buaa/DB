@@ -6,6 +6,7 @@
 """
 
 import os
+import sys
 from flask import Flask, jsonify, redirect
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -15,6 +16,10 @@ load_dotenv()
 
 def create_app():
     """创建Flask应用实例"""
+    # 确保项目根目录在模块搜索路径中，保证包导入稳定
+    PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
     app = Flask(__name__)
     
     # 配置
@@ -92,7 +97,7 @@ if __name__ == '__main__':
     app = create_app()
     
     # 测试数据库连接
-    from config.database import test_connection
+    from backend.database import test_connection
     if test_connection():
         print("✅ 数据库连接成功")
     else:

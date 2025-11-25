@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-数据库初始化脚本
-用于创建数据库表结构和初始数据
+数据库访问与初始化（统一入口）
 """
 
 import os
@@ -28,155 +27,118 @@ TAURUS_HOST = os.getenv('TAURUS_HOST', '192.168.0.121')  # 如有公网地址，
 TAURUS_PORT = int(os.getenv('TAURUS_PORT', '3306'))
 TAURUS_DB = os.getenv('TAURUS_DB', 'h_db23373478')
 
+DB_DSN = {
+    'host': "124.70.86.207",
+    'port': 3306,
+    'user': "u23373478",
+    'password': "Aa614026",
+    'database': "h_db23373478",
+    'charset': 'utf8',
+    'autocommit': True
+}
+
+class Database:
+    def __init__(self, dsn: dict):
+        self._dsn = dict(dsn or {})
+    def get_connection(self):
+        return pymysql.connect(**self._dsn)
+    def execute_update(self, sql, params=None):
+        conn = None
+        try:
+            conn = self.get_connection()
+            with conn.cursor() as cursor:
+                affected_rows = cursor.execute(sql, params) if params is not None else cursor.execute(sql)
+            conn.commit()
+            return { 'success': True, 'affected_rows': affected_rows, 'last_insert_id': cursor.lastrowid }
+        except Exception as e:
+            if conn:
+                try:
+                    conn.rollback()
+                except Exception:
+                    pass
+            logger.error(f"数据库操作失败: {str(e)}")
+            return { 'success': False, 'error': str(e), 'affected_rows': 0 }
+        finally:
+            if conn:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+    def execute_query(self, sql, params=None):
+        conn = None
+        try:
+            conn = self.get_connection()
+            with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+                cursor.execute(sql, params) if params is not None else cursor.execute(sql)
+                rows = cursor.fetchall()
+            return { 'success': True, 'data': rows }
+        except Exception as e:
+            logger.error(f"数据库查询失败: {str(e)}")
+            return { 'success': False, 'error': str(e), 'data': [] }
+        finally:
+            if conn:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+    def execute_transaction(self, queries):
+        conn = None
+        try:
+            conn = self.get_connection()
+            with conn.cursor() as cursor:
+                results = []
+                for sql, params in queries:
+                    affected_rows = cursor.execute(sql, params) if params else cursor.execute(sql)
+                    results.append({ 'sql': sql, 'affected_rows': affected_rows, 'last_insert_id': cursor.lastrowid })
+            conn.commit()
+            return { 'success': True, 'results': results }
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            logger.error(f"事务执行失败: {str(e)}")
+            return { 'success': False, 'error': str(e), 'results': [] }
+        finally:
+            if conn:
+                conn.close()
+    def execute_paginated_query(self, sql, params=None, page=1, page_size=10):
+        conn = None
+        try:
+            conn = self.get_connection()
+            with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+                count_sql = f"SELECT COUNT(*) as total FROM ({sql}) as count_table"
+                cursor.execute(count_sql, params) if params else cursor.execute(count_sql)
+                total_result = cursor.fetchone()
+                total = total_result['total'] if total_result else 0
+                offset = (page - 1) * page_size
+                paginated_sql = f"{sql} LIMIT %s OFFSET %s"
+                paginated_params = list(params or ()) + [page_size, offset]
+                cursor.execute(paginated_sql, paginated_params)
+                data = cursor.fetchall()
+                return { 'success': True, 'data': data, 'pagination': { 'page': page, 'page_size': page_size, 'total': total, 'total_pages': (total + page_size - 1) // page_size } }
+        except Exception as e:
+            logger.error(f"分页查询执行失败: {sql}, 参数: {params}, 错误: {str(e)}")
+            return { 'success': False, 'error': str(e), 'data': [], 'pagination': { 'page': page, 'page_size': page_size, 'total': 0, 'total_pages': 0 } }
+        finally:
+            if conn:
+                conn.close()
+
+_db = Database(DB_DSN)
+
 def get_connection():
-    return pymysql.connect(
-        host="124.70.86.207",
-        port=3306,
-        user="u23373478",
-        password="Aa614026",
-        database="h_db23373478",
-        charset='utf8',
-        autocommit=True
-    )
+    return _db.get_connection()
 
 def execute_update(sql, params=None):
-    """执行写操作（CREATE/INSERT/UPDATE/DELETE），返回统一结果"""
-    conn = None
-    try:
-        conn = get_connection()
-        with conn.cursor() as cursor:
-            if params is not None:
-                affected_rows = cursor.execute(sql, params)
-            else:
-                affected_rows = cursor.execute(sql)
-        conn.commit()
-        return {
-            'success': True,
-            'affected_rows': affected_rows,
-            'last_insert_id': cursor.lastrowid
-        }
-    except Exception as e:
-        if conn:
-            try:
-                conn.rollback()
-            except Exception:
-                pass
-        logger.error(f"数据库操作失败: {str(e)}")
-        return { 'success': False, 'error': str(e), 'affected_rows': 0 }
-    finally:
-        if conn:
-            try:
-                conn.close()
-            except Exception:
-                pass
+    return _db.execute_update(sql, params)
 
 def execute_query(sql, params=None):
-    """执行读操作（SELECT），返回统一结果，data 为列表字典"""
-    conn = None
-    try:
-        conn = get_connection()
-        # 强制使用字典游标，避免返回元组导致通过字段名取值时报错
-        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-            if params is not None:
-                cursor.execute(sql, params)
-            else:
-                cursor.execute(sql)
-            rows = cursor.fetchall()
-        return { 'success': True, 'data': rows }
-    except Exception as e:
-        logger.error(f"数据库查询失败: {str(e)}")
-        return { 'success': False, 'error': str(e), 'data': [] }
-    finally:
-        if conn:
-            try:
-                conn.close()
-            except Exception:
-                pass
+    return _db.execute_query(sql, params)
 
 
 def execute_transaction(queries):
-    """执行事务"""
-    conn = None
-    try:
-        conn = get_connection()
-        with conn.cursor() as cursor:
-            results = []
-            for sql, params in queries:
-                if params:
-                    affected_rows = cursor.execute(sql, params)
-                else:
-                    affected_rows = cursor.execute(sql)
-                results.append({
-                    'sql': sql,
-                    'affected_rows': affected_rows,
-                    'last_insert_id': cursor.lastrowid
-                })
-        conn.commit()
-        return {
-            'success': True,
-            'results': results
-        }
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        logger.error(f"事务执行失败: {str(e)}")
-        return {
-            'success': False,
-            'error': str(e),
-            'results': []
-        }
-    finally:
-        if conn:
-            conn.close()
+    return _db.execute_transaction(queries)
 
 def execute_paginated_query(sql, params=None, page=1, page_size=10):
-    """执行分页查询"""
-    conn = None
-    try:
-        conn = get_connection()
-        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-            # 获取总数
-            count_sql = f"SELECT COUNT(*) as total FROM ({sql}) as count_table"
-            if params:
-                cursor.execute(count_sql, params)
-            else:
-                cursor.execute(count_sql)
-            total_result = cursor.fetchone()
-            total = total_result['total'] if total_result else 0
-
-            # 获取分页数据
-            offset = (page - 1) * page_size
-            paginated_sql = f"{sql} LIMIT %s OFFSET %s"
-            paginated_params = list(params or ()) + [page_size, offset]
-            cursor.execute(paginated_sql, paginated_params)
-            data = cursor.fetchall()
-
-            return {
-                'success': True,
-                'data': data,
-                'pagination': {
-                    'page': page,
-                    'page_size': page_size,
-                    'total': total,
-                    'total_pages': (total + page_size - 1) // page_size
-                }
-            }
-    except Exception as e:
-        logger.error(f"分页查询执行失败: {sql}, 参数: {params}, 错误: {str(e)}")
-        return {
-            'success': False,
-            'error': str(e),
-            'data': [],
-            'pagination': {
-                'page': page,
-                'page_size': page_size,
-                'total': 0,
-                'total_pages': 0
-            }
-        }
-    finally:
-        if conn:
-            conn.close()
+    return _db.execute_paginated_query(sql, params, page, page_size)
 
 def test_connection():
     """测试数据库连接"""
@@ -499,125 +461,231 @@ def insert_initial_data():
         logger.error(f"创建管理员用户失败: {result.get('error')}")
         return False
     
-    # 创建示例教师用户
-    teacher_password = AuthUtils.hash_password("teacher123")
-    
-    insert_teacher_sql = """
-    INSERT INTO users (username, password, name, email, role, status, created_at)
-    VALUES (%s, %s, %s, %s, %s, %s, NOW())
-    """
-    
-    teacher_data = (
-        "teacher",
-        teacher_password,
-        "示例教师",
-        "teacher@example.com",
-        "teacher",
-        "active"
-    )
-    
-    result = execute_update(insert_teacher_sql, teacher_data)
-    
-    if result['success']:
-        logger.info("示例教师用户创建成功")
-        logger.info("用户名: teacher")
-        logger.info("密码: teacher123")
-    else:
-        logger.error(f"创建教师用户失败: {result.get('error')}")
-    
-    # 创建示例学生用户
-    student_password = AuthUtils.hash_password("student123")
-    
-    insert_student_sql = """
-    INSERT INTO users (username, password, name, email, role, student_id, status, created_at)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
-    """
-    
-    student_data = (
-        "student",
-        student_password,
-        "示例学生",
-        "student@example.com",
-        "student",
-        "2024001",
-        "active"
-    )
-    
-    result = execute_update(insert_student_sql, student_data)
-    
-    if result['success']:
-        logger.info("示例学生用户创建成功")
-        logger.info("用户名: student")
-        logger.info("密码: student123")
-        logger.info("学号: 2024001")
-    else:
-        logger.error(f"创建学生用户失败: {result.get('error')}")
-    
-    # 创建示例实验室
-    insert_lab_sql = """
-    INSERT INTO laboratories (name, location, capacity, description, status, created_at)
-    VALUES (%s, %s, %s, %s, %s, NOW())
-    """
-    
-    labs_data = [
-        ("计算机实验室A", "教学楼3楼301", 50, "配备50台计算机的实验室", "active"),
-        ("物理实验室B", "实验楼2楼201", 30, "基础物理实验室", "active"),
-        ("化学实验室C", "实验楼1楼101", 25, "有机化学实验室", "active")
-    ]
-    
-    for lab_data in labs_data:
-        result = execute_update(insert_lab_sql, lab_data)
-        if result['success']:
-            logger.info(f"实验室 {lab_data[0]} 创建成功")
-        else:
-            logger.error(f"创建实验室 {lab_data[0]} 失败: {result.get('error')}")
-    
+    # 不再插入任何示例数据（教师、学生、实验室），由实际数据库数据驱动
     return True
+
+def create_triggers():
+    """创建或更新数据库触发器（直接执行定义，避免脚本解析问题）"""
+    conn = None
+    try:
+        conn = get_connection()
+        with conn.cursor() as cursor:
+            # 先删除可能存在的旧触发器
+            for name in [
+                'after_reservation_insert',
+                'after_reservation_update',
+                'after_equipment_repair_insert',
+                'after_equipment_repair_update',
+                'after_equipment_repair_delete',
+                'before_equipment_repair_insert_default_times',
+                'before_equipment_delete',
+                'before_user_delete',
+                'before_laboratory_delete',
+                'after_consumable_usage_insert'
+            ]:
+                try:
+                    cursor.execute(f"DROP TRIGGER IF EXISTS {name}")
+                except Exception as drop_err:
+                    logger.warning(f"删除触发器 {name} 时忽略错误: {drop_err}")
+
+            # 使用硬编码的触发器定义（不再创建耗材库存相关触发器，改用存储过程）
+            trigger_sql_list = [
+                """
+                CREATE TRIGGER before_equipment_repair_insert_default_times
+                BEFORE INSERT ON equipment_repair
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.start_time IS NULL THEN
+                        SET NEW.start_time = NOW();
+                    END IF;
+                    IF NEW.repair_status = 'completed' AND NEW.finish_time IS NULL THEN
+                        SET NEW.finish_time = NOW();
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER after_equipment_repair_insert
+                AFTER INSERT ON equipment_repair
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.repair_status = 'in_progress' THEN
+                        UPDATE equipment SET status = 'maintenance' WHERE id = NEW.equipment_id;
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER after_equipment_repair_update
+                AFTER UPDATE ON equipment_repair
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.repair_status IN ('completed','cancelled') AND OLD.repair_status NOT IN ('completed','cancelled') THEN
+                        UPDATE equipment SET status = 'available' WHERE id = NEW.equipment_id;
+                    ELSEIF NEW.repair_status = 'in_progress' AND OLD.repair_status <> 'in_progress' THEN
+                        UPDATE equipment SET status = 'maintenance' WHERE id = NEW.equipment_id;
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER after_equipment_repair_delete
+                AFTER DELETE ON equipment_repair
+                FOR EACH ROW
+                BEGIN
+                    DECLARE cnt INT;
+                    SELECT COUNT(*) INTO cnt FROM equipment_repair WHERE equipment_id = OLD.equipment_id AND repair_status = 'in_progress';
+                    IF cnt = 0 THEN
+                        UPDATE equipment SET status = 'available' WHERE id = OLD.equipment_id;
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER before_equipment_delete
+                BEFORE DELETE ON equipment
+                FOR EACH ROW
+                BEGIN
+                    DECLARE reservation_count INT;
+                    SELECT COUNT(*) INTO reservation_count
+                    FROM reservation_equipment re
+                    JOIN reservations r ON re.reservation_id = r.id
+                    WHERE re.equipment_id = OLD.id AND r.status = 'confirmed';
+                    IF reservation_count > 0 THEN
+                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete equipment with active reservations.';
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER before_user_delete
+                BEFORE DELETE ON users
+                FOR EACH ROW
+                BEGIN
+                    DECLARE reservation_count INT;
+                    SELECT COUNT(*) INTO reservation_count FROM reservations WHERE user_id = OLD.id AND status = 'confirmed';
+                    IF reservation_count > 0 THEN
+                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete user with active reservations.';
+                    END IF;
+                END
+                """,
+                """
+                CREATE TRIGGER before_laboratory_delete
+                BEFORE DELETE ON laboratories
+                FOR EACH ROW
+                BEGIN
+                    DECLARE equipment_count INT;
+                    SELECT COUNT(*) INTO equipment_count FROM equipment WHERE laboratory_id = OLD.id;
+                    IF equipment_count > 0 THEN
+                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete laboratory with assigned equipment.';
+                    END IF;
+                END
+                """
+            ]
+
+            for stmt in trigger_sql_list:
+                cursor.execute(stmt)
+
+        conn.commit()
+        logger.info("数据库触发器创建/更新完成")
+        return True
+    except Exception as e:
+        logger.error(f"创建数据库触发器失败: {e}")
+        if conn:
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+        return False
+    finally:
+        if conn:
+            try:
+                conn.close()
+            except Exception:
+                pass
+
+def create_stored_procedures():
+    """创建或更新存储过程"""
+    conn = None
+    try:
+        conn = get_connection()
+        with conn.cursor() as cursor:
+            # 删除旧的过程定义
+            for name in ['sp_use_consumable']:
+                try:
+                    cursor.execute(f"DROP PROCEDURE IF EXISTS {name}")
+                except Exception as drop_err:
+                    logger.warning(f"删除存储过程 {name} 时忽略错误: {drop_err}")
+
+            # 创建耗材使用的存储过程（原子：扣减库存 + 记录使用）
+            proc_sql = """
+            CREATE PROCEDURE sp_use_consumable(IN p_consumable_id INT, IN p_quantity DECIMAL(10,2), IN p_user_id INT, IN p_purpose VARCHAR(200))
+            BEGIN
+                DECLARE current_stock DECIMAL(10,2);
+                SELECT current_stock INTO current_stock FROM consumables WHERE id = p_consumable_id FOR UPDATE;
+                IF current_stock IS NULL THEN
+                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Consumable not found';
+                END IF;
+                IF p_quantity <= 0 THEN
+                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity must be positive';
+                END IF;
+                IF current_stock < p_quantity THEN
+                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient stock';
+                END IF;
+                UPDATE consumables SET current_stock = current_stock - p_quantity, usage_count = COALESCE(usage_count,0) + 1 WHERE id = p_consumable_id;
+                INSERT INTO consumable_usage (consumable_id, user_id, quantity, purpose, created_at) VALUES (p_consumable_id, p_user_id, p_quantity, p_purpose, NOW());
+            END
+            """
+            cursor.execute(proc_sql)
+
+        conn.commit()
+        logger.info("数据库存储过程创建/更新完成")
+        return True
+    except Exception as e:
+        logger.error(f"创建数据库存储过程失败: {e}")
+        if conn:
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+        return False
+    finally:
+        if conn:
+            try:
+                conn.close()
+            except Exception:
+                pass
 
 def main():
     """主函数"""
-    logger.info("开始初始化数据库...")
+    logger.info("开始数据库初始化...")
     
-    # 测试数据库连接
-    logger.info("测试数据库连接...")
     if not test_connection():
-        logger.error("数据库连接失败，请检查配置")
-        return False
-    
+        logger.error("无法连接到数据库，请检查您的配置和网络。")
+        return
+        
     logger.info("数据库连接成功")
     
-    # 创建表
-    logger.info("创建数据库表...")
-    if not create_tables():
-        logger.error("创建数据库表失败")
-        return False
-    
-    logger.info("数据库表创建完成")
-
-    # 迁移已存在的表结构
-    logger.info("执行数据库结构迁移...")
+    if create_tables():
+        logger.info("所有表已成功创建或已存在")
+    else:
+        logger.error("创建表时发生错误，初始化中止")
+        return
+        
     migrate_tables()
     
-    # 插入初始数据
-    logger.info("插入初始数据...")
-    if not insert_initial_data():
-        logger.error("插入初始数据失败")
-        return False
-    
-    logger.info("初始数据插入完成")
-    logger.info("数据库初始化成功！")
-    
-    return True
+    if insert_initial_data():
+        logger.info("初始数据检查或插入完成")
+    else:
+        logger.error("插入初始数据时发生错误")
+
+    if create_triggers():
+        logger.info("数据库触发器已成功创建")
+    else:
+        logger.error("创建触发器时发生错误")
+
+    # 创建/更新存储过程
+    if create_stored_procedures():
+        logger.info("数据库存储过程已成功创建")
+    else:
+        logger.error("创建存储过程时发生错误")
+        
+    logger.info("数据库初始化完成")
 
 if __name__ == '__main__':
-    try:
-        success = main()
-        if success:
-            logger.info("数据库初始化完成")
-            sys.exit(0)
-        else:
-            logger.error("数据库初始化失败")
-            sys.exit(1)
-    except Exception as e:
-        logger.error(f"数据库初始化过程中发生错误: {str(e)}")
-        sys.exit(1)
+    main()

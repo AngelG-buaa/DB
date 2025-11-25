@@ -545,7 +545,7 @@ const maintenanceRules = {
 
 // 方法
 const hasPermission = (roles) => {
-  return roles.includes(userInfo.value.user_type)
+  return roles.includes(userInfo.value?.role)
 }
 
 const loadLabOptions = async () => {

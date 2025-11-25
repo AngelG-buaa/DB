@@ -101,17 +101,10 @@
         <el-table-column label="预约人" width="140">
           <template #default="{ row }">
             <div>{{ getUserName(row) }}</div>
-            <div class="text-secondary">{{ getUserTypeText(normalizeUserType(row)) }}</div>
           </template>
         </el-table-column>
         
-        <el-table-column label="状态" width="100">
-          <template #default="{ row }">
-            <el-tag :type="getStatusType(row.status)">
-              {{ getStatusText(row.status) }}
-            </el-tag>
-          </template>
-        </el-table-column>
+        
         
         <el-table-column label="创建时间" width="160">
           <template #default="{ row }">
@@ -125,7 +118,7 @@
             <el-button v-if="canDelete(row)" type="danger" size="small" @click="handleDelete(row)">删除</el-button>
 
             <el-dropdown
-              v-if="canOperate(row)"
+              v-if="hasMoreActions(row)"
               @command="handleCommand"
             >
               <el-button type="info" size="small">
@@ -151,13 +144,7 @@
                   >
                     取消
                   </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="canDelete(row)"
-                    :command="{ action: 'delete', row }"
-                    divided
-                  >
-                    删除
-                  </el-dropdown-item>
+                  
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -382,6 +369,7 @@ const loadReservations = async () => {
         end_time: r.end_time,
         purpose: r.purpose,
         status: r.status,
+        user_id: r.user_id || (r.user && r.user.id) || undefined,
         user_name: r.user?.name || '',
         created_at: r.created_at,
         updated_at: r.updated_at,
@@ -553,37 +541,37 @@ const canEdit = (row) => {
   const userInfo = userStore.userInfo
   return (
     row.status === 'pending' &&
-    (userInfo.user_type === 'admin' || row.user_id === userInfo.id)
+    (userInfo.role === 'admin' || row.user_id === userInfo.id)
   )
 }
 
 const canOperate = (row) => {
   const userInfo = userStore.userInfo
-  return userInfo.user_type === 'admin' || userInfo.user_type === 'teacher' || row.user_id === userInfo.id
+  return userInfo.role === 'admin' || userInfo.role === 'teacher' || row.user_id === userInfo.id
 }
 
 const canApprove = (row) => {
   const userInfo = userStore.userInfo
-  return row.status === 'pending' && (userInfo.user_type === 'admin' || userInfo.user_type === 'teacher')
+  return row.status === 'pending' && (userInfo.role === 'admin' || userInfo.role === 'teacher')
 }
 
 const canReject = (row) => {
   const userInfo = userStore.userInfo
-  return row.status === 'pending' && (userInfo.user_type === 'admin' || userInfo.user_type === 'teacher')
+  return row.status === 'pending' && (userInfo.role === 'admin' || userInfo.role === 'teacher')
 }
 
 const canCancel = (row) => {
   const userInfo = userStore.userInfo
   return (
     (row.status === 'pending' || row.status === 'approved') &&
-    (userInfo.user_type === 'admin' || row.user_id === userInfo.id)
+    (userInfo.role === 'admin' || row.user_id === userInfo.id)
   )
 }
 
 const canDelete = (row) => {
   const userInfo = userStore.userInfo
-  if (userInfo.user_type === 'admin') return true
-  if (userInfo.user_type === 'teacher') return row.user_id === userInfo.id
+  if (userInfo.role === 'admin') return true
+  if (userInfo.role === 'teacher') return row.user_id === userInfo.id
   return false
 }
 
@@ -665,6 +653,10 @@ const getApprovalText = (action) => {
     cancel: '取消'
   }
   return textMap[action] || '未知'
+}
+
+const hasMoreActions = (row) => {
+  return canApprove(row) || canReject(row) || canCancel(row)
 }
 
 // 生命周期
