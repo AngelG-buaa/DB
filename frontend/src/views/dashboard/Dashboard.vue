@@ -2,14 +2,14 @@
   <div class="dashboard-container">
     <!-- 欢迎区域 -->
     <div class="welcome-section">
-      <el-card class="welcome-card">
+      <el-card class="welcome-card" shadow="hover">
         <div class="welcome-content">
           <div class="welcome-text">
             <h2>欢迎回来，{{ userInfo.name || userInfo.username }}！</h2>
             <p>今天是 {{ currentDate }}，{{ welcomeMessage }}</p>
           </div>
           <div class="welcome-avatar">
-            <el-avatar :size="60" :src="userInfo.avatar">
+            <el-avatar :size="72" :src="userInfo.avatar" class="user-avatar">
               <el-icon><User /></el-icon>
             </el-avatar>
           </div>
@@ -19,11 +19,11 @@
     
     <!-- 统计卡片 -->
     <div class="stats-section">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-card class="stat-card">
+      <el-row :gutter="24">
+        <el-col :xs="24" :sm="12" :md="6" :lg="6">
+          <el-card class="stat-card" shadow="hover">
             <div class="stat-content">
-              <div class="stat-icon total">
+              <div class="stat-icon-wrapper total">
                 <el-icon><Calendar /></el-icon>
               </div>
               <div class="stat-info">
@@ -34,10 +34,10 @@
           </el-card>
         </el-col>
         
-        <el-col :span="6">
-          <el-card class="stat-card">
+        <el-col :xs="24" :sm="12" :md="6" :lg="6">
+          <el-card class="stat-card" shadow="hover">
             <div class="stat-content">
-              <div class="stat-icon active">
+              <div class="stat-icon-wrapper active">
                 <el-icon><Clock /></el-icon>
               </div>
               <div class="stat-info">
@@ -48,10 +48,10 @@
           </el-card>
         </el-col>
         
-        <el-col :span="6">
-          <el-card class="stat-card">
+        <el-col :xs="24" :sm="12" :md="6" :lg="6">
+          <el-card class="stat-card" shadow="hover">
             <div class="stat-content">
-              <div class="stat-icon pending">
+              <div class="stat-icon-wrapper pending">
                 <el-icon><Warning /></el-icon>
               </div>
               <div class="stat-info">
@@ -62,10 +62,10 @@
           </el-card>
         </el-col>
         
-        <el-col :span="6">
-          <el-card class="stat-card">
+        <el-col :xs="24" :sm="12" :md="6" :lg="6">
+          <el-card class="stat-card" shadow="hover">
             <div class="stat-content">
-              <div class="stat-icon labs">
+              <div class="stat-icon-wrapper labs">
                 <el-icon><OfficeBuilding /></el-icon>
               </div>
               <div class="stat-info">
@@ -79,74 +79,85 @@
     </div>
     
     <!-- 主要内容区域 -->
-    <el-row :gutter="20" class="main-content">
+    <el-row :gutter="24" class="main-content">
       <!-- 我的预约 -->
-      <el-col :span="12">
-        <el-card class="content-card">
+      <el-col :xs="24" :lg="12">
+        <el-card class="content-card" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span>我的预约</span>
-              <el-button type="text" @click="goToReservations">查看全部</el-button>
+              <div class="header-title">
+                <el-icon class="header-icon"><Calendar /></el-icon>
+                <span>我的预约</span>
+              </div>
+              <el-button link type="primary" @click="goToReservations">查看全部</el-button>
             </div>
           </template>
           
-          <div class="reservation-list">
+          <div class="list-container">
             <div
               v-for="reservation in recentReservations"
               :key="reservation.id"
-              class="reservation-item"
+              class="list-item"
             >
-              <div class="reservation-info">
-                <div class="lab-name">{{ reservation.lab_name }}</div>
-              <div class="reservation-time">
-                {{ formatDateTimeFromParts(reservation.reservation_date, reservation.start_time) }} - {{ formatTimeFromParts(reservation.reservation_date, reservation.end_time) }}
+              <div class="item-main">
+                <div class="item-title">{{ reservation.lab_name }}</div>
+                <div class="item-meta">
+                  <el-icon><Clock /></el-icon>
+                  {{ formatDateTimeFromParts(reservation.reservation_date, reservation.start_time) }} - {{ formatTimeFromParts(reservation.reservation_date, reservation.end_time) }}
+                </div>
               </div>
-              </div>
-              <div class="reservation-status">
-                <el-tag :type="getStatusType(reservation.status)">
+              <div class="item-status">
+                <el-tag :type="getStatusType(reservation.status)" effect="light" round size="small">
                   {{ getStatusText(reservation.status) }}
                 </el-tag>
               </div>
             </div>
             
             <div v-if="recentReservations.length === 0" class="empty-state">
-              <el-empty description="暂无预约记录" />
+              <el-empty description="暂无预约记录" :image-size="100" />
             </div>
           </div>
         </el-card>
       </el-col>
       
       <!-- 通知公告 -->
-      <el-col :span="12">
-        <el-card class="content-card">
+      <el-col :xs="24" :lg="12">
+        <el-card class="content-card" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span>通知公告</span>
-              <el-button type="text" @click="goToNotifications">查看全部</el-button>
+              <div class="header-title">
+                <el-icon class="header-icon"><Bell /></el-icon>
+                <span>通知公告</span>
+              </div>
+              <el-button link type="primary" @click="goToNotifications">查看全部</el-button>
             </div>
           </template>
           
-          <div class="notification-list">
+          <div class="list-container">
             <div
               v-for="notification in recentNotifications"
               :key="notification.id"
-              class="notification-item"
+              class="list-item notification-item"
               @click="readNotification(notification)"
             >
-              <div class="notification-content">
-          <div class="notification-title">
-            <span :class="{ 'unread': !notification.is_read }">
-              {{ notification.title }}
-            </span>
-          </div>
-                <div class="notification-time">
+              <div class="item-icon">
+                <div class="dot" :class="{ 'unread': !notification.is_read }"></div>
+              </div>
+              <div class="item-main">
+                <div class="item-title" :class="{ 'unread-text': !notification.is_read }">
+                  {{ notification.title }}
+                </div>
+                <div class="item-meta">
                   {{ formatDateTime(notification.created_at) }}
                 </div>
+              </div>
+              <div class="item-arrow">
+                <el-icon><ArrowRight /></el-icon>
               </div>
             </div>
             
             <div v-if="recentNotifications.length === 0" class="empty-state">
-              <el-empty description="暂无通知" />
+              <el-empty description="暂无通知" :image-size="100" />
             </div>
           </div>
         </el-card>
@@ -154,13 +165,16 @@
     </el-row>
     
     <!-- 图表区域 -->
-    <el-row :gutter="20" class="chart-section">
+    <el-row :gutter="24" class="chart-section">
       <!-- 预约趋势图 -->
-      <el-col :span="12">
-        <el-card class="chart-card">
+      <el-col :xs="24" :lg="12">
+        <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span>预约趋势</span>
+              <div class="header-title">
+                <el-icon class="header-icon"><TrendCharts /></el-icon>
+                <span>预约趋势</span>
+              </div>
             </div>
           </template>
           
@@ -169,11 +183,14 @@
       </el-col>
       
       <!-- 实验室使用率 -->
-      <el-col :span="12">
-        <el-card class="chart-card">
+      <el-col :xs="24" :lg="12">
+        <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span>实验室使用率</span>
+              <div class="header-title">
+                <el-icon class="header-icon"><PieChart /></el-icon>
+                <span>实验室使用率</span>
+              </div>
             </div>
           </template>
           
@@ -184,50 +201,44 @@
     
     <!-- 快速操作 -->
     <div class="quick-actions">
-      <el-card>
+      <el-card shadow="hover">
         <template #header>
           <div class="card-header">
-            <span>快速操作</span>
+            <div class="header-title">
+              <el-icon class="header-icon"><Operation /></el-icon>
+              <span>快速操作</span>
+            </div>
           </div>
         </template>
         
         <div class="action-buttons">
-          <el-button
-            type="primary"
-            size="large"
-            @click="goToCreateReservation"
-          >
-            <el-icon><Plus /></el-icon>
-            新建预约
-          </el-button>
+          <div class="action-item" @click="goToCreateReservation">
+            <div class="action-icon primary">
+              <el-icon><Plus /></el-icon>
+            </div>
+            <span class="action-text">新建预约</span>
+          </div>
           
-          <el-button
-            type="success"
-            size="large"
-            @click="goToLabs"
-          >
-            <el-icon><OfficeBuilding /></el-icon>
-            浏览实验室
-          </el-button>
+          <div class="action-item" @click="goToLabs">
+            <div class="action-icon success">
+              <el-icon><OfficeBuilding /></el-icon>
+            </div>
+            <span class="action-text">浏览实验室</span>
+          </div>
           
-          <el-button
-            type="warning"
-            size="large"
-            @click="goToEquipment"
-          >
-            <el-icon><Monitor /></el-icon>
-            设备管理
-          </el-button>
+          <div class="action-item" @click="goToEquipment">
+            <div class="action-icon warning">
+              <el-icon><Monitor /></el-icon>
+            </div>
+            <span class="action-text">设备管理</span>
+          </div>
           
-          <el-button
-            v-if="userInfo.role === 'teacher'"
-            type="info"
-            size="large"
-            @click="goToCourses"
-          >
-            <el-icon><Reading /></el-icon>
-            课程管理
-          </el-button>
+          <div class="action-item" v-if="userInfo.role === 'teacher'" @click="goToCourses">
+            <div class="action-icon info">
+              <el-icon><Reading /></el-icon>
+            </div>
+            <span class="action-text">课程管理</span>
+          </div>
         </div>
       </el-card>
     </div>
@@ -246,7 +257,12 @@ import {
   OfficeBuilding,
   Plus,
   Monitor,
-  Reading
+  Reading,
+  Bell,
+  ArrowRight,
+  TrendCharts,
+  PieChart,
+  Operation
 } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import dayjs from 'dayjs'
@@ -381,16 +397,110 @@ const initCharts = async () => {
     const last7 = (dashboardRaw.byDate || []).slice(-7)
     const x = last7.map(i => dayjs(i.date).format('MM-DD'))
     const y = last7.map(i => i.count)
-    const reservationOption = { title: { text: '最近7天预约趋势', textStyle: { fontSize: 14, color: '#606266' } }, tooltip: { trigger: 'axis' }, xAxis: { type: 'category', data: x }, yAxis: { type: 'value' }, series: [{ data: y, type: 'line', smooth: true, itemStyle: { color: '#409EFF' } }] }
+    const reservationOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: x,
+        axisLine: { lineStyle: { color: '#E0E6ED' } },
+        axisLabel: { color: '#606266' }
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { lineStyle: { type: 'dashed', color: '#E0E6ED' } }
+      },
+      series: [{
+        data: y,
+        type: 'bar',
+        barWidth: '40%',
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: '#83bff6' },
+            { offset: 0.5, color: '#188df0' },
+            { offset: 1, color: '#188df0' }
+          ]),
+          borderRadius: [4, 4, 0, 0]
+        },
+        emphasis: {
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#2378f7' },
+              { offset: 0.7, color: '#2378f7' },
+              { offset: 1, color: '#83bff6' }
+            ])
+          }
+        }
+      }]
+    }
     reservationChart.setOption(reservationOption)
+    
+    window.addEventListener('resize', () => {
+      reservationChart.resize()
+    })
   }
   
   // 实验室使用率图
   if (usageChartRef.value) {
     const usageChart = echarts.init(usageChartRef.value)
     const data = (dashboardRaw.byLaboratory || []).map(l => ({ value: l.count || l.reservation_count, name: l.laboratory_name }))
-    const usageOption = { title: { text: '实验室使用率', textStyle: { fontSize: 14, color: '#606266' } }, tooltip: { trigger: 'item' }, series: [{ type: 'pie', radius: '60%', data }] }
+    const usageOption = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+      },
+      legend: {
+        bottom: '0%',
+        left: 'center',
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: {
+          fontSize: 12
+        }
+      },
+      series: [{
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: '16',
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data
+      }]
+    }
     usageChart.setOption(usageOption)
+    
+    window.addEventListener('resize', () => {
+      usageChart.resize()
+    })
   }
 }
 
@@ -481,44 +591,69 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .dashboard-container {
-  padding: 20px;
-  background: #f5f7fa;
+  padding: 24px;
+  background-color: var(--background-base, #f5f7fa);
   min-height: calc(100vh - 60px);
 }
 
 .welcome-section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   
   .welcome-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    background: linear-gradient(135deg, #409EFF, #337ecc);
     color: white;
+    overflow: hidden;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 60%),
+                        radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
     
     :deep(.el-card__body) {
-      padding: 30px;
+      padding: 32px;
     }
     
     .welcome-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 1;
       
       .welcome-text {
         h2 {
-          margin: 0 0 8px 0;
-          font-size: 24px;
+          margin: 0 0 12px 0;
+          font-size: 28px;
           font-weight: 600;
+          letter-spacing: 0.5px;
         }
         
         p {
           margin: 0;
           font-size: 16px;
           opacity: 0.9;
+          font-weight: 400;
         }
       }
       
       .welcome-avatar {
-        .el-avatar {
-          border: 3px solid rgba(255, 255, 255, 0.3);
+        .user-avatar {
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.2);
+          transition: transform 0.3s ease;
+          
+          &:hover {
+            transform: scale(1.05);
+          }
         }
       }
     }
@@ -526,52 +661,74 @@ onMounted(async () => {
 }
 
 .stats-section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   
   .stat-card {
+    border: none;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    :deep(.el-card__body) {
+      padding: 24px;
+    }
+    
     .stat-content {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
       
-      .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 12px;
+      .stat-icon-wrapper {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        font-size: 28px;
         color: white;
+        transition: transform 0.3s ease;
         
         &.total {
           background: linear-gradient(135deg, #667eea, #764ba2);
+          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
         }
         
         &.active {
-          background: linear-gradient(135deg, #f093fb, #f5576c);
+          background: linear-gradient(135deg, #2af598, #009efd);
+          box-shadow: 0 8px 16px rgba(42, 245, 152, 0.3);
         }
         
         &.pending {
-          background: linear-gradient(135deg, #ffecd2, #fcb69f);
+          background: linear-gradient(135deg, #ff9a9e, #fecfef);
+          box-shadow: 0 8px 16px rgba(255, 154, 158, 0.3);
         }
         
         &.labs {
-          background: linear-gradient(135deg, #a8edea, #fed6e3);
+          background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+          box-shadow: 0 8px 16px rgba(161, 140, 209, 0.3);
         }
+      }
+      
+      &:hover .stat-icon-wrapper {
+        transform: scale(1.1);
       }
       
       .stat-info {
         .stat-value {
-          font-size: 28px;
-          font-weight: 600;
-          color: #303133;
+          font-size: 32px;
+          font-weight: 700;
+          color: var(--text-primary, #303133);
+          line-height: 1.2;
           margin-bottom: 4px;
         }
         
         .stat-label {
           font-size: 14px;
-          color: #909399;
+          color: var(--text-secondary, #909399);
         }
       }
     }
@@ -579,165 +736,262 @@ onMounted(async () => {
 }
 
 .main-content {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   
   .content-card {
-    height: 400px;
+    height: 100%;
+    min-height: 450px;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    
+    :deep(.el-card__header) {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-light, #ebeef5);
+    }
+    
+    :deep(.el-card__body) {
+      flex: 1;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
     
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 16px;
-      font-weight: 600;
-      color: #303133;
+      
+      .header-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary, #303133);
+        
+        .header-icon {
+          font-size: 18px;
+          color: var(--primary-color, #409EFF);
+        }
+      }
     }
     
-.reservation-list,
-.notification-list {
-  height: 320px;
-  overflow-y: auto;
-  :deep(.el-card__header) {
-    border-bottom: none;
-  }
+    .list-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0;
       
-      .reservation-item,
-      .notification-item {
+      .list-item {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid #f0f0f0;
+        padding: 16px 24px;
+        transition: background-color 0.2s ease;
         cursor: pointer;
         
         &:hover {
-          background: var(--background-base);
+          background-color: var(--background-light, #f8f9fa);
         }
         
-        &:last-child {
-          border-bottom: none;
-        }
-      }
-      
-      .reservation-info {
-        .lab-name {
-          font-weight: 600;
-          color: #303133;
-          margin-bottom: 4px;
-        }
-        
-        .reservation-time {
-          font-size: 14px;
-          color: var(--text-regular);
-        }
-      }
-      
-      .notification-content {
-        flex: 1;
-        
-        .notification-title {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 4px;
+        .item-main {
+          flex: 1;
           
-          .unread {
-            font-weight: 600;
-            color: #303133;
+          .item-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary, #303133);
+            margin-bottom: 6px;
+            
+            &.unread-text {
+              font-weight: 600;
+            }
+          }
+          
+          .item-meta {
+            font-size: 13px;
+            color: var(--text-secondary, #909399);
+            display: flex;
+            align-items: center;
+            gap: 6px;
           }
         }
         
-        .notification-time {
-          font-size: 14px;
-          color: var(--text-regular);
+        &.notification-item {
+          gap: 16px;
+          
+          .item-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            .dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background-color: transparent;
+              
+              &.unread {
+                background-color: #f56c6c;
+                box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.2);
+              }
+            }
+          }
+          
+          .item-arrow {
+            color: var(--text-placeholder, #c0c4cc);
+            font-size: 14px;
+          }
         }
       }
-    }
-    
-    .empty-state {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      
+      .empty-state {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 0;
+      }
     }
   }
 }
 
 .chart-section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   
   .chart-card {
+    border: none;
+    margin-bottom: 24px;
+    
     :deep(.el-card__header) {
-      border-bottom: none;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-light, #ebeef5);
     }
+    
     .card-header {
-      font-size: 16px;
-      font-weight: 600;
-      color: #303133;
+      .header-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary, #303133);
+        
+        .header-icon {
+          font-size: 18px;
+          color: var(--warning-color, #E6A23C);
+        }
+      }
     }
     
     .chart-container {
-      height: 300px;
+      height: 320px;
+      width: 100%;
     }
   }
 }
 
 .quick-actions {
-  :deep(.el-card__header) {
-    border-bottom: none;
-  }
   .card-header {
-    font-size: 16px;
-    font-weight: 600;
-    color: #303133;
-  }
-  
-  .action-buttons {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    
-    .el-button {
+    .header-title {
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary, #303133);
+      
+      .header-icon {
+        font-size: 18px;
+        color: var(--success-color, #67C23A);
+      }
     }
-  }
-}
-
-// 响应式设计
-@media (max-width: 1200px) {
-  .stats-section .el-col {
-    margin-bottom: 10px;
-  }
-  
-  .main-content .el-col {
-    margin-bottom: 20px;
-  }
-  
-  .chart-section .el-col {
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 10px;
-  }
-  
-  .welcome-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
   }
   
   .action-buttons {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 10px 0;
     
-    .el-button {
-      flex: 1;
-      min-width: 120px;
+    .action-item {
+      background-color: var(--background-light, #f8f9fa);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      
+      &:hover {
+        transform: translateY(-2px);
+        background-color: white;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        border-color: var(--border-light, #ebeef5);
+      }
+      
+      .action-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        
+        &.primary { background: rgba(64, 158, 255, 0.1); color: #409EFF; }
+        &.success { background: rgba(103, 194, 58, 0.1); color: #67C23A; }
+        &.warning { background: rgba(230, 162, 60, 0.1); color: #E6A23C; }
+        &.info { background: rgba(144, 147, 153, 0.1); color: #909399; }
+      }
+      
+      .action-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text-primary, #303133);
+      }
     }
+  }
+}
+
+// 响应式适配
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+  
+  .welcome-section .welcome-card .welcome-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    
+    .welcome-avatar {
+      order: -1;
+    }
+  }
+  
+  .stats-section {
+    .el-col {
+      margin-bottom: 16px;
+    }
+  }
+  
+  .main-content {
+    .el-col {
+      margin-bottom: 16px;
+    }
+  }
+  
+  .quick-actions .action-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions .action-buttons {
+    grid-template-columns: 1fr;
   }
 }
 </style>

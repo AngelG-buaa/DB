@@ -332,13 +332,14 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start()
   
   const userStore = useUserStore()
-  const isAuthenticated = userStore.isAuthenticated
+  let isAuthenticated = userStore.isAuthenticated
   // 刷新后若有token但未加载用户信息，先拉取用户信息再进行角色判断
   if (isAuthenticated && !userStore.userInfo) {
     try {
       await userStore.getUserInfo()
     } catch (e) {
       // 拉取失败则视为未登录
+      isAuthenticated = false
     }
   }
   const userRole = userStore.userInfo?.role

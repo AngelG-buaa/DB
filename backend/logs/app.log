@@ -4069,3 +4069,738 @@
 2025-11-25 17:16:24,825 - __main__ - INFO - 调试模式: True
 2025-11-25 17:16:24,845 - werkzeug - WARNING -  * Debugger is active!
 2025-11-25 17:16:24,860 - werkzeug - INFO -  * Debugger PIN: 396-816-184
+2025-11-25 22:08:57,270 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-25 22:08:57,270 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-25 22:08:57,270 - __main__ - INFO - 调试模式: True
+2025-11-25 22:08:57,336 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.192.67.21:3000
+2025-11-25 22:08:57,336 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-25 22:08:57,336 - werkzeug - INFO -  * Restarting with stat
+2025-11-25 22:08:58,069 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-25 22:08:58,069 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-25 22:08:58,071 - __main__ - INFO - 调试模式: True
+2025-11-25 22:08:58,095 - werkzeug - WARNING -  * Debugger is active!
+2025-11-25 22:08:58,122 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-11-25 22:09:34,809 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:34] "GET /api/auth/profile?_t=1764079774752 HTTP/1.1" 200 -
+2025-11-25 22:09:34,819 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:34] "GET /api/auth/profile?_t=1764079774749 HTTP/1.1" 200 -
+2025-11-25 22:09:35,952 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:35] "GET /api/consumables/stats?_t=1764079775737 HTTP/1.1" 200 -
+2025-11-25 22:09:35,960 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:35] "GET /api/reservations/statistics?_t=1764079775737 HTTP/1.1" 200 -
+2025-11-25 22:09:35,963 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:35] "GET /api/equipment/maintenance/stats?_t=1764079775737 HTTP/1.1" 200 -
+2025-11-25 22:09:36,070 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764079775971 HTTP/1.1" 200 -
+2025-11-25 22:09:36,090 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/reservations/statistics?_t=1764079775737 HTTP/1.1" 200 -
+2025-11-25 22:09:36,120 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/reservations/my?page=1&page_size=5&_t=1764079776076 HTTP/1.1" 200 -
+2025-11-25 22:09:36,277 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/equipment/maintenance/stats?_t=1764079776127 HTTP/1.1" 200 -
+2025-11-25 22:09:36,279 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/reservations/statistics?_t=1764079776127 HTTP/1.1" 200 -
+2025-11-25 22:09:36,281 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:36] "GET /api/consumables/stats?_t=1764079776127 HTTP/1.1" 200 -
+2025-11-25 22:09:47,954 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:47] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764079787876 HTTP/1.1" 200 -
+2025-11-25 22:09:48,256 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:48] "GET /api/courses?page=1&page_size=20&_t=1764079787876 HTTP/1.1" 200 -
+2025-11-25 22:09:52,671 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:52] "POST /api/auth/logout HTTP/1.1" 200 -
+2025-11-25 22:09:55,904 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:55] "POST /api/auth/login HTTP/1.1" 200 -
+2025-11-25 22:09:56,167 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/equipment/maintenance/stats?_t=1764079796009 HTTP/1.1" 200 -
+2025-11-25 22:09:56,167 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/reservations/statistics?_t=1764079796009 HTTP/1.1" 200 -
+2025-11-25 22:09:56,188 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/consumables/stats?_t=1764079796009 HTTP/1.1" 200 -
+2025-11-25 22:09:56,275 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764079796193 HTTP/1.1" 200 -
+2025-11-25 22:09:56,376 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/reservations/my?page=1&page_size=5&_t=1764079796289 HTTP/1.1" 200 -
+2025-11-25 22:09:56,385 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/reservations/statistics?_t=1764079796009 HTTP/1.1" 200 -
+2025-11-25 22:09:56,579 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/reservations/statistics?_t=1764079796408 HTTP/1.1" 200 -
+2025-11-25 22:09:56,582 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/equipment/maintenance/stats?_t=1764079796408 HTTP/1.1" 200 -
+2025-11-25 22:09:56,606 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:09:56] "GET /api/consumables/stats?_t=1764079796408 HTTP/1.1" 200 -
+2025-11-25 22:12:42,494 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories?page=1&page_size=20&_t=1764079962357 HTTP/1.1" 200 -
+2025-11-25 22:12:42,613 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,617 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,624 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,632 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/5/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,646 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/7/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,650 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/4/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,699 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,737 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/6/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,740 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,742 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,767 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/3/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,774 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/8/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,786 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/laboratories/1/equipment?_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,811 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764079962515 HTTP/1.1" 200 -
+2025-11-25 22:12:42,817 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764079962660 HTTP/1.1" 200 -
+2025-11-25 22:12:42,822 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764079962667 HTTP/1.1" 200 -
+2025-11-25 22:12:42,826 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764079962673 HTTP/1.1" 200 -
+2025-11-25 22:12:42,845 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764079962775 HTTP/1.1" 200 -
+2025-11-25 22:12:42,850 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764079962746 HTTP/1.1" 200 -
+2025-11-25 22:12:42,869 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764079962789 HTTP/1.1" 200 -
+2025-11-25 22:12:42,883 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:42] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764079962822 HTTP/1.1" 200 -
+2025-11-25 22:12:47,148 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:12:47] "GET /api/users?page=1&page_size=500&_t=1764079967032 HTTP/1.1" 200 -
+2025-11-25 22:13:04,687 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "[35m[1mPOST /api/laboratories HTTP/1.1[0m" 201 -
+2025-11-25 22:13:04,828 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "GET /api/laboratories?page=1&page_size=20&_t=1764079984715 HTTP/1.1" 200 -
+2025-11-25 22:13:04,949 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:04,956 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "GET /api/reservations?laboratory_id=12&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:04,984 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:04,988 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:04] "GET /api/laboratories/12/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,009 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/7/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,018 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/5/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,076 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,089 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/4/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,101 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,116 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/6/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,125 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,138 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/3/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,151 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,158 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/8/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,168 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,182 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764079985031 HTTP/1.1" 200 -
+2025-11-25 22:13:05,189 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/laboratories/1/equipment?_t=1764079984848 HTTP/1.1" 200 -
+2025-11-25 22:13:05,195 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764079985055 HTTP/1.1" 200 -
+2025-11-25 22:13:05,210 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764079985110 HTTP/1.1" 200 -
+2025-11-25 22:13:05,230 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764079985122 HTTP/1.1" 200 -
+2025-11-25 22:13:05,253 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764079985148 HTTP/1.1" 200 -
+2025-11-25 22:13:05,271 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764079985167 HTTP/1.1" 200 -
+2025-11-25 22:13:05,272 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:05] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764079985209 HTTP/1.1" 200 -
+2025-11-25 22:13:15,901 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:15] "GET /api/equipment?page=1&page_size=20&_t=1764079995811 HTTP/1.1" 200 -
+2025-11-25 22:13:15,948 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:15] "GET /api/laboratories?page=1&page_size=100&_t=1764079995811 HTTP/1.1" 200 -
+2025-11-25 22:13:15,962 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:15] "GET /api/equipment?page=1&page_size=20&_t=1764079995811 HTTP/1.1" 200 -
+2025-11-25 22:13:16,095 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:16] "GET /api/laboratories?page=1&page_size=100&_t=1764079995811 HTTP/1.1" 200 -
+2025-11-25 22:13:21,311 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:21] "GET /api/laboratories?page=1&page_size=200&_t=1764080001198 HTTP/1.1" 200 -
+2025-11-25 22:13:22,901 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:22] "GET /api/equipment?page=1&page_size=1000&_t=1764080002813 HTTP/1.1" 200 -
+2025-11-25 22:13:22,917 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:22] "GET /api/equipment/maintenance?page=1&size=20&_t=1764080002813 HTTP/1.1" 200 -
+2025-11-25 22:13:23,021 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:23] "GET /api/equipment/maintenance/stats?_t=1764080002813 HTTP/1.1" 200 -
+2025-11-25 22:13:26,008 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:26] "GET /api/reservations?page=1&page_size=20&_t=1764080005950 HTTP/1.1" 200 -
+2025-11-25 22:13:26,037 - werkzeug - INFO - 127.0.0.1 - - [25/Nov/2025 22:13:26] "GET /api/laboratories?page=1&page_size=100&_t=1764080005950 HTTP/1.1" 200 -
+2025-11-27 19:20:17,667 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-27 19:20:17,668 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-27 19:20:17,668 - __main__ - INFO - 调试模式: True
+2025-11-27 19:20:17,688 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-11-27 19:20:17,688 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-27 19:20:17,688 - werkzeug - INFO -  * Restarting with stat
+2025-11-27 19:20:18,046 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-11-27 19:20:18,046 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-11-27 19:20:18,046 - __main__ - INFO - 调试模式: True
+2025-11-27 19:20:18,055 - werkzeug - WARNING -  * Debugger is active!
+2025-11-27 19:20:18,060 - werkzeug - INFO -  * Debugger PIN: 833-026-500
+2025-11-27 19:20:39,675 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-27 19:20:39,676 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-27 19:20:39,678 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:20:39] "[31m[1mGET /api/auth/profile?_t=1764242439657 HTTP/1.1[0m" 401 -
+2025-11-27 19:20:39,679 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:20:39] "[31m[1mGET /api/auth/profile?_t=1764242439659 HTTP/1.1[0m" 401 -
+2025-11-27 19:20:39,723 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-27 19:20:39,726 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:20:39] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-27 19:20:39,727 - app.utils.auth - WARNING - JWT令牌已过期
+2025-11-27 19:20:39,727 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:20:39] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-27 19:20:42,788 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:20:42] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-11-27 19:21:10,021 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "POST /api/auth/login HTTP/1.1" 200 -
+2025-11-27 19:21:10,347 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/reservations/statistics?_t=1764242470144 HTTP/1.1" 200 -
+2025-11-27 19:21:10,354 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/consumables/stats?_t=1764242470144 HTTP/1.1" 200 -
+2025-11-27 19:21:10,363 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/equipment/maintenance/stats?_t=1764242470144 HTTP/1.1" 200 -
+2025-11-27 19:21:10,447 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242470356 HTTP/1.1" 200 -
+2025-11-27 19:21:10,506 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/reservations/my?page=1&page_size=5&_t=1764242470453 HTTP/1.1" 200 -
+2025-11-27 19:21:10,522 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/reservations/statistics?_t=1764242470144 HTTP/1.1" 200 -
+2025-11-27 19:21:10,759 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/equipment/maintenance/stats?_t=1764242470519 HTTP/1.1" 200 -
+2025-11-27 19:21:10,777 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/reservations/statistics?_t=1764242470519 HTTP/1.1" 200 -
+2025-11-27 19:21:10,785 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:10] "GET /api/consumables/stats?_t=1764242470519 HTTP/1.1" 200 -
+2025-11-27 19:21:18,510 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories?page=1&page_size=20&_t=1764242478371 HTTP/1.1" 200 -
+2025-11-27 19:21:18,637 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=12&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,642 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,657 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,664 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/12/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,703 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/5/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,709 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/7/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,730 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,741 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,782 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/4/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,798 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/6/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,802 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,824 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,830 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/3/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,855 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/8/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,873 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242478713 HTTP/1.1" 200 -
+2025-11-27 19:21:18,873 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,893 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242478785 HTTP/1.1" 200 -
+2025-11-27 19:21:18,897 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242478723 HTTP/1.1" 200 -
+2025-11-27 19:21:18,906 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/laboratories/1/equipment?_t=1764242478522 HTTP/1.1" 200 -
+2025-11-27 19:21:18,917 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242478804 HTTP/1.1" 200 -
+2025-11-27 19:21:18,937 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242478863 HTTP/1.1" 200 -
+2025-11-27 19:21:18,956 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242478835 HTTP/1.1" 200 -
+2025-11-27 19:21:18,980 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:18] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242478913 HTTP/1.1" 200 -
+2025-11-27 19:21:27,510 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "DELETE /api/laboratories/12 HTTP/1.1" 200 -
+2025-11-27 19:21:27,612 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories?page=1&page_size=20&_t=1764242487519 HTTP/1.1" 200 -
+2025-11-27 19:21:27,680 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,683 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,692 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,706 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/5/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,714 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/7/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,715 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/4/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,732 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,757 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/6/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,769 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,773 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,787 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/3/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,802 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/8/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,806 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,818 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242487710 HTTP/1.1" 200 -
+2025-11-27 19:21:27,821 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/laboratories/1/equipment?_t=1764242487622 HTTP/1.1" 200 -
+2025-11-27 19:21:27,832 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242487718 HTTP/1.1" 200 -
+2025-11-27 19:21:27,835 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242487719 HTTP/1.1" 200 -
+2025-11-27 19:21:27,850 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242487760 HTTP/1.1" 200 -
+2025-11-27 19:21:27,856 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242487790 HTTP/1.1" 200 -
+2025-11-27 19:21:27,862 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242487807 HTTP/1.1" 200 -
+2025-11-27 19:21:27,872 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:27] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242487826 HTTP/1.1" 200 -
+2025-11-27 19:21:30,264 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:30] "GET /api/laboratories/4/availability?date=2025-11-27&_t=1764242490194 HTTP/1.1" 200 -
+2025-11-27 19:21:50,602 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:50] "GET /api/users?page=1&page_size=50&search=g&_t=1764242510554 HTTP/1.1" 200 -
+2025-11-27 19:21:52,590 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:52] "[35m[1mPOST /api/laboratories HTTP/1.1[0m" 201 -
+2025-11-27 19:21:53,020 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories?page=1&page_size=20&_t=1764242512939 HTTP/1.1" 200 -
+2025-11-27 19:21:53,082 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=13&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,088 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,093 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,115 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/13/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,118 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/7/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,124 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/5/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,142 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,170 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/4/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,173 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/6/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,177 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,184 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,197 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/3/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,218 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,224 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/8/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,238 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242513120 HTTP/1.1" 200 -
+2025-11-27 19:21:53,239 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,253 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/laboratories/1/equipment?_t=1764242513028 HTTP/1.1" 200 -
+2025-11-27 19:21:53,269 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242513175 HTTP/1.1" 200 -
+2025-11-27 19:21:53,271 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242513181 HTTP/1.1" 200 -
+2025-11-27 19:21:53,284 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242513229 HTTP/1.1" 200 -
+2025-11-27 19:21:53,287 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242513200 HTTP/1.1" 200 -
+2025-11-27 19:21:53,309 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242513259 HTTP/1.1" 200 -
+2025-11-27 19:21:53,469 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:21:53] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242513127 HTTP/1.1" 200 -
+2025-11-27 19:22:49,626 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/reservations/statistics?_t=1764242569485 HTTP/1.1" 200 -
+2025-11-27 19:22:49,729 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242569634 HTTP/1.1" 200 -
+2025-11-27 19:22:49,779 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/reservations/my?page=1&page_size=5&_t=1764242569734 HTTP/1.1" 200 -
+2025-11-27 19:22:49,956 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/consumables/stats?_t=1764242569788 HTTP/1.1" 200 -
+2025-11-27 19:22:49,965 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/equipment/maintenance/stats?_t=1764242569788 HTTP/1.1" 200 -
+2025-11-27 19:22:49,972 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:49] "GET /api/reservations/statistics?_t=1764242569788 HTTP/1.1" 200 -
+2025-11-27 19:22:51,098 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories?page=1&page_size=20&_t=1764242571004 HTTP/1.1" 200 -
+2025-11-27 19:22:51,162 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,165 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,165 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=13&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,187 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/13/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,187 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/7/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,195 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/5/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,211 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,236 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,241 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/4/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,247 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,247 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/6/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,266 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/3/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,297 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,308 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,308 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242571197 HTTP/1.1" 200 -
+2025-11-27 19:22:51,308 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/8/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,320 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242571202 HTTP/1.1" 200 -
+2025-11-27 19:22:51,331 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/laboratories/1/equipment?_t=1764242571104 HTTP/1.1" 200 -
+2025-11-27 19:22:51,348 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242571246 HTTP/1.1" 200 -
+2025-11-27 19:22:51,358 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242571257 HTTP/1.1" 200 -
+2025-11-27 19:22:51,366 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242571274 HTTP/1.1" 200 -
+2025-11-27 19:22:51,366 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242571318 HTTP/1.1" 200 -
+2025-11-27 19:22:51,387 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:51] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242571334 HTTP/1.1" 200 -
+2025-11-27 19:22:52,987 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:52] "DELETE /api/laboratories/13 HTTP/1.1" 200 -
+2025-11-27 19:22:53,087 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories?page=1&page_size=20&_t=1764242572999 HTTP/1.1" 200 -
+2025-11-27 19:22:53,170 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,178 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,192 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,199 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/7/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,210 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/5/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,225 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/4/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,244 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,254 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/6/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,259 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,283 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,287 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/3/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,310 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/8/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,314 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,321 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242573208 HTTP/1.1" 200 -
+2025-11-27 19:22:53,338 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/laboratories/1/equipment?_t=1764242573099 HTTP/1.1" 200 -
+2025-11-27 19:22:53,342 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242573231 HTTP/1.1" 200 -
+2025-11-27 19:22:53,344 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242573220 HTTP/1.1" 200 -
+2025-11-27 19:22:53,362 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242573262 HTTP/1.1" 200 -
+2025-11-27 19:22:53,374 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242573292 HTTP/1.1" 200 -
+2025-11-27 19:22:53,380 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242573317 HTTP/1.1" 200 -
+2025-11-27 19:22:53,392 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:53] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242573341 HTTP/1.1" 200 -
+2025-11-27 19:22:54,689 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:54] "GET /api/reservations/statistics?_t=1764242574502 HTTP/1.1" 200 -
+2025-11-27 19:22:54,823 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:54] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242574699 HTTP/1.1" 200 -
+2025-11-27 19:22:54,932 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:54] "GET /api/reservations/my?page=1&page_size=5&_t=1764242574832 HTTP/1.1" 200 -
+2025-11-27 19:22:55,121 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:55] "GET /api/reservations/statistics?_t=1764242574938 HTTP/1.1" 200 -
+2025-11-27 19:22:55,126 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:55] "GET /api/equipment/maintenance/stats?_t=1764242574938 HTTP/1.1" 200 -
+2025-11-27 19:22:55,144 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:22:55] "GET /api/consumables/stats?_t=1764242574938 HTTP/1.1" 200 -
+2025-11-27 19:23:17,790 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories?page=1&page_size=20&_t=1764242597701 HTTP/1.1" 200 -
+2025-11-27 19:23:17,870 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,871 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,872 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,896 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/7/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,901 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/5/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,908 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/4/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,934 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,944 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,955 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/3/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,959 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/6/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,970 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:17,992 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:17] "GET /api/laboratories/8/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:18,014 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:18,016 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242597906 HTTP/1.1" 200 -
+2025-11-27 19:23:18,020 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242597901 HTTP/1.1" 200 -
+2025-11-27 19:23:18,024 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242597914 HTTP/1.1" 200 -
+2025-11-27 19:23:18,030 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/laboratories/1/equipment?_t=1764242597800 HTTP/1.1" 200 -
+2025-11-27 19:23:18,045 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242597962 HTTP/1.1" 200 -
+2025-11-27 19:23:18,072 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242597998 HTTP/1.1" 200 -
+2025-11-27 19:23:18,077 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=6&page=1&page_size=1&_t=1764242597967 HTTP/1.1" 200 -
+2025-11-27 19:23:18,094 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:18] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242598035 HTTP/1.1" 200 -
+2025-11-27 19:23:21,785 - backend.database - ERROR - 数据库操作失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:23:21,785 - app.api.laboratories - ERROR - 删除实验室失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:23:21,785 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:21] "[31m[1mDELETE /api/laboratories/7 HTTP/1.1[0m" 400 -
+2025-11-27 19:23:33,640 - backend.database - ERROR - 数据库操作失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:23:33,641 - app.api.laboratories - ERROR - 删除实验室失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:23:33,642 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:33] "[31m[1mDELETE /api/laboratories/7 HTTP/1.1[0m" 400 -
+2025-11-27 19:23:38,962 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:38] "DELETE /api/laboratories/6 HTTP/1.1" 200 -
+2025-11-27 19:23:39,063 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories?page=1&page_size=20&_t=1764242618978 HTTP/1.1" 200 -
+2025-11-27 19:23:39,137 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,155 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,169 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,188 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/4/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,189 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/7/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,204 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/5/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,226 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,236 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/3/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,247 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,267 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/8/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,280 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,285 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242619194 HTTP/1.1" 200 -
+2025-11-27 19:23:39,289 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/laboratories/1/equipment?_t=1764242619077 HTTP/1.1" 200 -
+2025-11-27 19:23:39,296 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242619196 HTTP/1.1" 200 -
+2025-11-27 19:23:39,298 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242619209 HTTP/1.1" 200 -
+2025-11-27 19:23:39,331 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242619245 HTTP/1.1" 200 -
+2025-11-27 19:23:39,336 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242619279 HTTP/1.1" 200 -
+2025-11-27 19:23:39,343 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:39] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242619293 HTTP/1.1" 200 -
+2025-11-27 19:23:47,979 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:47] "GET /api/reservations/statistics?_t=1764242627721 HTTP/1.1" 200 -
+2025-11-27 19:23:48,082 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:48] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242627985 HTTP/1.1" 200 -
+2025-11-27 19:23:48,142 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:48] "GET /api/reservations/my?page=1&page_size=5&_t=1764242628089 HTTP/1.1" 200 -
+2025-11-27 19:23:48,366 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:48] "GET /api/equipment/maintenance/stats?_t=1764242628154 HTTP/1.1" 200 -
+2025-11-27 19:23:48,409 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:48] "GET /api/reservations/statistics?_t=1764242628154 HTTP/1.1" 200 -
+2025-11-27 19:23:48,409 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:23:48] "GET /api/consumables/stats?_t=1764242628154 HTTP/1.1" 200 -
+2025-11-27 19:24:15,470 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories?page=1&page_size=20&_t=1764242655382 HTTP/1.1" 200 -
+2025-11-27 19:24:15,548 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,554 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,560 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,569 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/7/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,578 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/5/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,579 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/4/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,611 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,621 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,630 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/3/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,641 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/8/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,642 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,656 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/laboratories/1/equipment?_t=1764242655478 HTTP/1.1" 200 -
+2025-11-27 19:24:15,673 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242655574 HTTP/1.1" 200 -
+2025-11-27 19:24:15,676 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242655584 HTTP/1.1" 200 -
+2025-11-27 19:24:15,682 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242655586 HTTP/1.1" 200 -
+2025-11-27 19:24:15,694 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242655634 HTTP/1.1" 200 -
+2025-11-27 19:24:15,695 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242655645 HTTP/1.1" 200 -
+2025-11-27 19:24:15,705 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:15] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242655659 HTTP/1.1" 200 -
+2025-11-27 19:24:19,580 - backend.database - ERROR - 数据库操作失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:24:19,580 - app.api.laboratories - ERROR - 删除实验室失败: (1644, 'Cannot delete laboratory with assigned equipment.')
+2025-11-27 19:24:19,580 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:19] "[31m[1mDELETE /api/laboratories/5 HTTP/1.1[0m" 400 -
+2025-11-27 19:24:29,103 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/reservations/statistics?_t=1764242668933 HTTP/1.1" 200 -
+2025-11-27 19:24:29,223 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242669113 HTTP/1.1" 200 -
+2025-11-27 19:24:29,274 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/reservations/my?page=1&page_size=5&_t=1764242669227 HTTP/1.1" 200 -
+2025-11-27 19:24:29,408 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/equipment/maintenance/stats?_t=1764242669282 HTTP/1.1" 200 -
+2025-11-27 19:24:29,421 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/consumables/stats?_t=1764242669282 HTTP/1.1" 200 -
+2025-11-27 19:24:29,428 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:24:29] "GET /api/reservations/statistics?_t=1764242669282 HTTP/1.1" 200 -
+2025-11-27 19:25:03,636 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories?page=1&page_size=20&_t=1764242703504 HTTP/1.1" 200 -
+2025-11-27 19:25:03,713 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,716 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,737 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,752 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/7/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,765 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/4/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,767 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/5/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,781 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,798 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,809 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/3/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,815 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,822 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/8/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,838 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242703758 HTTP/1.1" 200 -
+2025-11-27 19:25:03,840 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/laboratories/1/equipment?_t=1764242703647 HTTP/1.1" 200 -
+2025-11-27 19:25:03,854 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242703768 HTTP/1.1" 200 -
+2025-11-27 19:25:03,863 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242703815 HTTP/1.1" 200 -
+2025-11-27 19:25:03,865 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242703775 HTTP/1.1" 200 -
+2025-11-27 19:25:03,879 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=8&page=1&page_size=1&_t=1764242703829 HTTP/1.1" 200 -
+2025-11-27 19:25:03,897 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:03] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242703846 HTTP/1.1" 200 -
+2025-11-27 19:25:08,639 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "DELETE /api/laboratories/8 HTTP/1.1" 200 -
+2025-11-27 19:25:08,741 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories?page=1&page_size=20&_t=1764242708651 HTTP/1.1" 200 -
+2025-11-27 19:25:08,816 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,816 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,832 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,843 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories/4/equipment?_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,853 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories/7/equipment?_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,868 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories/5/equipment?_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,878 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,895 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,910 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories/3/equipment?_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,912 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242708849 HTTP/1.1" 200 -
+2025-11-27 19:25:08,925 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242708858 HTTP/1.1" 200 -
+2025-11-27 19:25:08,927 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/laboratories/1/equipment?_t=1764242708752 HTTP/1.1" 200 -
+2025-11-27 19:25:08,931 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242708873 HTTP/1.1" 200 -
+2025-11-27 19:25:08,962 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242708915 HTTP/1.1" 200 -
+2025-11-27 19:25:08,979 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:08] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242708930 HTTP/1.1" 200 -
+2025-11-27 19:25:21,243 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:21] "GET /api/users?page=1&page_size=50&search=d&_t=1764242721193 HTTP/1.1" 200 -
+2025-11-27 19:25:26,520 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:26] "[35m[1mPOST /api/laboratories HTTP/1.1[0m" 201 -
+2025-11-27 19:25:26,969 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:26] "GET /api/laboratories?page=1&page_size=20&_t=1764242726887 HTTP/1.1" 200 -
+2025-11-27 19:25:27,040 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,040 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,050 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=14&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,087 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/7/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,087 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/14/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,092 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/5/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,105 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,144 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,148 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/3/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,149 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/4/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,155 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,164 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242727091 HTTP/1.1" 200 -
+2025-11-27 19:25:27,174 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/laboratories/1/equipment?_t=1764242726975 HTTP/1.1" 200 -
+2025-11-27 19:25:27,194 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242727152 HTTP/1.1" 200 -
+2025-11-27 19:25:27,205 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242727096 HTTP/1.1" 200 -
+2025-11-27 19:25:27,208 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242727161 HTTP/1.1" 200 -
+2025-11-27 19:25:27,239 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:27] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242727178 HTTP/1.1" 200 -
+2025-11-27 19:25:33,188 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:33] "GET /api/equipment?page=1&page_size=20&_t=1764242733143 HTTP/1.1" 200 -
+2025-11-27 19:25:33,231 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:33] "GET /api/laboratories?page=1&page_size=100&_t=1764242733143 HTTP/1.1" 200 -
+2025-11-27 19:25:33,286 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:33] "GET /api/equipment?page=1&page_size=20&_t=1764242733143 HTTP/1.1" 200 -
+2025-11-27 19:25:33,400 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:33] "GET /api/laboratories?page=1&page_size=100&_t=1764242733143 HTTP/1.1" 200 -
+2025-11-27 19:25:38,272 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:38] "DELETE /api/equipment/4 HTTP/1.1" 200 -
+2025-11-27 19:25:38,351 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:38] "GET /api/equipment?page=1&page_size=20&_t=1764242738283 HTTP/1.1" 200 -
+2025-11-27 19:25:40,551 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:25:40] "GET /api/laboratories?page=1&page_size=200&_t=1764242740458 HTTP/1.1" 200 -
+2025-11-27 19:26:01,085 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories?page=1&page_size=20&_t=1764242760985 HTTP/1.1" 200 -
+2025-11-27 19:26:01,233 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=14&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,237 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,245 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,266 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/14/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,276 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/7/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,286 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/5/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,297 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,319 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,327 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/3/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,337 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242761280 HTTP/1.1" 200 -
+2025-11-27 19:26:01,347 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/1/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,347 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/laboratories/4/equipment?_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,357 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242761094 HTTP/1.1" 200 -
+2025-11-27 19:26:01,379 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242761331 HTTP/1.1" 200 -
+2025-11-27 19:26:01,384 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242761297 HTTP/1.1" 200 -
+2025-11-27 19:26:01,388 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242761355 HTTP/1.1" 200 -
+2025-11-27 19:26:01,411 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:01] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242761365 HTTP/1.1" 200 -
+2025-11-27 19:26:02,487 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/reservations/statistics?_t=1764242762334 HTTP/1.1" 200 -
+2025-11-27 19:26:02,593 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764242762495 HTTP/1.1" 200 -
+2025-11-27 19:26:02,656 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/reservations/my?page=1&page_size=5&_t=1764242762597 HTTP/1.1" 200 -
+2025-11-27 19:26:02,869 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/reservations/statistics?_t=1764242762666 HTTP/1.1" 200 -
+2025-11-27 19:26:02,880 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/equipment/maintenance/stats?_t=1764242762666 HTTP/1.1" 200 -
+2025-11-27 19:26:02,882 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:02] "GET /api/consumables/stats?_t=1764242762666 HTTP/1.1" 200 -
+2025-11-27 19:26:26,483 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories?page=1&page_size=20&_t=1764242786329 HTTP/1.1" 200 -
+2025-11-27 19:26:26,566 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,581 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,591 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=14&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,612 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/5/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,624 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/14/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,638 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/7/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,653 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,687 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,690 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/4/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,704 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/3/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,707 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,720 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242786615 HTTP/1.1" 200 -
+2025-11-27 19:26:26,739 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/laboratories/1/equipment?_t=1764242786491 HTTP/1.1" 200 -
+2025-11-27 19:26:26,782 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242786645 HTTP/1.1" 200 -
+2025-11-27 19:26:26,789 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242786697 HTTP/1.1" 200 -
+2025-11-27 19:26:26,795 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242786711 HTTP/1.1" 200 -
+2025-11-27 19:26:26,812 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:26] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242786746 HTTP/1.1" 200 -
+2025-11-27 19:26:30,978 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:30] "DELETE /api/laboratories/14 HTTP/1.1" 200 -
+2025-11-27 19:26:31,104 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories?page=1&page_size=20&_t=1764242790988 HTTP/1.1" 200 -
+2025-11-27 19:26:31,168 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,172 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,174 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,195 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories/4/equipment?_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,198 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories/7/equipment?_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,198 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories/5/equipment?_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,229 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,264 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242791205 HTTP/1.1" 200 -
+2025-11-27 19:26:31,270 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,271 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242791202 HTTP/1.1" 200 -
+2025-11-27 19:26:31,274 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories/3/equipment?_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,284 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/laboratories/1/equipment?_t=1764242791110 HTTP/1.1" 200 -
+2025-11-27 19:26:31,289 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242791209 HTTP/1.1" 200 -
+2025-11-27 19:26:31,335 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242791279 HTTP/1.1" 200 -
+2025-11-27 19:26:31,338 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:31] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242791288 HTTP/1.1" 200 -
+2025-11-27 19:26:42,067 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:42] "GET /api/users?page=1&page_size=50&search=s&_t=1764242801981 HTTP/1.1" 200 -
+2025-11-27 19:26:43,820 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:43] "[35m[1mPOST /api/laboratories HTTP/1.1[0m" 201 -
+2025-11-27 19:26:44,301 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories?page=1&page_size=20&_t=1764242804172 HTTP/1.1" 200 -
+2025-11-27 19:26:44,373 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=15&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,377 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,379 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,433 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/15/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,433 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/7/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,436 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/5/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,463 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,511 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/4/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,511 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/3/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,513 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,513 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,540 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/laboratories/1/equipment?_t=1764242804308 HTTP/1.1" 200 -
+2025-11-27 19:26:44,544 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=7&page=1&page_size=2&_t=1764242804438 HTTP/1.1" 200 -
+2025-11-27 19:26:44,573 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764242804441 HTTP/1.1" 200 -
+2025-11-27 19:26:44,576 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764242804515 HTTP/1.1" 200 -
+2025-11-27 19:26:44,576 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764242804519 HTTP/1.1" 200 -
+2025-11-27 19:26:44,604 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:44] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764242804544 HTTP/1.1" 200 -
+2025-11-27 19:26:47,488 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:47] "GET /api/laboratories/15/availability?date=2025-11-27&_t=1764242807372 HTTP/1.1" 200 -
+2025-11-27 19:26:51,062 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:51] "GET /api/equipment?page=1&page_size=20&_t=1764242811005 HTTP/1.1" 200 -
+2025-11-27 19:26:51,094 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:51] "GET /api/laboratories?page=1&page_size=100&_t=1764242811005 HTTP/1.1" 200 -
+2025-11-27 19:26:51,114 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:51] "GET /api/equipment?page=1&page_size=20&_t=1764242811005 HTTP/1.1" 200 -
+2025-11-27 19:26:51,178 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:51] "GET /api/laboratories?page=1&page_size=100&_t=1764242811005 HTTP/1.1" 200 -
+2025-11-27 19:26:54,457 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:26:54] "GET /api/laboratories?page=1&page_size=200&_t=1764242814335 HTTP/1.1" 200 -
+2025-11-27 19:27:04,620 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:04] "[35m[1mPOST /api/equipment HTTP/1.1[0m" 201 -
+2025-11-27 19:27:05,067 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:05] "GET /api/equipment?page=1&page_size=20&_t=1764242824982 HTTP/1.1" 200 -
+2025-11-27 19:27:05,106 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:05] "GET /api/laboratories?page=1&page_size=100&_t=1764242824982 HTTP/1.1" 200 -
+2025-11-27 19:27:05,129 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:05] "GET /api/equipment?page=1&page_size=20&_t=1764242824982 HTTP/1.1" 200 -
+2025-11-27 19:27:05,219 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:05] "GET /api/laboratories?page=1&page_size=100&_t=1764242824982 HTTP/1.1" 200 -
+2025-11-27 19:27:08,079 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:08] "GET /api/laboratories?page=1&page_size=200&_t=1764242827934 HTTP/1.1" 200 -
+2025-11-27 19:27:08,814 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:08] "GET /api/equipment/maintenance?page=1&size=20&_t=1764242828758 HTTP/1.1" 200 -
+2025-11-27 19:27:08,817 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:08] "GET /api/equipment?page=1&page_size=1000&_t=1764242828758 HTTP/1.1" 200 -
+2025-11-27 19:27:08,932 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:08] "GET /api/equipment/maintenance/stats?_t=1764242828758 HTTP/1.1" 200 -
+2025-11-27 19:27:13,581 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:13] "PUT /api/equipment/maintenance/7 HTTP/1.1" 200 -
+2025-11-27 19:27:13,652 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:13] "GET /api/equipment/maintenance?page=1&size=20&_t=1764242833589 HTTP/1.1" 200 -
+2025-11-27 19:27:13,751 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:13] "GET /api/equipment/maintenance/stats?_t=1764242833589 HTTP/1.1" 200 -
+2025-11-27 19:27:16,805 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:16] "GET /api/equipment/maintenance/7?_t=1764242836752 HTTP/1.1" 200 -
+2025-11-27 19:27:20,237 - app.api.maintenance - ERROR - 删除维修记录接口错误: deleted_response() takes from 0 to 1 positional arguments but 2 were given
+2025-11-27 19:27:20,241 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:20] "[31m[1mDELETE /api/equipment/maintenance/7 HTTP/1.1[0m" 400 -
+2025-11-27 19:27:31,704 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:31] "GET /api/reservations?page=1&page_size=20&_t=1764242851638 HTTP/1.1" 200 -
+2025-11-27 19:27:31,752 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:31] "GET /api/laboratories?page=1&page_size=100&_t=1764242851638 HTTP/1.1" 200 -
+2025-11-27 19:27:38,784 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:38] "DELETE /api/reservations/9 HTTP/1.1" 200 -
+2025-11-27 19:27:38,855 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:38] "GET /api/reservations?page=1&page_size=20&_t=1764242858798 HTTP/1.1" 200 -
+2025-11-27 19:27:40,576 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:40] "GET /api/laboratories?page=1&page_size=100&_t=1764242860489 HTTP/1.1" 200 -
+2025-11-27 19:27:46,129 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:46] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1764242866079 HTTP/1.1" 200 -
+2025-11-27 19:27:46,179 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:46] "GET /api/laboratories?page=1&page_size=100&_t=1764242866079 HTTP/1.1" 200 -
+2025-11-27 19:27:49,124 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:49] "GET /api/laboratories?page=1&page_size=100&_t=1764242869026 HTTP/1.1" 200 -
+2025-11-27 19:27:51,504 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:51] "GET /api/laboratories/1?_t=1764242871380 HTTP/1.1" 200 -
+2025-11-27 19:27:54,617 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:54] "GET /api/reservations?page=1&page_size=20&_t=1764242874566 HTTP/1.1" 200 -
+2025-11-27 19:27:54,646 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:54] "GET /api/laboratories?page=1&page_size=100&_t=1764242874566 HTTP/1.1" 200 -
+2025-11-27 19:27:58,133 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:58] "POST /api/reservations/12/reject HTTP/1.1" 200 -
+2025-11-27 19:27:58,207 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:27:58] "GET /api/reservations?page=1&page_size=20&_t=1764242878144 HTTP/1.1" 200 -
+2025-11-27 19:28:00,036 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:00] "GET /api/laboratories?page=1&page_size=100&_t=1764242879934 HTTP/1.1" 200 -
+2025-11-27 19:28:13,890 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:13] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-27 19:28:14,030 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:14] "GET /api/laboratories/4?_t=1764242886797 HTTP/1.1" 200 -
+2025-11-27 19:28:15,822 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:15] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-11-27 19:28:19,863 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:19] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室查询SQL: SELECT id, name, status FROM laboratories WHERE id = %s
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室查询参数: 4
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室查询结果: {'success': True, 'data': [{'id': 4, 'name': 'API-测试实验室-cdf5189c', 'status': 'available'}]}
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室数据: {'id': 4, 'name': 'API-测试实验室-cdf5189c', 'status': 'available'}
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室数据类型: <class 'dict'>
+2025-11-27 19:28:20,995 - app.api.reservations - INFO - 实验室数据键: ['id', 'name', 'status']
+2025-11-27 19:28:21,031 - app.api.reservations - INFO - 时间冲突检查结果: {'success': True, 'data': ()}
+2025-11-27 19:28:21,087 - app.api.reservations - INFO - 预约插入结果: {'success': True, 'affected_rows': 1, 'last_insert_id': 15}
+2025-11-27 19:28:21,126 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:21] "[35m[1mPOST /api/reservations HTTP/1.1[0m" 201 -
+2025-11-27 19:28:21,576 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:21] "GET /api/reservations?page=1&page_size=20&_t=1764242901527 HTTP/1.1" 200 -
+2025-11-27 19:28:21,618 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:21] "GET /api/laboratories?page=1&page_size=100&_t=1764242901527 HTTP/1.1" 200 -
+2025-11-27 19:28:24,806 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:24] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:24,843 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:24] "GET /api/laboratories?page=1&page_size=1000&_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:24,887 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:24] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:24,939 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:24] "GET /api/consumables/stats?_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:24,972 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:24] "GET /api/laboratories?page=1&page_size=1000&_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:25,139 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:25] "GET /api/consumables/stats?_t=1764242904731 HTTP/1.1" 200 -
+2025-11-27 19:28:33,526 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:33] "POST /api/consumables/6/restock HTTP/1.1" 200 -
+2025-11-27 19:28:33,587 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:33] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764242913536 HTTP/1.1" 200 -
+2025-11-27 19:28:33,703 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:33] "GET /api/consumables/stats?_t=1764242913536 HTTP/1.1" 200 -
+2025-11-27 19:28:35,866 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:35] "GET /api/laboratories?page=1&page_size=200&_t=1764242915778 HTTP/1.1" 200 -
+2025-11-27 19:28:35,957 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:35] "GET /api/courses?page=1&page_size=200&_t=1764242915778 HTTP/1.1" 200 -
+2025-11-27 19:28:37,073 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:37] "GET /api/consumables?page_size=1000&_t=1764242917003 HTTP/1.1" 200 -
+2025-11-27 19:28:37,073 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:37] "GET /api/consumables/usage?page=1&page_size=20&_t=1764242917003 HTTP/1.1" 200 -
+2025-11-27 19:28:37,115 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:37] "GET /api/laboratories?page=1&page_size=1000&_t=1764242917003 HTTP/1.1" 200 -
+2025-11-27 19:28:37,182 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:37] "GET /api/consumables/usage/stats?_t=1764242917003 HTTP/1.1" 200 -
+2025-11-27 19:28:40,143 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:40] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764242920076 HTTP/1.1" 200 -
+2025-11-27 19:28:40,314 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:40] "GET /api/courses?page=1&page_size=20&_t=1764242920076 HTTP/1.1" 200 -
+2025-11-27 19:28:41,811 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:41] "GET /api/users?page=1&page_size=200&role=teacher&_t=1764242921762 HTTP/1.1" 200 -
+2025-11-27 19:28:41,903 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:41] "GET /api/laboratories?page=1&page_size=500&_t=1764242921762 HTTP/1.1" 200 -
+2025-11-27 19:28:53,309 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:53] "[35m[1mPOST /api/courses HTTP/1.1[0m" 201 -
+2025-11-27 19:28:53,702 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:53] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764242933653 HTTP/1.1" 200 -
+2025-11-27 19:28:53,889 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:53] "GET /api/courses?page=1&page_size=20&_t=1764242933653 HTTP/1.1" 200 -
+2025-11-27 19:28:57,784 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:57] "GET /api/users?page=1&page_size=20&_t=1764242937729 HTTP/1.1" 200 -
+2025-11-27 19:28:57,964 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:28:57] "GET /api/courses?page=1&page_size=200&_t=1764242937729 HTTP/1.1" 200 -
+2025-11-27 19:29:01,437 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/users?page=1&page_size=1000&_t=1764242941361 HTTP/1.1" 200 -
+2025-11-27 19:29:01,457 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/laboratories?page=1&page_size=1&_t=1764242941361 HTTP/1.1" 200 -
+2025-11-27 19:29:01,487 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/equipment/statistics?_t=1764242941361 HTTP/1.1" 200 -
+2025-11-27 19:29:01,523 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/reservations/statistics?_t=1764242941361 HTTP/1.1" 200 -
+2025-11-27 19:29:01,528 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/equipment/maintenance/stats?_t=1764242941361 HTTP/1.1" 200 -
+2025-11-27 19:29:01,722 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:29:01] "GET /api/equipment/maintenance/stats?_t=1764242941573 HTTP/1.1" 200 -
+2025-11-27 19:30:47,634 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/reservations/statistics?_t=1764243047486 HTTP/1.1" 200 -
+2025-11-27 19:30:47,726 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764243047641 HTTP/1.1" 200 -
+2025-11-27 19:30:47,776 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/reservations/my?page=1&page_size=5&_t=1764243047732 HTTP/1.1" 200 -
+2025-11-27 19:30:47,914 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/reservations/statistics?_t=1764243047782 HTTP/1.1" 200 -
+2025-11-27 19:30:47,925 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/equipment/maintenance/stats?_t=1764243047782 HTTP/1.1" 200 -
+2025-11-27 19:30:47,928 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:30:47] "GET /api/consumables/stats?_t=1764243047782 HTTP/1.1" 200 -
+2025-11-27 19:31:02,659 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/laboratories?page=1&page_size=20&_t=1764243062397 HTTP/1.1" 200 -
+2025-11-27 19:31:02,809 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/reservations?laboratory_id=15&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,809 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,857 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,881 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/laboratories/15/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,882 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/laboratories/7/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,933 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/laboratories/5/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:02,949 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:02] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,012 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,016 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/laboratories/4/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,076 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/laboratories/3/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,079 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,086 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243062885 HTTP/1.1" 200 -
+2025-11-27 19:31:03,139 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/laboratories/1/equipment?_t=1764243062667 HTTP/1.1" 200 -
+2025-11-27 19:31:03,141 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=4&page=1&page_size=2&_t=1764243063020 HTTP/1.1" 200 -
+2025-11-27 19:31:03,148 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243062938 HTTP/1.1" 200 -
+2025-11-27 19:31:03,208 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764243063080 HTTP/1.1" 200 -
+2025-11-27 19:31:03,275 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:03] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764243063143 HTTP/1.1" 200 -
+2025-11-27 19:31:06,051 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "DELETE /api/laboratories/15 HTTP/1.1" 200 -
+2025-11-27 19:31:06,151 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories?page=1&page_size=20&_t=1764243066061 HTTP/1.1" 200 -
+2025-11-27 19:31:06,232 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,234 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,249 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,255 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories/5/equipment?_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,265 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories/7/equipment?_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,265 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories/4/equipment?_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,290 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,306 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,314 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243066266 HTTP/1.1" 200 -
+2025-11-27 19:31:06,322 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243066274 HTTP/1.1" 200 -
+2025-11-27 19:31:06,326 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories/3/equipment?_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,326 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/laboratories/1/equipment?_t=1764243066162 HTTP/1.1" 200 -
+2025-11-27 19:31:06,357 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=4&page=1&page_size=2&_t=1764243066276 HTTP/1.1" 200 -
+2025-11-27 19:31:06,385 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764243066331 HTTP/1.1" 200 -
+2025-11-27 19:31:06,395 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:06] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764243066332 HTTP/1.1" 200 -
+2025-11-27 19:31:15,297 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:15] "GET /api/users?page=1&page_size=50&search=k&_t=1764243075243 HTTP/1.1" 200 -
+2025-11-27 19:31:17,286 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:17] "GET /api/users?page=1&page_size=50&search=g&_t=1764243077221 HTTP/1.1" 200 -
+2025-11-27 19:31:18,858 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:18] "[35m[1mPOST /api/laboratories HTTP/1.1[0m" 201 -
+2025-11-27 19:31:19,309 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories?page=1&page_size=20&_t=1764243079198 HTTP/1.1" 200 -
+2025-11-27 19:31:19,394 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,407 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=16&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,419 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,428 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/16/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,441 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/5/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,448 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/7/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,491 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,512 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,521 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,526 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/4/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,533 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/3/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,553 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/laboratories/1/equipment?_t=1764243079320 HTTP/1.1" 200 -
+2025-11-27 19:31:19,575 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764243079451 HTTP/1.1" 200 -
+2025-11-27 19:31:19,583 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764243079457 HTTP/1.1" 200 -
+2025-11-27 19:31:19,592 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764243079542 HTTP/1.1" 200 -
+2025-11-27 19:31:19,594 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=4&page=1&page_size=2&_t=1764243079531 HTTP/1.1" 200 -
+2025-11-27 19:31:19,625 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:19] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764243079557 HTTP/1.1" 200 -
+2025-11-27 19:31:25,739 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:25] "GET /api/equipment?page=1&page_size=20&_t=1764243085686 HTTP/1.1" 200 -
+2025-11-27 19:31:25,788 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:25] "GET /api/laboratories?page=1&page_size=100&_t=1764243085686 HTTP/1.1" 200 -
+2025-11-27 19:31:25,798 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:25] "GET /api/equipment?page=1&page_size=20&_t=1764243085686 HTTP/1.1" 200 -
+2025-11-27 19:31:25,880 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:25] "GET /api/laboratories?page=1&page_size=100&_t=1764243085686 HTTP/1.1" 200 -
+2025-11-27 19:31:28,650 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:28] "DELETE /api/equipment/6 HTTP/1.1" 200 -
+2025-11-27 19:31:28,740 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:28] "GET /api/equipment?page=1&page_size=20&_t=1764243088658 HTTP/1.1" 200 -
+2025-11-27 19:31:30,757 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:30] "GET /api/laboratories?page=1&page_size=200&_t=1764243090622 HTTP/1.1" 200 -
+2025-11-27 19:31:40,847 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:40] "[35m[1mPOST /api/equipment HTTP/1.1[0m" 201 -
+2025-11-27 19:31:41,403 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:41] "GET /api/equipment?page=1&page_size=20&_t=1764243101216 HTTP/1.1" 200 -
+2025-11-27 19:31:41,585 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:41] "GET /api/laboratories?page=1&page_size=100&_t=1764243101216 HTTP/1.1" 200 -
+2025-11-27 19:31:41,587 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:41] "GET /api/equipment?page=1&page_size=20&_t=1764243101216 HTTP/1.1" 200 -
+2025-11-27 19:31:41,790 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:41] "GET /api/laboratories?page=1&page_size=100&_t=1764243101216 HTTP/1.1" 200 -
+2025-11-27 19:31:43,953 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:43] "GET /api/equipment/maintenance?page=1&size=20&_t=1764243103310 HTTP/1.1" 200 -
+2025-11-27 19:31:44,090 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:44] "GET /api/equipment?page=1&page_size=1000&_t=1764243103310 HTTP/1.1" 200 -
+2025-11-27 19:31:44,851 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:44] "GET /api/equipment/maintenance/stats?_t=1764243103310 HTTP/1.1" 200 -
+2025-11-27 19:31:57,420 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:57] "[35m[1mPOST /api/equipment/maintenance HTTP/1.1[0m" 201 -
+2025-11-27 19:31:57,514 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:57] "GET /api/equipment/maintenance?page=1&size=20&_t=1764243117434 HTTP/1.1" 200 -
+2025-11-27 19:31:57,679 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:31:57] "GET /api/equipment/maintenance/stats?_t=1764243117434 HTTP/1.1" 200 -
+2025-11-27 19:32:00,194 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:00] "PUT /api/equipment/maintenance/8 HTTP/1.1" 200 -
+2025-11-27 19:32:00,327 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:00] "GET /api/equipment/maintenance?page=1&size=20&_t=1764243120201 HTTP/1.1" 200 -
+2025-11-27 19:32:00,480 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:00] "GET /api/equipment/maintenance/stats?_t=1764243120201 HTTP/1.1" 200 -
+2025-11-27 19:32:02,454 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:02] "GET /api/reservations?page=1&page_size=20&_t=1764243122395 HTTP/1.1" 200 -
+2025-11-27 19:32:02,510 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:02] "GET /api/laboratories?page=1&page_size=100&_t=1764243122395 HTTP/1.1" 200 -
+2025-11-27 19:32:06,766 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:06] "DELETE /api/reservations/15 HTTP/1.1" 200 -
+2025-11-27 19:32:06,932 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:06] "GET /api/reservations?page=1&page_size=20&_t=1764243126773 HTTP/1.1" 200 -
+2025-11-27 19:32:08,722 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:08] "GET /api/laboratories?page=1&page_size=100&_t=1764243128579 HTTP/1.1" 200 -
+2025-11-27 19:32:09,964 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:09] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-11-30&_t=1764243129717 HTTP/1.1" 200 -
+2025-11-27 19:32:10,075 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:10] "GET /api/laboratories?page=1&page_size=100&_t=1764243129717 HTTP/1.1" 200 -
+2025-11-27 19:32:11,664 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:11] "GET /api/reservations?page=1&page_size=20&_t=1764243131588 HTTP/1.1" 200 -
+2025-11-27 19:32:11,718 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:11] "GET /api/laboratories?page=1&page_size=100&_t=1764243131589 HTTP/1.1" 200 -
+2025-11-27 19:32:18,127 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:18,197 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/laboratories?page=1&page_size=1000&_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:18,205 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:18,259 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/consumables/stats?_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:18,359 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/laboratories?page=1&page_size=1000&_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:18,501 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:18] "GET /api/consumables/stats?_t=1764243138036 HTTP/1.1" 200 -
+2025-11-27 19:32:26,073 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:26] "POST /api/consumables/5/use HTTP/1.1" 200 -
+2025-11-27 19:32:26,163 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:26] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764243146084 HTTP/1.1" 200 -
+2025-11-27 19:32:26,555 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:26] "GET /api/consumables/stats?_t=1764243146084 HTTP/1.1" 200 -
+2025-11-27 19:32:28,892 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:28] "GET /api/laboratories?page=1&page_size=200&_t=1764243148767 HTTP/1.1" 200 -
+2025-11-27 19:32:29,131 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:29] "GET /api/courses?page=1&page_size=200&_t=1764243148767 HTTP/1.1" 200 -
+2025-11-27 19:32:31,155 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:31] "GET /api/consumables?page_size=1000&_t=1764243151074 HTTP/1.1" 200 -
+2025-11-27 19:32:31,159 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:31] "GET /api/consumables/usage?page=1&page_size=20&_t=1764243151074 HTTP/1.1" 200 -
+2025-11-27 19:32:31,195 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:31] "GET /api/laboratories?page=1&page_size=1000&_t=1764243151074 HTTP/1.1" 200 -
+2025-11-27 19:32:31,260 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:31] "GET /api/consumables/usage/stats?_t=1764243151074 HTTP/1.1" 200 -
+2025-11-27 19:32:43,746 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:43] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:43,981 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:43] "GET /api/laboratories?page=1&page_size=1000&_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:44,028 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:44] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:44,196 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:44] "GET /api/consumables/stats?_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:44,264 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:44] "GET /api/laboratories?page=1&page_size=1000&_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:44,516 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:44] "GET /api/consumables/stats?_t=1764243163615 HTTP/1.1" 200 -
+2025-11-27 19:32:46,862 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:46] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764243166730 HTTP/1.1" 200 -
+2025-11-27 19:32:47,482 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:47] "GET /api/courses?page=1&page_size=20&_t=1764243166730 HTTP/1.1" 200 -
+2025-11-27 19:32:51,173 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:51] "GET /api/courses/9?_t=1764243170964 HTTP/1.1" 200 -
+2025-11-27 19:32:55,820 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:55] "GET /api/users?page=1&page_size=200&role=teacher&_t=1764243175761 HTTP/1.1" 200 -
+2025-11-27 19:32:55,869 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:55] "GET /api/laboratories?page=1&page_size=500&_t=1764243175761 HTTP/1.1" 200 -
+2025-11-27 19:32:57,726 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:57] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764243177643 HTTP/1.1" 200 -
+2025-11-27 19:32:58,072 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:32:58] "GET /api/courses?page=1&page_size=20&_t=1764243177643 HTTP/1.1" 200 -
+2025-11-27 19:33:00,041 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:00] "DELETE /api/courses/12 HTTP/1.1" 200 -
+2025-11-27 19:33:00,671 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:00] "GET /api/courses?page=1&page_size=20&_t=1764243180054 HTTP/1.1" 200 -
+2025-11-27 19:33:01,437 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:01] "GET /api/users?page=1&page_size=200&role=teacher&_t=1764243181375 HTTP/1.1" 200 -
+2025-11-27 19:33:01,486 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:01] "GET /api/laboratories?page=1&page_size=500&_t=1764243181375 HTTP/1.1" 200 -
+2025-11-27 19:33:07,723 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:07] "[35m[1mPOST /api/courses HTTP/1.1[0m" 201 -
+2025-11-27 19:33:08,145 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:08] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764243188068 HTTP/1.1" 200 -
+2025-11-27 19:33:08,372 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:08] "GET /api/courses?page=1&page_size=20&_t=1764243188068 HTTP/1.1" 200 -
+2025-11-27 19:33:11,188 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:11] "GET /api/users?page=1&page_size=20&_t=1764243191118 HTTP/1.1" 200 -
+2025-11-27 19:33:11,417 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:11] "GET /api/courses?page=1&page_size=200&_t=1764243191118 HTTP/1.1" 200 -
+2025-11-27 19:33:13,529 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/users?page=1&page_size=1000&_t=1764243193443 HTTP/1.1" 200 -
+2025-11-27 19:33:13,603 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/laboratories?page=1&page_size=1&_t=1764243193443 HTTP/1.1" 200 -
+2025-11-27 19:33:13,630 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/equipment/statistics?_t=1764243193443 HTTP/1.1" 200 -
+2025-11-27 19:33:13,645 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/reservations/statistics?_t=1764243193443 HTTP/1.1" 200 -
+2025-11-27 19:33:13,657 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/equipment/maintenance/stats?_t=1764243193443 HTTP/1.1" 200 -
+2025-11-27 19:33:13,875 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 19:33:13] "GET /api/equipment/maintenance/stats?_t=1764243193694 HTTP/1.1" 200 -
+2025-12-01 16:19:46,797 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-01 16:19:46,797 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-01 16:19:46,797 - __main__ - INFO - 调试模式: True
+2025-12-01 16:19:46,836 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-01 16:19:46,837 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-01 16:19:46,840 - werkzeug - INFO -  * Restarting with stat
+2025-12-01 16:19:47,617 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-01 16:19:47,618 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-01 16:19:47,618 - __main__ - INFO - 调试模式: True
+2025-12-01 16:19:47,648 - werkzeug - WARNING -  * Debugger is active!
+2025-12-01 16:19:47,667 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-01 16:20:02,217 - app.utils.auth - WARNING - JWT令牌已过期
+2025-12-01 16:20:02,219 - app.utils.auth - WARNING - JWT令牌已过期
+2025-12-01 16:20:02,221 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:02] "[31m[1mGET /api/auth/profile?_t=1764577202200 HTTP/1.1[0m" 401 -
+2025-12-01 16:20:02,222 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:02] "[31m[1mGET /api/auth/profile?_t=1764577202202 HTTP/1.1[0m" 401 -
+2025-12-01 16:20:02,269 - app.utils.auth - WARNING - JWT令牌已过期
+2025-12-01 16:20:02,271 - app.utils.auth - WARNING - JWT令牌已过期
+2025-12-01 16:20:02,271 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:02] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-12-01 16:20:02,272 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:02] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-12-01 16:20:04,436 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:04] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-12-01 16:20:13,730 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:13] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+2025-12-01 16:20:19,012 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:19] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+2025-12-01 16:20:22,245 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:22] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+2025-12-01 16:20:27,976 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:20:27] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+2025-12-01 16:25:36,331 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\check_and_create_admin.py', reloading
+2025-12-01 16:25:36,421 - werkzeug - INFO -  * Restarting with stat
+2025-12-01 16:25:37,706 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-01 16:25:37,709 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-01 16:25:37,709 - __main__ - INFO - 调试模式: True
+2025-12-01 16:25:37,746 - werkzeug - WARNING -  * Debugger is active!
+2025-12-01 16:25:37,767 - werkzeug - INFO -  * Debugger PIN: 307-506-191
