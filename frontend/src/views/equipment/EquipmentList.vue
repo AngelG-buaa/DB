@@ -150,7 +150,13 @@
           fixed="right"
         >
           <template #default="{ row }">
-            
+            <el-button
+              type="primary"
+              size="small"
+              @click="showEditDialog(row)"
+            >
+              编辑
+            </el-button>
             <el-button
               type="warning"
               size="small"
@@ -570,7 +576,11 @@ const loadTableData = async () => {
     if (searchForm.keyword) params.search = searchForm.keyword
     if (searchForm.labId) params.laboratory_id = searchForm.labId
     if (searchForm.status) params.status = searchForm.status === 'normal' ? 'available' : (searchForm.status === 'broken' ? 'damaged' : (searchForm.status === 'scrapped' ? 'retired' : searchForm.status))
-    // 设备列表后端未支持采购日期筛选，先不传递日期参数
+    
+    if (searchForm.purchaseDateRange && searchForm.purchaseDateRange.length === 2) {
+      params.purchase_date_start = searchForm.purchaseDateRange[0]
+      params.purchase_date_end = searchForm.purchaseDateRange[1]
+    }
     
     const response = await getEquipmentApi(params)
     if (response.code === 200) {
@@ -630,7 +640,23 @@ const showCreateDialog = () => {
   dialogVisible.value = true
 }
 
-// 编辑功能已移除
+const showEditDialog = (row) => {
+  isEdit.value = true
+  resetForm()
+  equipmentForm.id = row.id
+  equipmentForm.name = row.name
+  equipmentForm.model = row.model
+  equipmentForm.serialNumber = row.serial_number
+  equipmentForm.labId = row.lab_id
+  equipmentForm.status = row.status
+  equipmentForm.price = row.price
+  equipmentForm.purchaseDate = row.purchase_date
+  equipmentForm.warrantyUntil = row.warranty_until
+  equipmentForm.supplier = row.supplier
+  equipmentForm.description = row.description
+  
+  dialogVisible.value = true
+}
 
 const showDetail = async (row) => {
   try {

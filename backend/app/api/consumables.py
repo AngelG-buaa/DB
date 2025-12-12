@@ -446,27 +446,64 @@ def consumable_usage_stats():
         top_consumables = execute_query(
             "SELECT c.name AS consumable_name, COUNT(u.id) AS cnt FROM consumable_usage u LEFT JOIN consumables c ON u.consumable_id = c.id GROUP BY c.id, c.name ORDER BY cnt DESC LIMIT 10"
         )
-        top_users = execute_query(
-            "SELECT users.name AS user_name, COUNT(u.id) AS cnt FROM consumable_usage u LEFT JOIN users ON u.user_id = users.id GROUP BY users.id, users.name ORDER BY cnt DESC LIMIT 10"
-        )
+        total_usage = execute_query("SELECT COUNT(*) AS cnt FROM consumable_usage")
+        
         data = {
-            'byMonth': [
-                {'month': r.get('ym'), 'count': r.get('cnt')}
-                for r in (by_month['data'] if by_month['success'] else [])
-            ],
-            'topConsumables': [
-                {'name': r.get('consumable_name'), 'count': r.get('cnt')}
-                for r in (top_consumables['data'] if top_consumables['success'] else [])
-            ],
-            'topUsers': [
-                {'name': r.get('user_name'), 'count': r.get('cnt')}
-                for r in (top_users['data'] if top_users['success'] else [])
-            ]
+            'byMonth': [{'month': r['ym'], 'count': r['cnt']} for r in (by_month['data'] or [])],
+            'topConsumables': [{'name': r['consumable_name'], 'count': r['cnt']} for r in (top_consumables['data'] or [])],
+            'totalUsage': (total_usage['data'][0]['cnt'] if total_usage['success'] and total_usage['data'] else 0)
         }
         return success_response(data, '获取耗材使用统计成功')
     except Exception as e:
-        logger.error(f"耗材使用统计接口错误: {str(e)}")
+        logger.error(f"获取耗材使用统计接口错误: {str(e)}")
         return error_response('获取耗材使用统计失败')
+
+@consumables_bp.route('/usage/<int:uid>', methods=['DELETE'])
+@require_auth
+def delete_consumable_usage(uid):
+    try:
+        # Get usage record to know quantity and consumable_id
+        q = "SELECT consumable_id, quantity, user_id FROM consumable_usage WHERE id = %s"
+        res = execute_query(q, (uid,))
+        if not res['success'] or not res['data']:
+             return not_found_response('使用记录不存在')
+        
+        usage = res['data'][0]
+        cid = usage['consumable_id']
+        qty = usage['quantity']
+        owner_id = usage['user_id']
+
+        # Check permissions: Admin or Owner can delete
+        current_user = request.current_user
+        is_admin = current_user.get('role') == 'admin'
+        is_owner = str(current_user.get('id')) == str(owner_id)
+        
+        if not is_admin and not is_owner:
+            return error_response('无权删除此记录', 403)
+        
+        conn = None
+        try:
+            conn = get_connection()
+            with conn.cursor() as cursor:
+                # Delete usage record
+                cursor.execute("DELETE FROM consumable_usage WHERE id = %s", (uid,))
+                
+                # Restore stock
+                cursor.execute(
+                    "UPDATE consumables SET current_stock = current_stock + %s, usage_count = usage_count - 1, updated_at = NOW() WHERE id = %s",
+                    (qty, cid)
+                )
+            conn.commit()
+            return deleted_response('删除成功')
+        except Exception as e:
+            if conn: conn.rollback()
+            raise e
+        finally:
+            if conn: conn.close()
+            
+    except Exception as e:
+        logger.error(f"删除耗材使用记录接口错误: {str(e)}")
+        return error_response('删除耗材使用记录失败')
 
 @consumables_bp.route('/usage/export', methods=['GET'])
 @require_auth
@@ -487,26 +524,30 @@ def export_consumable_usage():
         rows = res['data'] or []
         import csv
         import io
+        from flask import make_response
+        
         output = io.StringIO()
         writer = csv.writer(output)
         writer.writerow(['ID','耗材名称','型号','使用者','数量','单位','单价','使用日期'])
+        
         for r in rows:
             writer.writerow([
                 r.get('id'),
                 r.get('consumable_name'),
                 r.get('consumable_model'),
                 r.get('user_name'),
-                float(r.get('quantity') or 0),
-                r.get('unit') or '',
-                float(r.get('unit_price') or 0),
-                (r.get('created_at').date().isoformat() if r.get('created_at') else '')
+                r.get('quantity'),
+                r.get('unit'),
+                r.get('unit_price'),
+                r.get('created_at').strftime('%Y-%m-%d %H:%M:%S') if r.get('created_at') else ''
             ])
-        from flask import Response
-        return Response(
-            output.getvalue(),
-            mimetype='text/csv',
-            headers={'Content-Disposition': 'attachment; filename=consumable_usage.csv'}
-        )
+            
+        output.seek(0)
+        resp = make_response(output.getvalue())
+        resp.headers["Content-Disposition"] = "attachment; filename=consumable_usage.csv"
+        resp.headers["Content-Type"] = "text/csv; charset=utf-8"
+        return resp
+        
     except Exception as e:
         logger.error(f"导出耗材使用记录接口错误: {str(e)}")
         return error_response('导出失败')

@@ -157,7 +157,7 @@ const loadStats = async () => {
     const totalReservations = resStats.code === 200 ? (resStats.data.total_reservations || 0) : 0
     Object.assign(stats, {
       totalLabs: labsRes.code === 200 ? (labsRes?.data?.total || 0) : 0,
-      totalEquipment: eqStats.code === 200 ? ((eqStats?.data?.total || eqStats?.data?.count || 0)) : 0,
+      totalEquipment: eqStats.code === 200 ? (eqStats?.data?.total_equipment || eqStats?.data?.total || 0) : 0,
       totalUsers: usersRes.code === 200 ? (usersRes?.data?.total || 0) : 0,
       totalReservations
     })
@@ -221,8 +221,8 @@ const initLabUsageChart = (dist) => {
       data: (dist || []).map(d => ({ value: d.reservation_count || d.count, name: d.laboratory_name })),
       itemStyle: {
         color: function(params) {
-          const colors = ['#67C23A', '#E6A23C', '#F56C6C']
-          return colors[params.dataIndex]
+          const colors = ['#67C23A', '#E6A23C', '#F56C6C', '#409EFF', '#909399', '#DCDFE6']
+          return colors[params.dataIndex % colors.length]
         }
       }
     }]
@@ -232,6 +232,7 @@ const initLabUsageChart = (dist) => {
 
 const initEquipmentStatusChart = (eqStats) => {
   const chart = echarts.init(equipmentStatusChart.value)
+  const dist = eqStats.status_distribution || {}
   const option = {
     tooltip: {
       trigger: 'item'
@@ -240,16 +241,16 @@ const initEquipmentStatusChart = (eqStats) => {
       type: 'pie',
       radius: '60%',
       data: [
-        { value: eqStats.available || 0, name: '可用' },
-        { value: eqStats.in_use || 0, name: '使用中' },
-        { value: eqStats.maintenance || 0, name: '维护中' },
-        { value: eqStats.damaged || 0, name: '故障' },
-        { value: eqStats.retired || 0, name: '退役' }
+        { value: dist.available || 0, name: '可用' },
+        { value: dist.in_use || 0, name: '使用中' },
+        { value: dist.maintenance || 0, name: '维护中' },
+        { value: dist.damaged || 0, name: '故障' },
+        { value: dist.retired || 0, name: '退役' }
       ],
       itemStyle: {
         color: function(params) {
-          const colors = ['#67C23A', '#E6A23C', '#F56C6C']
-          return colors[params.dataIndex]
+          const colors = ['#67C23A', '#E6A23C', '#F56C6C', '#F56C6C', '#909399']
+          return colors[params.dataIndex % colors.length]
         }
       }
     }]

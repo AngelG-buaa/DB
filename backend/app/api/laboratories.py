@@ -88,8 +88,8 @@ def get_laboratories():
             if max_capacity is not None and str(max_capacity) != '':
                 where_conditions.append(f"{lab_ref}.capacity <= %s")
                 query_params.append(int(max_capacity))
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"实验室容量筛选参数错误: {str(e)}")
 
         # 回填搜索条件前缀（避免歧义）
         for i, cond in enumerate(where_conditions):
@@ -567,83 +567,3 @@ def delete_laboratory(lab_id):
         logger.error(f"删除实验室接口错误: {str(e)}")
         return error_response("删除失败，请稍后重试")
 
-@laboratories_bp.route('/<int:lab_id>/availability', methods=['GET'])
-@require_auth
-@validate_query_params({
-    'date': {'required': True, 'type': 'string'},  # YYYY-MM-DD格式
-    'start_time': {'type': 'string'},  # HH:MM格式
-    'end_time': {'type': 'string'}     # HH:MM格式
-})
-def check_laboratory_availability(lab_id):
-    """检查实验室可用性"""
-    try:
-        params = request.validated_params
-        date = params['date']
-        start_time = params.get('start_time')
-        end_time = params.get('end_time')
-        
-        # 检查实验室是否存在
-        lab_check_sql = "SELECT id, name, status FROM laboratories WHERE id = %s"
-        lab_result = execute_query(lab_check_sql, (lab_id,))
-        
-        if not lab_result['success']:
-            return error_response("查询失败，请稍后重试")
-        
-        if not lab_result['data']:
-            return not_found_response("实验室不存在")
-        
-        lab = lab_result['data'][0]
-        
-        # 如果实验室状态不可用，直接返回
-        if lab['status'] != 'available':
-            return success_response({
-                'available': False,
-                'reason': f"实验室状态为: {lab['status']}",
-                'conflicting_reservations': []
-            }, "实验室可用性查询成功")
-        
-        # 构建查询条件
-        where_conditions = ["laboratory_id = %s", "reservation_date = %s", "status IN ('confirmed', 'pending')"]
-        query_params = [lab_id, date]
-        
-        if start_time and end_time:
-            # 检查时间冲突
-            where_conditions.append("((start_time <= %s AND end_time > %s) OR (start_time < %s AND end_time >= %s) OR (start_time >= %s AND end_time <= %s))")
-            query_params.extend([start_time, start_time, end_time, end_time, start_time, end_time])
-        
-        # 查询冲突的预约
-        conflict_sql = f"""
-        SELECT r.id, r.start_time, r.end_time, r.purpose, u.name as user_name
-        FROM reservations r
-        JOIN users u ON r.user_id = u.id
-        WHERE {' AND '.join(where_conditions)}
-        ORDER BY r.start_time ASC
-        """
-        
-        conflict_result = execute_query(conflict_sql, tuple(query_params))
-        
-        if not conflict_result['success']:
-            logger.error(f"查询预约冲突失败: {conflict_result.get('error')}")
-            return error_response("查询失败，请稍后重试")
-        
-        conflicting_reservations = []
-        for reservation in conflict_result['data']:
-            conflicting_reservations.append({
-                'id': reservation['id'],
-                'start_time': str(reservation['start_time']),
-                'end_time': str(reservation['end_time']),
-                'purpose': reservation['purpose'],
-                'user_name': reservation['user_name']
-            })
-        
-        available = len(conflicting_reservations) == 0
-        
-        return success_response({
-            'available': available,
-            'reason': "时间冲突" if not available else None,
-            'conflicting_reservations': conflicting_reservations
-        }, "实验室可用性查询成功")
-        
-    except Exception as e:
-        logger.error(f"检查实验室可用性接口错误: {str(e)}")
-        return error_response("查询失败，请稍后重试")

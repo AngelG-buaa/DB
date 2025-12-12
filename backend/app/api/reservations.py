@@ -392,7 +392,7 @@ def create_reservation():
                 return error_response("实验室数据格式错误")
             
             # 兼容两种可用状态：active（后端新定义）与 available（实验室可用性接口使用）
-            if lab['status'] != 'available':
+            if lab['status'] != 'active' and lab['status'] != 'available':
                 logger.error(f"实验室状态不可用: {lab['status']}")
                 return error_response(f"实验室当前状态为'{lab['status']}'，无法预约")
                 
@@ -474,6 +474,22 @@ def create_reservation():
         
         # 获取新创建的预约信息
         reservation_id = insert_result['last_insert_id']
+        
+        # 同步插入 reservation_equipment 表
+        if equipment_ids:
+            try:
+                # 构建批量插入SQL
+                vals = []
+                for eq_id in equipment_ids:
+                    vals.append(f"({reservation_id}, {eq_id})")
+                
+                if vals:
+                    eq_insert_sql = f"INSERT INTO reservation_equipment (reservation_id, equipment_id) VALUES {','.join(vals)}"
+                    execute_update(eq_insert_sql)
+            except Exception as e:
+                # 记录错误但不中断流程，因为主预约已创建且 equipment_ids 字段已保存
+                logger.error(f"插入reservation_equipment失败: {str(e)}")
+
         reservation_sql = """
         SELECT r.id, r.reservation_date, r.start_time, r.end_time, r.purpose, 
                r.status, r.participant_count, r.equipment_ids, r.created_at,
@@ -684,6 +700,25 @@ def update_reservation(reservation_id):
             logger.error(f"更新预约信息失败: {update_result.get('error')}")
             return error_response("更新失败，请稍后重试")
         
+        # 如果更新了设备，同步 reservation_equipment 表
+        if 'equipment_ids' in data:
+            try:
+                # 1. 删除旧关联
+                execute_update("DELETE FROM reservation_equipment WHERE reservation_id = %s", (reservation_id,))
+                
+                # 2. 插入新关联
+                equipment_ids = data['equipment_ids']
+                if equipment_ids:
+                    vals = []
+                    for eq_id in equipment_ids:
+                        vals.append(f"({reservation_id}, {eq_id})")
+                    
+                    if vals:
+                        eq_insert_sql = f"INSERT INTO reservation_equipment (reservation_id, equipment_id) VALUES {','.join(vals)}"
+                        execute_update(eq_insert_sql)
+            except Exception as e:
+                logger.error(f"同步reservation_equipment失败: {str(e)}")
+        
         return updated_response(None, "预约信息更新成功")
         
     except Exception as e:
@@ -767,6 +802,119 @@ def delete_reservation(reservation_id):
     except Exception as e:
         logger.error(f"删除预约接口错误: {str(e)}")
         return error_response("操作失败，请稍后重试")
+
+@reservations_bp.route('/<int:reservation_id>/approve', methods=['POST'])
+@require_auth
+@require_role(['admin', 'teacher'])
+def approve_reservation(reservation_id):
+    """审核通过预约"""
+    try:
+        data = request.get_json() or {}
+        remarks = data.get('remarks')
+        
+        # 检查预约是否存在
+        check_sql = "SELECT id, status, notes FROM reservations WHERE id = %s"
+        check_result = execute_query(check_sql, (reservation_id,))
+        
+        if not check_result['success'] or not check_result['data']:
+             return not_found_response("预约不存在")
+        
+        reservation = check_result['data'][0]
+        if reservation['status'] != 'pending':
+            return error_response(f"当前状态({reservation['status']})无法进行审核")
+
+        # 更新状态为 confirmed
+        # 如果有备注，追加到 notes
+        new_notes = reservation['notes']
+        if remarks:
+            if new_notes:
+                new_notes += f"\n[审核通过] {remarks}"
+            else:
+                new_notes = f"[审核通过] {remarks}"
+
+        update_sql = "UPDATE reservations SET status = 'confirmed', notes = %s, updated_at = NOW() WHERE id = %s"
+        update_result = execute_update(update_sql, (new_notes, reservation_id))
+        
+        if update_result['success']:
+            return success_response(None, "预约已审核通过")
+        return error_response("操作失败，请稍后重试")
+    except Exception as e:
+        logger.error(f"审核预约失败: {str(e)}")
+        return error_response("系统错误")
+
+@reservations_bp.route('/<int:reservation_id>/reject', methods=['POST'])
+@require_auth
+@require_role(['admin', 'teacher'])
+def reject_reservation(reservation_id):
+    """审核拒绝预约"""
+    try:
+        data = request.get_json() or {}
+        remarks = data.get('remarks')
+        
+        check_sql = "SELECT id, status, notes FROM reservations WHERE id = %s"
+        check_result = execute_query(check_sql, (reservation_id,))
+        
+        if not check_result['success'] or not check_result['data']:
+             return not_found_response("预约不存在")
+             
+        reservation = check_result['data'][0]
+        if reservation['status'] != 'pending':
+            return error_response(f"当前状态({reservation['status']})无法进行审核")
+
+        # 更新状态为 cancelled (代表拒绝)
+        new_notes = reservation['notes']
+        if remarks:
+            if new_notes:
+                new_notes += f"\n[审核拒绝] {remarks}"
+            else:
+                new_notes = f"[审核拒绝] {remarks}"
+        else:
+            if new_notes:
+                 new_notes += "\n[审核拒绝]"
+            else:
+                 new_notes = "[审核拒绝]"
+
+        update_sql = "UPDATE reservations SET status = 'cancelled', notes = %s, updated_at = NOW() WHERE id = %s"
+        update_result = execute_update(update_sql, (new_notes, reservation_id))
+        
+        if update_result['success']:
+            return success_response(None, "预约已拒绝")
+        return error_response("操作失败，请稍后重试")
+    except Exception as e:
+        logger.error(f"拒绝预约失败: {str(e)}")
+        return error_response("系统错误")
+
+@reservations_bp.route('/<int:reservation_id>/cancel', methods=['POST'])
+@require_auth
+def cancel_reservation(reservation_id):
+    """取消预约"""
+    try:
+        current_user = request.current_user
+        check_sql = "SELECT id, user_id, status FROM reservations WHERE id = %s"
+        check_result = execute_query(check_sql, (reservation_id,))
+        
+        if not check_result['success'] or not check_result['data']:
+             return not_found_response("预约不存在")
+             
+        reservation = check_result['data'][0]
+        
+        # 权限检查
+        user_id = current_user.get('id') or current_user.get('user_id')
+        if current_user['role'] not in ['admin', 'teacher'] and reservation['user_id'] != user_id:
+            return error_response("无权操作此预约")
+            
+        if reservation['status'] in ['completed', 'cancelled']:
+            return error_response("预约已结束或已取消，无法再次取消")
+
+        update_sql = "UPDATE reservations SET status = 'cancelled', updated_at = NOW() WHERE id = %s"
+        update_result = execute_update(update_sql, (reservation_id,))
+        
+        if update_result['success']:
+            return success_response(None, "预约已取消")
+        return error_response("操作失败，请稍后重试")
+    except Exception as e:
+        logger.error(f"取消预约失败: {str(e)}")
+        return error_response("系统错误")
 
 @reservations_bp.route('/statistics', methods=['GET'])
 @require_auth
@@ -892,6 +1040,44 @@ def get_reservation_statistics():
 
 
 # 日历视图：按日期范围返回预约列表（非分页），支持实验室/状态/用户筛选
+@reservations_bp.route('/my-statistics', methods=['GET'])
+@require_auth
+def get_my_statistics():
+    """获取当前用户的预约统计信息"""
+    try:
+        user_id = request.current_user.get('id') or request.current_user.get('user_id')
+        
+        # 1. Total count
+        total_sql = "SELECT COUNT(*) as count FROM reservations WHERE user_id = %s"
+        total_res = execute_query(total_sql, (user_id,))
+        total_count = total_res['data'][0]['count'] if total_res['success'] and total_res['data'] else 0
+        
+        # 2. Status counts
+        status_sql = "SELECT status, COUNT(*) as count FROM reservations WHERE user_id = %s GROUP BY status"
+        status_res = execute_query(status_sql, (user_id,))
+        
+        stats = {
+            'total': total_count,
+            'confirmed': 0,
+            'completed': 0,
+            'cancelled': 0,
+            'pending': 0
+        }
+        
+        if status_res['success']:
+            for row in status_res['data']:
+                s = row['status']
+                c = row['count']
+                if s in stats:
+                    stats[s] = c
+                    
+        return success_response(stats, "获取个人统计信息成功")
+        
+    except Exception as e:
+        logger.error(f"获取个人统计信息失败: {str(e)}")
+        return error_response("获取统计信息失败")
+
+
 @reservations_bp.route('/calendar', methods=['GET'])
 @require_auth
 @validate_query_params({
@@ -1165,57 +1351,13 @@ def check_reservation_conflict():
         available = len(conflicting_list) == 0
         return success_response({
             'available': available,
+            'hasConflict': not available,
+            'message': "该时间段已被预约" if not available else "时间段可用",
             'conflicting_reservations': conflicting_list
         }, "冲突检查完成")
     except Exception as e:
         logger.error(f"预约冲突检查接口错误: {str(e)}")
         return error_response("预约冲突检查失败")
-
-@reservations_bp.route('/<int:reservation_id>/approve', methods=['POST'])
-@require_auth
-@require_role(['admin', 'teacher'])
-def approve_reservation(reservation_id):
-    try:
-        check_sql = "SELECT id, status FROM reservations WHERE id = %s"
-        check_res = execute_query(check_sql, (reservation_id,))
-        if not check_res['success']:
-            return error_response("审批失败，请稍后重试")
-        if not check_res['data']:
-            return not_found_response("预约不存在")
-        cur_status = check_res['data'][0]['status']
-        if cur_status in ['confirmed', 'completed']:
-            return error_response("预约已确认或已完成")
-        if cur_status == 'cancelled':
-            return error_response("预约已取消")
-        upd = execute_update("UPDATE reservations SET status = 'confirmed', updated_at = NOW() WHERE id = %s", (reservation_id,))
-        if not upd['success']:
-            return error_response("审批失败，请稍后重试")
-        return updated_response(None, "审批通过")
-    except Exception as e:
-        logger.error(f"审批预约接口错误: {str(e)}")
-        return error_response("审批失败，请稍后重试")
-
-@reservations_bp.route('/<int:reservation_id>/reject', methods=['POST'])
-@require_auth
-@require_role(['admin', 'teacher'])
-def reject_reservation(reservation_id):
-    try:
-        check_sql = "SELECT id, status FROM reservations WHERE id = %s"
-        check_res = execute_query(check_sql, (reservation_id,))
-        if not check_res['success']:
-            return error_response("审批失败，请稍后重试")
-        if not check_res['data']:
-            return not_found_response("预约不存在")
-        cur_status = check_res['data'][0]['status']
-        if cur_status in ['completed']:
-            return error_response("预约已完成")
-        upd = execute_update("UPDATE reservations SET status = 'cancelled', updated_at = NOW() WHERE id = %s", (reservation_id,))
-        if not upd['success']:
-            return error_response("审批失败，请稍后重试")
-        return updated_response(None, "审批拒绝")
-    except Exception as e:
-        logger.error(f"拒绝预约接口错误: {str(e)}")
-        return error_response("审批失败，请稍后重试")
 
 @reservations_bp.route('/<int:reservation_id>/complete', methods=['POST'])
 @require_auth

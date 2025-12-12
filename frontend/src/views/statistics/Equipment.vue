@@ -150,6 +150,11 @@ const loadEquipmentStats = async () => {
       equipmentStats.broken = aliasSum(dist, ['damaged', 'broken', 'Broken', '故障'])
       
       labDist.value = d.laboratory_distribution || []
+      detailData.value = labDist.value.map(i => ({
+        lab_name: i.laboratory_name,
+        total_equipment: i.equipment_count
+      }))
+      
       nextTick(() => {
         initStatusChart()
         initTypeChart()
@@ -158,21 +163,6 @@ const loadEquipmentStats = async () => {
     }
   } catch (error) {
     console.error('加载设备统计失败:', error)
-  }
-}
-
-const loadDetailData = async () => {
-  try {
-    const response = await getEquipmentStatisticsApi()
-    if (response.code === 200) {
-      const labs = response.data?.laboratory_distribution || []
-      detailData.value = labs.map(i => ({
-        lab_name: i.laboratory_name,
-        total_equipment: i.equipment_count
-      }))
-    }
-  } catch (error) {
-    console.error('加载详细统计失败:', error)
   }
 }
 
@@ -235,12 +225,6 @@ const initLabEquipmentChart = () => {
 
   onMounted(async () => {
     await loadEquipmentStats()
-    await loadDetailData()
-    nextTick(() => {
-      initStatusChart()
-      initTypeChart()
-      initLabEquipmentChart()
-    })
   })
 </script>
 

@@ -465,7 +465,10 @@ import {
 } from '@/api/consumable'
 import { getLabsApi } from '@/api/lab'
 
+import { useUserStore } from '@/stores/user'
+
 // 响应式数据
+const userStore = useUserStore()
 const loading = ref(false)
 const submitting = ref(false)
 const tableData = ref([])
@@ -562,8 +565,7 @@ const dialogTitle = computed(() => isEdit.value ? '编辑耗材' : '添加耗材
 
 // 权限检查函数
 const hasPermission = (permission) => {
-  // 这里应该根据实际的权限系统来实现
-  return true
+  return userStore.hasPermission(permission)
 }
 
 // 获取库存状态标签类型

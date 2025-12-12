@@ -7,7 +7,7 @@
 
 from flask import Blueprint, request
 from datetime import datetime, date
-from backend.database import execute_query, execute_update, execute_paginated_query
+from backend.database import execute_query, execute_update, execute_paginated_query, execute_transaction
 from app.utils import (
     require_auth, require_role, validate_json_data, validate_query_params,
     success_response, error_response, not_found_response,
@@ -218,12 +218,27 @@ def create_maintenance_record():
             data.get('type', 'repair')
         )
 
-        result = execute_update(insert_sql, insert_params)
+        # 使用事务：创建维修记录 + 更新设备状态
+        transaction_ops = [
+            (insert_sql, insert_params)
+        ]
+
+        # 如果维修状态是进行中，则将设备状态更新为维护中
+        if status in ['in_progress', 'reported']:
+            transaction_ops.append((
+                "UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s",
+                (data['equipment_id'],)
+            ))
+        
+        result = execute_transaction(transaction_ops)
+        
         if not result['success']:
             logger.error(f"插入维修记录失败: {result.get('error')}")
             return error_response('创建维修记录失败')
 
-        new_id = result['last_insert_id']
+        # 获取新插入的记录ID (第一个操作的结果)
+        new_id = result['results'][0]['last_insert_id']
+        
         detail = execute_query(
             "SELECT r.*, e.name AS equipment_name, e.model AS equipment_model "
             "FROM equipment_repair r LEFT JOIN equipment e ON r.equipment_id = e.id WHERE r.id = %s",
@@ -300,7 +315,27 @@ def update_maintenance_record(record_id):
 
         sql = f"UPDATE equipment_repair SET {', '.join(fields)}, updated_at = NOW() WHERE id = %s"
         params.append(record_id)
-        result = execute_update(sql, tuple(params))
+        
+        # 使用事务
+        transaction_ops = [
+            (sql, tuple(params))
+        ]
+        
+        # 如果更新了状态，同步更新设备状态
+        if 'status' in data:
+            new_status = data['status']
+            if new_status in ['in_progress', 'reported']:
+                transaction_ops.append((
+                    "UPDATE equipment SET status = 'maintenance', updated_at = NOW() WHERE id = %s",
+                    (equipment_id,)
+                ))
+            elif new_status in ['completed', 'cancelled']:
+                transaction_ops.append((
+                    "UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s",
+                    (equipment_id,)
+                ))
+        
+        result = execute_transaction(transaction_ops)
         if not result['success']:
             logger.error(f"更新维修记录失败: {result.get('error')}")
             return error_response('更新维修记录失败')
@@ -404,7 +439,15 @@ def complete_maintenance_record(record_id):
 
         sql = f"UPDATE equipment_repair SET {', '.join(fields)}, updated_at = NOW() WHERE id = %s"
         params.append(record_id)
-        result = execute_update(sql, tuple(params))
+        
+        # 使用事务：更新维修记录 + 更新设备状态为可用
+        equipment_id = check['data'][0]['equipment_id']
+        transaction_ops = [
+            (sql, tuple(params)),
+            ("UPDATE equipment SET status = 'available', updated_at = NOW() WHERE id = %s", (equipment_id,))
+        ]
+        
+        result = execute_transaction(transaction_ops)
         if not result['success']:
             return error_response('更新维修完成状态失败')
 

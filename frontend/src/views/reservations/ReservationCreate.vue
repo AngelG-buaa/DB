@@ -124,6 +124,24 @@
           />
         </el-form-item>
         
+        <el-form-item label="选择设备" prop="equipmentIds" v-if="equipmentOptions.length > 0">
+          <el-select
+            v-model="reservationForm.equipmentIds"
+            multiple
+            placeholder="请选择需要使用的设备（可选）"
+            style="width: 100%"
+            collapse-tags
+            collapse-tags-tooltip
+          >
+            <el-option
+              v-for="item in equipmentOptions"
+              :key="item.id"
+              :label="`${item.name} (${item.model || '无型号'})`"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="备注">
           <el-input
             v-model="reservationForm.remarks"
@@ -225,11 +243,18 @@ const reservationForm = reactive({
   purpose: '',
   courseId: '',
   expectedPeople: 1,
-  remarks: ''
+  remarks: '',
+  equipmentIds: []
 })
 
 // 计算属性
 const userInfo = computed(() => userStore.userInfo)
+
+// 设备选项
+const equipmentOptions = computed(() => {
+  if (!selectedLab.value || !selectedLab.value.equipment) return []
+  return selectedLab.value.equipment.filter(eq => eq.status === 'available')
+})
 
 // 表单验证规则
 const reservationRules = {
@@ -406,7 +431,8 @@ const handleSubmit = async () => {
       end_time: reservationForm.endTime,
       purpose: reservationForm.purpose,
       participant_count: reservationForm.expectedPeople,
-      remarks: reservationForm.remarks
+      remarks: reservationForm.remarks,
+      equipment_ids: reservationForm.equipmentIds
     }
     
     if (reservationForm.courseId) {
@@ -435,6 +461,7 @@ const handleReset = () => {
   reservationForm.courseId = ''
   reservationForm.expectedPeople = 1
   reservationForm.remarks = ''
+  reservationForm.equipmentIds = []
   selectedLab.value = null
   conflictCheckResult.value = null
   

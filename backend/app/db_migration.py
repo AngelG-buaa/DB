@@ -82,12 +82,26 @@ def _set_schema_version(ver: int):
             execute_update("UPDATE schema_version SET version=%s", (ver,))
         else:
             execute_update("INSERT INTO schema_version (version) VALUES (%s)", (ver,))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"设置 schema_version 失败: {str(e)}")
+
+def _ensure_users_columns():
+    """确保 users 表包含 avatar 字段"""
+    try:
+        cols = set(_get_existing_columns('users'))
+        if 'avatar' not in cols:
+            res = execute_update("ALTER TABLE users ADD COLUMN avatar VARCHAR(255) NULL COMMENT '用户头像路径' AFTER email")
+            if res['success']:
+                logger.info("✅ users.avatar 字段已添加")
+            else:
+                logger.warning(f"⚠️ 添加 users.avatar 失败: {res.get('error')}")
+    except Exception as e:
+        logger.error(f"users 列迁移异常: {str(e)}")
 
 def run():
     """执行轻量迁移"""
     try:
+        _ensure_users_columns()
         _ensure_equipment_table()
         _ensure_equipment_repair_table()
         _ensure_equipment_repair_columns()
@@ -95,16 +109,15 @@ def run():
         _ensure_laboratories_manager()
         _ensure_courses_lab_fields()
         _ensure_consumables_tables()
-            try:
-                current_ver = _get_schema_version()
-                # 仅当版本落后时才创建/更新触发器和存储过程
-                if current_ver < 1:
-                    from backend.database import create_triggers, create_stored_procedures
-                    create_triggers()
-                    create_stored_procedures()
-                    _set_schema_version(1)
-            except Exception as e:
-                logger.warning(f"触发器/存储过程创建失败或未执行: {str(e)}")
+        
+        # 始终更新触发器和存储过程，确保逻辑最新
+        try:
+            from backend.database import create_triggers, create_stored_procedures
+            create_triggers()
+            create_stored_procedures()
+        except Exception as e:
+            logger.warning(f"触发器/存储过程更新失败: {str(e)}")
+            
         logger.info("数据库轻量迁移执行完成")
     except Exception as e:
         logger.error(f"数据库迁移执行失败: {str(e)}")

@@ -4804,3 +4804,897 @@
 2025-12-01 16:25:37,709 - __main__ - INFO - 调试模式: True
 2025-12-01 16:25:37,746 - werkzeug - WARNING -  * Debugger is active!
 2025-12-01 16:25:37,767 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-01 16:27:23,137 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:23] "POST /api/auth/login HTTP/1.1" 200 -
+2025-12-01 16:27:23,846 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:23] "GET /api/consumables/stats?_t=1764577643689 HTTP/1.1" 200 -
+2025-12-01 16:27:23,858 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:23] "GET /api/equipment/maintenance/stats?_t=1764577643689 HTTP/1.1" 200 -
+2025-12-01 16:27:23,865 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:23] "GET /api/reservations/statistics?_t=1764577643689 HTTP/1.1" 200 -
+2025-12-01 16:27:23,967 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:23] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764577643872 HTTP/1.1" 200 -
+2025-12-01 16:27:24,019 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:24] "GET /api/reservations/statistics?_t=1764577643689 HTTP/1.1" 200 -
+2025-12-01 16:27:24,028 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:24] "GET /api/reservations/my?page=1&page_size=5&_t=1764577643971 HTTP/1.1" 200 -
+2025-12-01 16:27:24,190 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:24] "GET /api/equipment/maintenance/stats?_t=1764577644047 HTTP/1.1" 200 -
+2025-12-01 16:27:24,200 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:24] "GET /api/consumables/stats?_t=1764577644047 HTTP/1.1" 200 -
+2025-12-01 16:27:24,228 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:24] "GET /api/reservations/statistics?_t=1764577644047 HTTP/1.1" 200 -
+2025-12-01 16:27:53,971 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:53] "GET /api/users?page=1&page_size=1000&_t=1764577666898 HTTP/1.1" 200 -
+2025-12-01 16:27:54,019 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:54] "GET /api/laboratories?page=1&page_size=1&_t=1764577666898 HTTP/1.1" 200 -
+2025-12-01 16:27:54,041 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:54] "GET /api/equipment/statistics?_t=1764577666898 HTTP/1.1" 200 -
+2025-12-01 16:27:54,105 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:54] "GET /api/reservations/statistics?_t=1764577666898 HTTP/1.1" 200 -
+2025-12-01 16:27:54,129 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:54] "GET /api/equipment/maintenance/stats?_t=1764577666898 HTTP/1.1" 200 -
+2025-12-01 16:27:54,329 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:54] "GET /api/equipment/maintenance/stats?_t=1764577674181 HTTP/1.1" 200 -
+2025-12-01 16:27:57,516 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:57] "GET /api/laboratories?page=1&page_size=100&_t=1764577677449 HTTP/1.1" 200 -
+2025-12-01 16:27:57,664 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:57] "GET /api/reservations/statistics?_t=1764577677529 HTTP/1.1" 200 -
+2025-12-01 16:27:57,720 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:57] "GET /api/reservations/calendar?start_date=2025-11-01&end_date=2025-12-01&_t=1764577677683 HTTP/1.1" 200 -
+2025-12-01 16:27:57,795 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:27:57] "GET /api/reservations/calendar?start_date=2025-11-24&end_date=2025-12-01&_t=1764577677738 HTTP/1.1" 200 -
+2025-12-01 16:28:00,192 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:00] "GET /api/equipment/statistics?_t=1764577680098 HTTP/1.1" 200 -
+2025-12-01 16:28:00,322 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:00] "GET /api/equipment/statistics?_t=1764577680216 HTTP/1.1" 200 -
+2025-12-01 16:28:04,059 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:04] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764577683997 HTTP/1.1" 200 -
+2025-12-01 16:28:04,240 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:04] "GET /api/courses?page=1&page_size=20&_t=1764577683997 HTTP/1.1" 200 -
+2025-12-01 16:28:04,948 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:04] "GET /api/users?page=1&page_size=200&role=teacher&_t=1764577684897 HTTP/1.1" 200 -
+2025-12-01 16:28:04,997 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:04] "GET /api/laboratories?page=1&page_size=500&_t=1764577684897 HTTP/1.1" 200 -
+2025-12-01 16:28:06,726 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:06] "GET /api/users?page=1&page_size=20&_t=1764577686683 HTTP/1.1" 200 -
+2025-12-01 16:28:06,906 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:06] "GET /api/courses?page=1&page_size=200&_t=1764577686683 HTTP/1.1" 200 -
+2025-12-01 16:28:12,302 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:12] "GET /api/laboratories?page=1&page_size=100&_t=1764577692194 HTTP/1.1" 200 -
+2025-12-01 16:28:13,230 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:13] "GET /api/reservations/calendar?start_date=2025-12-01&end_date=2025-12-31&_t=1764577693178 HTTP/1.1" 200 -
+2025-12-01 16:28:13,257 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:13] "GET /api/laboratories?page=1&page_size=100&_t=1764577693178 HTTP/1.1" 200 -
+2025-12-01 16:28:16,848 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:16] "GET /api/reservations?page=1&page_size=20&_t=1764577696785 HTTP/1.1" 200 -
+2025-12-01 16:28:16,892 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:16] "GET /api/laboratories?page=1&page_size=100&_t=1764577696786 HTTP/1.1" 200 -
+2025-12-01 16:28:19,837 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:19] "GET /api/reservations/calendar?start_date=2025-12-01&end_date=2025-12-31&_t=1764577699795 HTTP/1.1" 200 -
+2025-12-01 16:28:19,865 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:19] "GET /api/laboratories?page=1&page_size=100&_t=1764577699795 HTTP/1.1" 200 -
+2025-12-01 16:28:22,565 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:22] "GET /api/laboratories?page=1&page_size=100&_t=1764577702480 HTTP/1.1" 200 -
+2025-12-01 16:28:24,540 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:24] "GET /api/equipment?page=1&page_size=20&_t=1764577704487 HTTP/1.1" 200 -
+2025-12-01 16:28:24,566 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:24] "GET /api/laboratories?page=1&page_size=100&_t=1764577704487 HTTP/1.1" 200 -
+2025-12-01 16:28:24,585 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:24] "GET /api/equipment?page=1&page_size=20&_t=1764577704487 HTTP/1.1" 200 -
+2025-12-01 16:28:24,642 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:24] "GET /api/laboratories?page=1&page_size=100&_t=1764577704487 HTTP/1.1" 200 -
+2025-12-01 16:28:26,639 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:26] "GET /api/laboratories?page=1&page_size=200&_t=1764577706550 HTTP/1.1" 200 -
+2025-12-01 16:28:27,623 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:27] "GET /api/equipment?page=1&page_size=1000&_t=1764577707576 HTTP/1.1" 200 -
+2025-12-01 16:28:27,625 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:27] "GET /api/equipment/maintenance?page=1&size=20&_t=1764577707576 HTTP/1.1" 200 -
+2025-12-01 16:28:27,730 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:27] "GET /api/equipment/maintenance/stats?_t=1764577707576 HTTP/1.1" 200 -
+2025-12-01 16:28:29,154 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories?page=1&page_size=20&_t=1764577709054 HTTP/1.1" 200 -
+2025-12-01 16:28:29,236 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,237 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=16&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,249 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,264 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/7/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,265 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/16/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,272 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/5/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,299 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,315 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,335 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,347 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/4/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,348 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/3/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,351 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/laboratories/1/equipment?_t=1764577709162 HTTP/1.1" 200 -
+2025-12-01 16:28:29,369 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764577709269 HTTP/1.1" 200 -
+2025-12-01 16:28:29,377 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764577709276 HTTP/1.1" 200 -
+2025-12-01 16:28:29,402 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764577709353 HTTP/1.1" 200 -
+2025-12-01 16:28:29,404 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764577709354 HTTP/1.1" 200 -
+2025-12-01 16:28:29,415 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:29] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764577709359 HTTP/1.1" 200 -
+2025-12-01 16:28:31,721 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:31] "GET /api/reservations/statistics?_t=1764577711578 HTTP/1.1" 200 -
+2025-12-01 16:28:31,813 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:31] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764577711728 HTTP/1.1" 200 -
+2025-12-01 16:28:31,871 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:31] "GET /api/reservations/my?page=1&page_size=5&_t=1764577711817 HTTP/1.1" 200 -
+2025-12-01 16:28:32,051 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:32] "GET /api/consumables/stats?_t=1764577711878 HTTP/1.1" 200 -
+2025-12-01 16:28:32,066 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:32] "GET /api/reservations/statistics?_t=1764577711878 HTTP/1.1" 200 -
+2025-12-01 16:28:32,072 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:32] "GET /api/equipment/maintenance/stats?_t=1764577711878 HTTP/1.1" 200 -
+2025-12-01 16:28:35,916 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:35] "GET /api/laboratories?page=1&page_size=20&_t=1764577715806 HTTP/1.1" 200 -
+2025-12-01 16:28:36,000 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,013 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=16&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,023 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,055 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/7/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,060 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/16/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,074 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/5/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,099 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,105 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/4/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,115 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,120 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/3/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,139 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,181 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/laboratories/1/equipment?_t=1764577715925 HTTP/1.1" 200 -
+2025-12-01 16:28:36,192 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1764577716079 HTTP/1.1" 200 -
+2025-12-01 16:28:36,193 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1764577716061 HTTP/1.1" 200 -
+2025-12-01 16:28:36,201 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1764577716123 HTTP/1.1" 200 -
+2025-12-01 16:28:36,204 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1764577716109 HTTP/1.1" 200 -
+2025-12-01 16:28:36,236 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:36] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1764577716184 HTTP/1.1" 200 -
+2025-12-01 16:28:40,295 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:40] "GET /api/reservations/calendar?start_date=2025-12-01&end_date=2025-12-31&_t=1764577720263 HTTP/1.1" 200 -
+2025-12-01 16:28:40,342 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:28:40] "GET /api/laboratories?page=1&page_size=100&_t=1764577720263 HTTP/1.1" 200 -
+2025-12-01 16:31:53,010 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-01 16:31:53,011 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-01 16:31:53,011 - __main__ - INFO - 调试模式: True
+2025-12-01 16:31:53,035 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-01 16:31:53,035 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-01 16:31:53,036 - werkzeug - INFO -  * Restarting with stat
+2025-12-01 16:31:53,355 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-01 16:31:53,355 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-01 16:31:53,356 - __main__ - INFO - 调试模式: True
+2025-12-01 16:31:53,358 - werkzeug - WARNING -  * Debugger is active!
+2025-12-01 16:31:53,368 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-01 16:32:14,726 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:14] "GET /api/auth/profile?_t=1764577934673 HTTP/1.1" 200 -
+2025-12-01 16:32:14,728 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:14] "GET /api/auth/profile?_t=1764577934680 HTTP/1.1" 200 -
+2025-12-01 16:32:15,532 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/equipment/maintenance/stats?_t=1764577935383 HTTP/1.1" 200 -
+2025-12-01 16:32:15,555 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/consumables/stats?_t=1764577935383 HTTP/1.1" 200 -
+2025-12-01 16:32:15,562 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/reservations/statistics?_t=1764577935383 HTTP/1.1" 200 -
+2025-12-01 16:32:15,642 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1764577935566 HTTP/1.1" 200 -
+2025-12-01 16:32:15,689 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/reservations/my?page=1&page_size=5&_t=1764577935646 HTTP/1.1" 200 -
+2025-12-01 16:32:15,719 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/reservations/statistics?_t=1764577935383 HTTP/1.1" 200 -
+2025-12-01 16:32:15,828 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/consumables/stats?_t=1764577935701 HTTP/1.1" 200 -
+2025-12-01 16:32:15,858 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/reservations/statistics?_t=1764577935701 HTTP/1.1" 200 -
+2025-12-01 16:32:15,861 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:15] "GET /api/equipment/maintenance/stats?_t=1764577935701 HTTP/1.1" 200 -
+2025-12-01 16:32:50,823 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:50] "GET /api/equipment?page=1&page_size=20&_t=1764577970773 HTTP/1.1" 200 -
+2025-12-01 16:32:50,867 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:50] "GET /api/equipment?page=1&page_size=20&_t=1764577970773 HTTP/1.1" 200 -
+2025-12-01 16:32:50,867 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:50] "GET /api/laboratories?page=1&page_size=100&_t=1764577970773 HTTP/1.1" 200 -
+2025-12-01 16:32:50,944 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:50] "GET /api/laboratories?page=1&page_size=100&_t=1764577970773 HTTP/1.1" 200 -
+2025-12-01 16:32:52,657 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:52] "GET /api/laboratories?page=1&page_size=200&_t=1764577972567 HTTP/1.1" 200 -
+2025-12-01 16:32:54,664 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:54] "GET /api/equipment/maintenance?page=1&size=20&_t=1764577974623 HTTP/1.1" 200 -
+2025-12-01 16:32:54,667 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:54] "GET /api/equipment?page=1&page_size=1000&_t=1764577974623 HTTP/1.1" 200 -
+2025-12-01 16:32:54,756 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:32:54] "GET /api/equipment/maintenance/stats?_t=1764577974623 HTTP/1.1" 200 -
+2025-12-01 16:33:03,368 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:03] "GET /api/users?page=1&page_size=100&role=teacher&_t=1764577983321 HTTP/1.1" 200 -
+2025-12-01 16:33:03,564 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:03] "GET /api/courses?page=1&page_size=20&_t=1764577983321 HTTP/1.1" 200 -
+2025-12-01 16:33:05,011 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:05] "GET /api/courses/13?_t=1764577984846 HTTP/1.1" 200 -
+2025-12-01 16:33:07,461 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:07] "GET /api/courses/9?_t=1764577987307 HTTP/1.1" 200 -
+2025-12-01 16:33:25,297 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:25] "GET /api/reservations/calendar?start_date=2025-12-01&end_date=2025-12-31&_t=1764578005253 HTTP/1.1" 200 -
+2025-12-01 16:33:25,328 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:25] "GET /api/laboratories?page=1&page_size=100&_t=1764578005253 HTTP/1.1" 200 -
+2025-12-01 16:33:38,332 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:38] "GET /api/reservations/calendar?start_date=2025-12-01&end_date=2025-12-31&_t=1764578018295 HTTP/1.1" 200 -
+2025-12-01 16:33:44,910 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:44] "GET /api/reservations?page=1&page_size=20&_t=1764578024858 HTTP/1.1" 200 -
+2025-12-01 16:33:44,933 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:44] "GET /api/laboratories?page=1&page_size=100&_t=1764578024859 HTTP/1.1" 200 -
+2025-12-01 16:33:54,300 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:54] "GET /api/laboratories?page=1&page_size=200&_t=1764578034187 HTTP/1.1" 200 -
+2025-12-01 16:33:54,481 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:54] "GET /api/courses?page=1&page_size=200&_t=1764578034187 HTTP/1.1" 200 -
+2025-12-01 16:33:55,886 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:55] "GET /api/consumables?page_size=1000&_t=1764578035812 HTTP/1.1" 200 -
+2025-12-01 16:33:55,892 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:55] "GET /api/consumables/usage?page=1&page_size=20&_t=1764578035812 HTTP/1.1" 200 -
+2025-12-01 16:33:55,924 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:55] "GET /api/laboratories?page=1&page_size=1000&_t=1764578035812 HTTP/1.1" 200 -
+2025-12-01 16:33:55,966 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:55] "GET /api/consumables/usage/stats?_t=1764578035812 HTTP/1.1" 200 -
+2025-12-01 16:33:57,911 - werkzeug - INFO - 127.0.0.1 - - [01/Dec/2025 16:33:57] "GET /api/consumables/usage/export?consumable_id=&laboratory_id=&user_id=&_t=1764578037856 HTTP/1.1" 200 -
+2025-12-12 19:00:49,171 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:00:49,226 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:00:49,226 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:00:49,226 - __main__ - INFO - 调试模式: True
+2025-12-12 19:00:49,251 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 19:00:49,251 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 19:00:49,251 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:00:50,371 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:00:50,397 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:00:50,397 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:00:50,397 - __main__ - INFO - 调试模式: True
+2025-12-12 19:00:50,406 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:00:50,411 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:01:27,811 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:27] "POST /api/auth/login HTTP/1.1" 200 -
+2025-12-12 19:01:28,714 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/equipment/maintenance/stats?_t=1765537288545 HTTP/1.1" 200 -
+2025-12-12 19:01:28,714 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/consumables/stats?_t=1765537288545 HTTP/1.1" 200 -
+2025-12-12 19:01:28,732 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/reservations/statistics?_t=1765537288545 HTTP/1.1" 200 -
+2025-12-12 19:01:28,857 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765537288743 HTTP/1.1" 200 -
+2025-12-12 19:01:28,905 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/reservations/statistics?_t=1765537288545 HTTP/1.1" 200 -
+2025-12-12 19:01:28,917 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:28] "GET /api/reservations/my?page=1&page_size=5&_t=1765537288865 HTTP/1.1" 200 -
+2025-12-12 19:01:29,078 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:29] "GET /api/consumables/stats?_t=1765537288938 HTTP/1.1" 200 -
+2025-12-12 19:01:29,093 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:29] "GET /api/reservations/statistics?_t=1765537288938 HTTP/1.1" 200 -
+2025-12-12 19:01:29,093 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:29] "GET /api/equipment/maintenance/stats?_t=1765537288938 HTTP/1.1" 200 -
+2025-12-12 19:01:36,711 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories?page=1&page_size=20&_t=1765537296623 HTTP/1.1" 200 -
+2025-12-12 19:01:36,786 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,786 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=16&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,791 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,814 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/5/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,814 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/7/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,824 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/16/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,845 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,868 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,872 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/4/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,886 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/3/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,897 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765537296822 HTTP/1.1" 200 -
+2025-12-12 19:01:36,901 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,936 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/laboratories/1/equipment?_t=1765537296719 HTTP/1.1" 200 -
+2025-12-12 19:01:36,947 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765537296827 HTTP/1.1" 200 -
+2025-12-12 19:01:36,953 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765537296879 HTTP/1.1" 200 -
+2025-12-12 19:01:36,973 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:36] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1765537296894 HTTP/1.1" 200 -
+2025-12-12 19:01:37,005 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:37] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1765537296938 HTTP/1.1" 200 -
+2025-12-12 19:01:42,673 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "DELETE /api/laboratories/16 HTTP/1.1" 200 -
+2025-12-12 19:01:42,803 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/laboratories?page=1&page_size=20&_t=1765537302684 HTTP/1.1" 200 -
+2025-12-12 19:01:42,901 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,908 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,921 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,946 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/laboratories/5/equipment?_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,949 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/laboratories/7/equipment?_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,958 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/laboratories/4/equipment?_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:42,983 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:42] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:43,011 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/laboratories/3/equipment?_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:43,027 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765537302956 HTTP/1.1" 200 -
+2025-12-12 19:01:43,029 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:43,032 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/laboratories/1/equipment?_t=1765537302813 HTTP/1.1" 200 -
+2025-12-12 19:01:43,034 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765537302959 HTTP/1.1" 200 -
+2025-12-12 19:01:43,043 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765537302966 HTTP/1.1" 200 -
+2025-12-12 19:01:43,067 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=3&page=1&page_size=3&_t=1765537303016 HTTP/1.1" 200 -
+2025-12-12 19:01:43,099 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:43] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1765537303041 HTTP/1.1" 200 -
+2025-12-12 19:01:45,667 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:45] "GET /api/laboratories/7/availability?date=2025-12-12&_t=1765537305591 HTTP/1.1" 200 -
+2025-12-12 19:01:50,384 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:50] "GET /api/equipment?page=1&page_size=20&_t=1765537310319 HTTP/1.1" 200 -
+2025-12-12 19:01:50,449 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:50] "GET /api/laboratories?page=1&page_size=100&_t=1765537310319 HTTP/1.1" 200 -
+2025-12-12 19:01:50,456 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:50] "GET /api/equipment?page=1&page_size=20&_t=1765537310319 HTTP/1.1" 200 -
+2025-12-12 19:01:50,579 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:50] "GET /api/laboratories?page=1&page_size=100&_t=1765537310319 HTTP/1.1" 200 -
+2025-12-12 19:01:52,002 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:52] "GET /api/laboratories?page=1&page_size=200&_t=1765537311896 HTTP/1.1" 200 -
+2025-12-12 19:01:53,084 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:53] "GET /api/equipment/maintenance?page=1&size=20&_t=1765537313037 HTTP/1.1" 200 -
+2025-12-12 19:01:53,095 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:53] "GET /api/equipment?page=1&page_size=1000&_t=1765537313037 HTTP/1.1" 200 -
+2025-12-12 19:01:53,195 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:53] "GET /api/equipment/maintenance/stats?_t=1765537313037 HTTP/1.1" 200 -
+2025-12-12 19:01:55,762 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:55] "GET /api/reservations?page=1&page_size=20&_t=1765537315693 HTTP/1.1" 200 -
+2025-12-12 19:01:55,799 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:55] "GET /api/laboratories?page=1&page_size=100&_t=1765537315693 HTTP/1.1" 200 -
+2025-12-12 19:01:57,629 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:57] "GET /api/laboratories?page=1&page_size=100&_t=1765537317555 HTTP/1.1" 200 -
+2025-12-12 19:01:58,871 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:58] "GET /api/reservations/calendar?start_date=2025-11-24&end_date=2026-01-07&_t=1765537318832 HTTP/1.1" 200 -
+2025-12-12 19:01:58,919 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:01:58] "GET /api/laboratories?page=1&page_size=100&_t=1765537318832 HTTP/1.1" 200 -
+2025-12-12 19:02:02,415 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:02] "GET /api/laboratories?page=1&page_size=100&_t=1765537322341 HTTP/1.1" 200 -
+2025-12-12 19:02:04,985 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:04] "GET /api/laboratories/3?_t=1765537324864 HTTP/1.1" 200 -
+2025-12-12 19:02:10,250 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:10] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-12-12 19:02:14,240 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\reservations.py', reloading
+2025-12-12 19:02:14,359 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:02:16,062 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:02:16,232 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:02:16,234 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:02:16,234 - __main__ - INFO - 调试模式: True
+2025-12-12 19:02:16,268 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:02:16,287 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:02:16,955 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:16] "[31m[1mPOST /api/reservations HTTP/1.1[0m" 400 -
+2025-12-12 19:02:21,377 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:21] "POST /api/reservations/check-conflict HTTP/1.1" 200 -
+2025-12-12 19:02:22,963 - app.api.reservations - INFO - 实验室查询SQL: SELECT id, name, status FROM laboratories WHERE id = %s
+2025-12-12 19:02:22,964 - app.api.reservations - INFO - 实验室查询参数: 3
+2025-12-12 19:02:22,964 - app.api.reservations - INFO - 实验室查询结果: {'success': True, 'data': [{'id': 3, 'name': '化学实验室C', 'status': 'available'}]}
+2025-12-12 19:02:22,964 - app.api.reservations - INFO - 实验室数据: {'id': 3, 'name': '化学实验室C', 'status': 'available'}
+2025-12-12 19:02:22,964 - app.api.reservations - INFO - 实验室数据类型: <class 'dict'>
+2025-12-12 19:02:22,964 - app.api.reservations - INFO - 实验室数据键: ['id', 'name', 'status']
+2025-12-12 19:02:22,995 - app.api.reservations - INFO - 时间冲突检查结果: {'success': True, 'data': ()}
+2025-12-12 19:02:23,044 - app.api.reservations - INFO - 预约插入结果: {'success': True, 'affected_rows': 1, 'last_insert_id': 16}
+2025-12-12 19:02:23,079 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:23] "[35m[1mPOST /api/reservations HTTP/1.1[0m" 201 -
+2025-12-12 19:02:23,549 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:23] "GET /api/reservations?page=1&page_size=20&_t=1765537343450 HTTP/1.1" 200 -
+2025-12-12 19:02:23,684 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:23] "GET /api/laboratories?page=1&page_size=100&_t=1765537343450 HTTP/1.1" 200 -
+2025-12-12 19:02:26,691 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:26] "GET /api/reservations?page=1&page_size=20&_t=1765537346494 HTTP/1.1" 200 -
+2025-12-12 19:02:26,734 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:26] "GET /api/laboratories?page=1&page_size=100&_t=1765537346494 HTTP/1.1" 200 -
+2025-12-12 19:02:26,829 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:26] "GET /api/reservations/statistics?_t=1765537346494 HTTP/1.1" 200 -
+2025-12-12 19:02:26,891 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:26] "GET /api/consumables/stats?_t=1765537346494 HTTP/1.1" 200 -
+2025-12-12 19:02:26,897 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:26] "GET /api/equipment/maintenance/stats?_t=1765537346494 HTTP/1.1" 200 -
+2025-12-12 19:02:29,655 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:29] "GET /api/reservations?page=1&page_size=20&_t=1765537349538 HTTP/1.1" 200 -
+2025-12-12 19:02:29,722 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:29] "GET /api/laboratories?page=1&page_size=100&_t=1765537349539 HTTP/1.1" 200 -
+2025-12-12 19:02:52,069 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:52] "POST /api/reservations/16/approve HTTP/1.1" 200 -
+2025-12-12 19:02:52,215 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:52] "GET /api/reservations?page=1&page_size=20&_t=1765537372098 HTTP/1.1" 200 -
+2025-12-12 19:02:53,914 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:53] "GET /api/reservations/calendar?start_date=2025-11-24&end_date=2026-01-07&_t=1765537373816 HTTP/1.1" 200 -
+2025-12-12 19:02:53,951 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:53] "GET /api/laboratories?page=1&page_size=100&_t=1765537373816 HTTP/1.1" 200 -
+2025-12-12 19:02:56,541 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:56] "GET /api/laboratories?page=1&page_size=100&_t=1765537376401 HTTP/1.1" 200 -
+2025-12-12 19:02:57,603 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:57] "GET /api/reservations?page=1&page_size=20&_t=1765537377499 HTTP/1.1" 200 -
+2025-12-12 19:02:57,722 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:02:57] "GET /api/laboratories?page=1&page_size=100&_t=1765537377499 HTTP/1.1" 200 -
+2025-12-12 19:03:01,740 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:01,784 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/laboratories?page=1&page_size=1000&_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:01,794 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:01,839 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/consumables/stats?_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:01,872 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/laboratories?page=1&page_size=1000&_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:01,995 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:01] "GET /api/consumables/stats?_t=1765537381675 HTTP/1.1" 200 -
+2025-12-12 19:03:04,130 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:04] "GET /api/laboratories?page=1&page_size=200&_t=1765537384041 HTTP/1.1" 200 -
+2025-12-12 19:03:04,315 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:04] "GET /api/courses?page=1&page_size=200&_t=1765537384041 HTTP/1.1" 200 -
+2025-12-12 19:03:06,275 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:06] "GET /api/consumables?page_size=1000&_t=1765537386205 HTTP/1.1" 200 -
+2025-12-12 19:03:06,277 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:06] "GET /api/consumables/usage?page=1&page_size=20&_t=1765537386205 HTTP/1.1" 200 -
+2025-12-12 19:03:06,321 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:06] "GET /api/laboratories?page=1&page_size=1000&_t=1765537386205 HTTP/1.1" 200 -
+2025-12-12 19:03:06,341 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:06] "GET /api/consumables/usage/stats?_t=1765537386205 HTTP/1.1" 200 -
+2025-12-12 19:03:08,268 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:08] "GET /api/consumables/usage/export?consumable_id=&laboratory_id=&user_id=&_t=1765537388166 HTTP/1.1" 200 -
+2025-12-12 19:03:20,375 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:20] "GET /api/users?page=1&page_size=100&role=teacher&_t=1765537400316 HTTP/1.1" 200 -
+2025-12-12 19:03:20,563 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:20] "GET /api/courses?page=1&page_size=20&_t=1765537400316 HTTP/1.1" 200 -
+2025-12-12 19:03:22,394 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:22] "GET /api/users?page=1&page_size=200&role=teacher&_t=1765537402328 HTTP/1.1" 200 -
+2025-12-12 19:03:22,434 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:22] "GET /api/laboratories?page=1&page_size=500&_t=1765537402328 HTTP/1.1" 200 -
+2025-12-12 19:03:24,518 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:24] "GET /api/users?page=1&page_size=20&_t=1765537404462 HTTP/1.1" 200 -
+2025-12-12 19:03:24,743 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:24] "GET /api/courses?page=1&page_size=200&_t=1765537404462 HTTP/1.1" 200 -
+2025-12-12 19:03:30,555 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/users?page=1&page_size=1000&_t=1765537410489 HTTP/1.1" 200 -
+2025-12-12 19:03:30,593 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/laboratories?page=1&page_size=1&_t=1765537410489 HTTP/1.1" 200 -
+2025-12-12 19:03:30,627 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/equipment/statistics?_t=1765537410489 HTTP/1.1" 200 -
+2025-12-12 19:03:30,663 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/reservations/statistics?_t=1765537410489 HTTP/1.1" 200 -
+2025-12-12 19:03:30,665 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/equipment/maintenance/stats?_t=1765537410489 HTTP/1.1" 200 -
+2025-12-12 19:03:30,901 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:30] "GET /api/equipment/maintenance/stats?_t=1765537410718 HTTP/1.1" 200 -
+2025-12-12 19:03:32,591 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:32] "GET /api/laboratories?page=1&page_size=100&_t=1765537412489 HTTP/1.1" 200 -
+2025-12-12 19:03:32,900 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:32] "GET /api/reservations/statistics?_t=1765537412604 HTTP/1.1" 200 -
+2025-12-12 19:03:32,966 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:32] "GET /api/reservations/calendar?start_date=2025-11-12&end_date=2025-12-12&_t=1765537412913 HTTP/1.1" 200 -
+2025-12-12 19:03:33,034 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:33] "GET /api/reservations/calendar?start_date=2025-12-05&end_date=2025-12-12&_t=1765537412981 HTTP/1.1" 200 -
+2025-12-12 19:03:34,402 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/users?page=1&page_size=1000&_t=1765537414321 HTTP/1.1" 200 -
+2025-12-12 19:03:34,433 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/laboratories?page=1&page_size=1&_t=1765537414321 HTTP/1.1" 200 -
+2025-12-12 19:03:34,465 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/equipment/statistics?_t=1765537414321 HTTP/1.1" 200 -
+2025-12-12 19:03:34,502 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/reservations/statistics?_t=1765537414321 HTTP/1.1" 200 -
+2025-12-12 19:03:34,506 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/equipment/maintenance/stats?_t=1765537414321 HTTP/1.1" 200 -
+2025-12-12 19:03:34,727 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:34] "GET /api/equipment/maintenance/stats?_t=1765537414538 HTTP/1.1" 200 -
+2025-12-12 19:03:56,954 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:56] "GET /api/laboratories?page=1&page_size=100&_t=1765537436863 HTTP/1.1" 200 -
+2025-12-12 19:03:57,140 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:57] "GET /api/reservations/statistics?_t=1765537436971 HTTP/1.1" 200 -
+2025-12-12 19:03:57,211 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:57] "GET /api/reservations/calendar?start_date=2025-11-12&end_date=2025-12-12&_t=1765537437163 HTTP/1.1" 200 -
+2025-12-12 19:03:57,260 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:03:57] "GET /api/reservations/calendar?start_date=2025-12-05&end_date=2025-12-12&_t=1765537437226 HTTP/1.1" 200 -
+2025-12-12 19:04:07,549 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:07] "GET /api/equipment/statistics?_t=1765537447388 HTTP/1.1" 200 -
+2025-12-12 19:04:07,771 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:07] "GET /api/equipment/statistics?_t=1765537447590 HTTP/1.1" 200 -
+2025-12-12 19:04:11,528 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:11] "GET /api/laboratories?page=1&page_size=100&_t=1765537451367 HTTP/1.1" 200 -
+2025-12-12 19:04:11,858 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:11] "GET /api/reservations/statistics?_t=1765537451536 HTTP/1.1" 200 -
+2025-12-12 19:04:11,950 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:11] "GET /api/reservations/calendar?start_date=2025-11-12&end_date=2025-12-12&_t=1765537451874 HTTP/1.1" 200 -
+2025-12-12 19:04:12,075 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:12] "GET /api/reservations/calendar?start_date=2025-12-05&end_date=2025-12-12&_t=1765537451967 HTTP/1.1" 200 -
+2025-12-12 19:04:15,003 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/users?page=1&page_size=1000&_t=1765537454942 HTTP/1.1" 200 -
+2025-12-12 19:04:15,035 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/laboratories?page=1&page_size=1&_t=1765537454942 HTTP/1.1" 200 -
+2025-12-12 19:04:15,076 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/equipment/statistics?_t=1765537454942 HTTP/1.1" 200 -
+2025-12-12 19:04:15,094 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/reservations/statistics?_t=1765537454942 HTTP/1.1" 200 -
+2025-12-12 19:04:15,094 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/equipment/maintenance/stats?_t=1765537454942 HTTP/1.1" 200 -
+2025-12-12 19:04:15,266 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:15] "GET /api/equipment/maintenance/stats?_t=1765537455122 HTTP/1.1" 200 -
+2025-12-12 19:04:26,561 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/reservations/statistics?_t=1765537466414 HTTP/1.1" 200 -
+2025-12-12 19:04:26,651 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765537466568 HTTP/1.1" 200 -
+2025-12-12 19:04:26,703 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/reservations/my?page=1&page_size=5&_t=1765537466654 HTTP/1.1" 200 -
+2025-12-12 19:04:26,855 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/consumables/stats?_t=1765537466713 HTTP/1.1" 200 -
+2025-12-12 19:04:26,876 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/equipment/maintenance/stats?_t=1765537466713 HTTP/1.1" 200 -
+2025-12-12 19:04:26,876 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:26] "GET /api/reservations/statistics?_t=1765537466713 HTTP/1.1" 200 -
+2025-12-12 19:04:41,923 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:41] "GET /api/consumables/stats?_t=1765537481773 HTTP/1.1" 200 -
+2025-12-12 19:04:41,926 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:41] "GET /api/equipment/maintenance/stats?_t=1765537481773 HTTP/1.1" 200 -
+2025-12-12 19:04:41,945 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:41] "GET /api/reservations/statistics?_t=1765537481773 HTTP/1.1" 200 -
+2025-12-12 19:04:58,987 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:04:58] "[33mPOST /api/upload/avatar HTTP/1.1[0m" 404 -
+2025-12-12 19:05:04,888 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:05:04] "[33mPOST /api/upload/avatar HTTP/1.1[0m" 404 -
+2025-12-12 19:24:14,905 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:24:14,941 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:24:14,941 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:24:14,941 - __main__ - INFO - 调试模式: True
+2025-12-12 19:24:14,961 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 19:24:14,961 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 19:24:14,963 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:24:15,908 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:24:15,937 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:24:15,937 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:24:15,937 - __main__ - INFO - 调试模式: True
+2025-12-12 19:24:15,945 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:24:15,952 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:24:20,787 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:20] "GET /api/auth/profile?_t=1765538660726 HTTP/1.1" 200 -
+2025-12-12 19:24:20,792 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:20] "GET /api/auth/profile?_t=1765538660724 HTTP/1.1" 200 -
+2025-12-12 19:24:21,669 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/reservations/statistics?_t=1765538661512 HTTP/1.1" 200 -
+2025-12-12 19:24:21,678 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/consumables/stats?_t=1765538661512 HTTP/1.1" 200 -
+2025-12-12 19:24:21,680 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/equipment/maintenance/stats?_t=1765538661512 HTTP/1.1" 200 -
+2025-12-12 19:24:21,806 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765538661680 HTTP/1.1" 200 -
+2025-12-12 19:24:21,854 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/reservations/statistics?_t=1765538661512 HTTP/1.1" 200 -
+2025-12-12 19:24:21,869 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:21] "GET /api/reservations/my?page=1&page_size=5&_t=1765538661809 HTTP/1.1" 200 -
+2025-12-12 19:24:22,070 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:22] "GET /api/reservations/statistics?_t=1765538661913 HTTP/1.1" 200 -
+2025-12-12 19:24:22,074 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:22] "GET /api/equipment/maintenance/stats?_t=1765538661913 HTTP/1.1" 200 -
+2025-12-12 19:24:22,074 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:22] "GET /api/consumables/stats?_t=1765538661913 HTTP/1.1" 200 -
+2025-12-12 19:24:29,451 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:29] "GET /api/users?page=1&page_size=100&role=teacher&_t=1765538669394 HTTP/1.1" 200 -
+2025-12-12 19:24:29,627 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:29] "GET /api/courses?page=1&page_size=20&_t=1765538669394 HTTP/1.1" 200 -
+2025-12-12 19:24:33,382 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:33] "GET /api/courses/13?_t=1765538673155 HTTP/1.1" 200 -
+2025-12-12 19:24:36,027 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:36] "GET /api/courses/9?_t=1765538675700 HTTP/1.1" 200 -
+2025-12-12 19:24:37,999 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:24:37] "GET /api/courses/5?_t=1765538677834 HTTP/1.1" 200 -
+2025-12-12 19:25:46,969 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:46] "GET /api/reservations/statistics?_t=1765538746440 HTTP/1.1" 200 -
+2025-12-12 19:25:47,167 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:47] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765538746974 HTTP/1.1" 200 -
+2025-12-12 19:25:47,220 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:47] "GET /api/reservations/my?page=1&page_size=5&_t=1765538747171 HTTP/1.1" 200 -
+2025-12-12 19:25:47,660 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:47] "GET /api/consumables/stats?_t=1765538747228 HTTP/1.1" 200 -
+2025-12-12 19:25:47,679 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:47] "GET /api/equipment/maintenance/stats?_t=1765538747228 HTTP/1.1" 200 -
+2025-12-12 19:25:47,686 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:47] "GET /api/reservations/statistics?_t=1765538747228 HTTP/1.1" 200 -
+2025-12-12 19:25:53,330 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:53] "GET /api/equipment?page=1&page_size=20&_t=1765538753264 HTTP/1.1" 200 -
+2025-12-12 19:25:53,366 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:53] "GET /api/laboratories?page=1&page_size=100&_t=1765538753264 HTTP/1.1" 200 -
+2025-12-12 19:25:53,401 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:53] "GET /api/equipment?page=1&page_size=20&_t=1765538753264 HTTP/1.1" 200 -
+2025-12-12 19:25:53,496 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:53] "GET /api/laboratories?page=1&page_size=100&_t=1765538753264 HTTP/1.1" 200 -
+2025-12-12 19:25:55,008 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/reservations/statistics?_t=1765538754869 HTTP/1.1" 200 -
+2025-12-12 19:25:55,093 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765538755016 HTTP/1.1" 200 -
+2025-12-12 19:25:55,146 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/reservations/my?page=1&page_size=5&_t=1765538755096 HTTP/1.1" 200 -
+2025-12-12 19:25:55,318 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/equipment/maintenance/stats?_t=1765538755152 HTTP/1.1" 200 -
+2025-12-12 19:25:55,319 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/reservations/statistics?_t=1765538755152 HTTP/1.1" 200 -
+2025-12-12 19:25:55,323 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:55] "GET /api/consumables/stats?_t=1765538755152 HTTP/1.1" 200 -
+2025-12-12 19:25:57,201 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories?page=1&page_size=20&_t=1765538757129 HTTP/1.1" 200 -
+2025-12-12 19:25:57,268 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,284 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,290 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,304 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories/5/equipment?_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,309 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories/7/equipment?_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,309 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories/4/equipment?_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,345 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,363 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765538757316 HTTP/1.1" 200 -
+2025-12-12 19:25:57,365 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765538757312 HTTP/1.1" 200 -
+2025-12-12 19:25:57,370 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories/3/equipment?_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,376 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,379 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/laboratories/1/equipment?_t=1765538757214 HTTP/1.1" 200 -
+2025-12-12 19:25:57,396 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765538757318 HTTP/1.1" 200 -
+2025-12-12 19:25:57,428 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1765538757385 HTTP/1.1" 200 -
+2025-12-12 19:25:57,430 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:25:57] "GET /api/reservations?laboratory_id=3&page=1&page_size=4&_t=1765538757374 HTTP/1.1" 200 -
+2025-12-12 19:27:14,733 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:27:14] "[33mPOST /api/upload/avatar HTTP/1.1[0m" 404 -
+2025-12-12 19:33:42,638 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/users?page=1&page_size=1000&_t=1765539222557 HTTP/1.1" 200 -
+2025-12-12 19:33:42,667 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/laboratories?page=1&page_size=1&_t=1765539222557 HTTP/1.1" 200 -
+2025-12-12 19:33:42,717 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/equipment/statistics?_t=1765539222557 HTTP/1.1" 200 -
+2025-12-12 19:33:42,765 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/equipment/maintenance/stats?_t=1765539222557 HTTP/1.1" 200 -
+2025-12-12 19:33:42,774 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/reservations/statistics?_t=1765539222557 HTTP/1.1" 200 -
+2025-12-12 19:33:42,988 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:42] "GET /api/equipment/maintenance/stats?_t=1765539222832 HTTP/1.1" 200 -
+2025-12-12 19:33:56,108 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:56] "GET /api/users?page=1&page_size=20&_t=1765539236031 HTTP/1.1" 200 -
+2025-12-12 19:33:56,314 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:33:56] "GET /api/courses?page=1&page_size=200&_t=1765539236031 HTTP/1.1" 200 -
+2025-12-12 19:34:03,570 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:03] "GET /api/users?page=1&page_size=100&role=teacher&_t=1765539243511 HTTP/1.1" 200 -
+2025-12-12 19:34:03,768 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:03] "GET /api/courses?page=1&page_size=20&_t=1765539243511 HTTP/1.1" 200 -
+2025-12-12 19:34:05,194 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:05] "GET /api/users?page=1&page_size=200&role=teacher&_t=1765539245105 HTTP/1.1" 200 -
+2025-12-12 19:34:05,241 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:05] "GET /api/laboratories?page=1&page_size=500&_t=1765539245105 HTTP/1.1" 200 -
+2025-12-12 19:34:07,724 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:07] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:34:07,746 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:07] "GET /api/laboratories?page=1&page_size=1000&_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:34:07,780 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:07] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:34:07,824 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:07] "GET /api/consumables/stats?_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:34:07,841 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:07] "GET /api/laboratories?page=1&page_size=1000&_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:34:08,065 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:34:08] "GET /api/consumables/stats?_t=1765539247668 HTTP/1.1" 200 -
+2025-12-12 19:38:27,658 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-12-12 19:38:27,751 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:38:29,664 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:38:29,816 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:38:29,820 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:38:29,820 - __main__ - INFO - 调试模式: True
+2025-12-12 19:38:29,865 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:38:29,879 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:38:45,941 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-12-12 19:38:46,040 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:38:48,047 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:38:48,187 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:38:48,187 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:38:48,187 - __main__ - INFO - 调试模式: True
+2025-12-12 19:38:48,240 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:38:48,258 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:38:56,243 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-12-12 19:38:56,364 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:38:58,417 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:38:58,553 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:38:58,553 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:38:58,554 - __main__ - INFO - 调试模式: True
+2025-12-12 19:38:58,596 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:38:58,619 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:40:52,366 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/auth/profile?_t=1765539652320 HTTP/1.1" 200 -
+2025-12-12 19:40:52,367 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/auth/profile?_t=1765539652322 HTTP/1.1" 200 -
+2025-12-12 19:40:52,755 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,809 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/laboratories?page=1&page_size=1000&_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,809 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,850 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/consumables/stats?_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,865 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/reservations/statistics?_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,875 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/equipment/maintenance/stats?_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:52,906 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:52] "GET /api/laboratories?page=1&page_size=1000&_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:53,000 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:53] "GET /api/consumables/stats?_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:40:53,144 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:40:53] "GET /api/consumables/stats?_t=1765539652694 HTTP/1.1" 200 -
+2025-12-12 19:41:15,446 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:15] "POST /api/consumables/6/use HTTP/1.1" 200 -
+2025-12-12 19:41:15,526 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:15] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539675456 HTTP/1.1" 200 -
+2025-12-12 19:41:15,701 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:15] "GET /api/consumables/stats?_t=1765539675456 HTTP/1.1" 200 -
+2025-12-12 19:41:52,126 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/auth/profile?_t=1765539712078 HTTP/1.1" 200 -
+2025-12-12 19:41:52,135 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/auth/profile?_t=1765539712079 HTTP/1.1" 200 -
+2025-12-12 19:41:52,485 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,520 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/laboratories?page=1&page_size=1000&_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,533 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,579 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/equipment/maintenance/stats?_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,584 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/consumables/stats?_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,588 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/reservations/statistics?_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,612 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/laboratories?page=1&page_size=1000&_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,735 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/consumables/stats?_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:52,887 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:52] "GET /api/consumables/stats?_t=1765539712408 HTTP/1.1" 200 -
+2025-12-12 19:41:53,423 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-12-12 19:41:53,509 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:41:55,303 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:41:55,385 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:41:55,385 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:41:55,385 - __main__ - INFO - 调试模式: True
+2025-12-12 19:41:55,415 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:41:55,440 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:41:56,124 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:56] "GET /api/laboratories?page=1&page_size=200&_t=1765539715481 HTTP/1.1" 200 -
+2025-12-12 19:41:56,331 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:56] "GET /api/courses?page=1&page_size=200&_t=1765539715481 HTTP/1.1" 200 -
+2025-12-12 19:41:57,265 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:57] "GET /api/consumables/usage?page=1&page_size=20&_t=1765539717216 HTTP/1.1" 200 -
+2025-12-12 19:41:57,276 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:57] "GET /api/consumables?page_size=1000&_t=1765539717217 HTTP/1.1" 200 -
+2025-12-12 19:41:57,302 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:57] "GET /api/laboratories?page=1&page_size=1000&_t=1765539717217 HTTP/1.1" 200 -
+2025-12-12 19:41:57,332 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:57] "GET /api/consumables/usage/stats?_t=1765539717217 HTTP/1.1" 200 -
+2025-12-12 19:41:57,973 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:57] "GET /api/laboratories?page=1&page_size=200&_t=1765539717901 HTTP/1.1" 200 -
+2025-12-12 19:41:58,125 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:41:58] "GET /api/courses?page=1&page_size=200&_t=1765539717901 HTTP/1.1" 200 -
+2025-12-12 19:42:00,070 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:42:00] "GET /api/consumables/usage?page=1&page_size=20&_t=1765539720007 HTTP/1.1" 200 -
+2025-12-12 19:42:00,070 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:42:00] "GET /api/consumables?page_size=1000&_t=1765539720007 HTTP/1.1" 200 -
+2025-12-12 19:42:00,101 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:42:00] "GET /api/laboratories?page=1&page_size=1000&_t=1765539720007 HTTP/1.1" 200 -
+2025-12-12 19:42:00,143 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:42:00] "GET /api/consumables/usage/stats?_t=1765539720007 HTTP/1.1" 200 -
+2025-12-12 19:42:02,963 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:42:02] "GET /api/consumables/usage/export?consumable_id=&laboratory_id=&user_id=&_t=1765539722916 HTTP/1.1" 200 -
+2025-12-12 19:47:37,527 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\maintenance.py', reloading
+2025-12-12 19:47:37,611 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:47:39,272 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:47:39,389 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:47:39,390 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:47:39,393 - __main__ - INFO - 调试模式: True
+2025-12-12 19:47:39,424 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:47:39,440 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:47:51,400 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:51] "GET /api/auth/profile?_t=1765540071345 HTTP/1.1" 200 -
+2025-12-12 19:47:51,412 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:51] "GET /api/auth/profile?_t=1765540071357 HTTP/1.1" 200 -
+2025-12-12 19:47:51,414 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:51] "GET /api/auth/profile?_t=1765540071344 HTTP/1.1" 200 -
+2025-12-12 19:47:51,417 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:51] "GET /api/auth/profile?_t=1765540071356 HTTP/1.1" 200 -
+2025-12-12 19:47:52,360 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables/stats?_t=1765540072169 HTTP/1.1" 200 -
+2025-12-12 19:47:52,360 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/reservations/statistics?_t=1765540072169 HTTP/1.1" 200 -
+2025-12-12 19:47:52,372 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/equipment/maintenance/stats?_t=1765540072169 HTTP/1.1" 200 -
+2025-12-12 19:47:52,461 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765540072366 HTTP/1.1" 200 -
+2025-12-12 19:47:52,537 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/reservations/my?page=1&page_size=5&_t=1765540072472 HTTP/1.1" 200 -
+2025-12-12 19:47:52,541 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/reservations/statistics?_t=1765540072169 HTTP/1.1" 200 -
+2025-12-12 19:47:52,627 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables?page_size=1000&_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,627 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables/usage?page=1&page_size=20&_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,700 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/laboratories?page=1&page_size=1000&_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,741 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables/usage/stats?_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,784 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/equipment/maintenance/stats?_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,784 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/reservations/statistics?_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,832 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/reservations/statistics?_t=1765540072570 HTTP/1.1" 200 -
+2025-12-12 19:47:52,841 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables/stats?_t=1765540072553 HTTP/1.1" 200 -
+2025-12-12 19:47:52,880 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/equipment/maintenance/stats?_t=1765540072570 HTTP/1.1" 200 -
+2025-12-12 19:47:52,918 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:47:52] "GET /api/consumables/stats?_t=1765540072570 HTTP/1.1" 200 -
+2025-12-12 19:47:58,777 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:47:58,812 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:47:58,812 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:47:58,812 - __main__ - INFO - 调试模式: True
+2025-12-12 19:47:58,835 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 19:47:58,835 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 19:47:58,837 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:47:59,799 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:47:59,825 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:47:59,825 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:47:59,825 - __main__ - INFO - 调试模式: True
+2025-12-12 19:47:59,837 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:47:59,842 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:48:02,646 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:02] "GET /api/auth/profile?_t=1765540082602 HTTP/1.1" 200 -
+2025-12-12 19:48:02,685 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:02] "GET /api/auth/profile?_t=1765540082602 HTTP/1.1" 200 -
+2025-12-12 19:48:02,983 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:02] "GET /api/equipment/maintenance/stats?_t=1765540082761 HTTP/1.1" 200 -
+2025-12-12 19:48:02,983 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:02] "GET /api/consumables/stats?_t=1765540082761 HTTP/1.1" 200 -
+2025-12-12 19:48:02,988 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:02] "GET /api/reservations/statistics?_t=1765540082761 HTTP/1.1" 200 -
+2025-12-12 19:48:03,115 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765540082992 HTTP/1.1" 200 -
+2025-12-12 19:48:03,177 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/reservations/my?page=1&page_size=5&_t=1765540083121 HTTP/1.1" 200 -
+2025-12-12 19:48:03,197 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/reservations/statistics?_t=1765540082761 HTTP/1.1" 200 -
+2025-12-12 19:48:03,412 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/consumables/stats?_t=1765540083186 HTTP/1.1" 200 -
+2025-12-12 19:48:03,428 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/reservations/statistics?_t=1765540083186 HTTP/1.1" 200 -
+2025-12-12 19:48:03,437 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:03] "GET /api/equipment/maintenance/stats?_t=1765540083186 HTTP/1.1" 200 -
+2025-12-12 19:48:08,418 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:08] "GET /api/reservations?page=1&page_size=20&_t=1765540088358 HTTP/1.1" 200 -
+2025-12-12 19:48:08,449 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:08] "GET /api/laboratories?page=1&page_size=100&_t=1765540088358 HTTP/1.1" 200 -
+2025-12-12 19:48:09,782 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:09] "GET /api/reservations/calendar?start_date=2025-11-24&end_date=2026-01-07&_t=1765540089730 HTTP/1.1" 200 -
+2025-12-12 19:48:09,860 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:09] "GET /api/laboratories?page=1&page_size=100&_t=1765540089730 HTTP/1.1" 200 -
+2025-12-12 19:48:12,085 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:12] "GET /api/reservations?page=1&page_size=20&_t=1765540092028 HTTP/1.1" 200 -
+2025-12-12 19:48:12,110 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:48:12] "GET /api/laboratories?page=1&page_size=100&_t=1765540092028 HTTP/1.1" 200 -
+2025-12-12 19:52:43,086 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\db_migration.py', reloading
+2025-12-12 19:52:43,197 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:52:44,708 - app.db_migration - INFO - ✅ users.avatar 字段已添加
+2025-12-12 19:52:46,081 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:52:46,175 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:52:46,176 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:52:46,264 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:52:46,264 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:52:46,265 - __main__ - INFO - 调试模式: True
+2025-12-12 19:52:46,299 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:52:46,316 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:53:15,877 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app.py', reloading
+2025-12-12 19:53:15,970 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:53:17,796 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:53:17,851 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:53:17,853 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:53:17,937 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:53:17,938 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:53:17,938 - __main__ - INFO - 调试模式: True
+2025-12-12 19:53:17,963 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:53:17,977 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:56:44,938 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:56:45,007 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:56:45,007 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:56:45,048 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:56:45,049 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:56:45,049 - __main__ - INFO - 调试模式: True
+2025-12-12 19:56:45,068 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 19:56:45,068 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 19:56:45,071 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:56:46,794 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:56:46,905 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:56:46,906 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:56:46,940 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:56:46,940 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:56:46,940 - __main__ - INFO - 调试模式: True
+2025-12-12 19:56:46,951 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:56:46,955 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:56:52,049 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/auth/profile?_t=1765540611931 HTTP/1.1" 200 -
+2025-12-12 19:56:52,052 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/auth/profile?_t=1765540611945 HTTP/1.1" 200 -
+2025-12-12 19:56:52,052 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/auth/profile?_t=1765540611933 HTTP/1.1" 200 -
+2025-12-12 19:56:52,056 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/auth/profile?_t=1765540611947 HTTP/1.1" 200 -
+2025-12-12 19:56:52,904 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/reservations/statistics?_t=1765540612741 HTTP/1.1" 200 -
+2025-12-12 19:56:52,922 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/equipment/maintenance/stats?_t=1765540612741 HTTP/1.1" 200 -
+2025-12-12 19:56:52,922 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:52] "GET /api/consumables/stats?_t=1765540612741 HTTP/1.1" 200 -
+2025-12-12 19:56:53,031 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/laboratories?page=1&page_size=1&status=available&_t=1765540612913 HTTP/1.1" 200 -
+2025-12-12 19:56:53,120 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/reservations/my?page=1&page_size=5&_t=1765540613036 HTTP/1.1" 200 -
+2025-12-12 19:56:53,150 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/reservations/statistics?_t=1765540612741 HTTP/1.1" 200 -
+2025-12-12 19:56:53,570 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/consumables/stats?_t=1765540613133 HTTP/1.1" 200 -
+2025-12-12 19:56:53,580 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/reservations/statistics?_t=1765540613132 HTTP/1.1" 200 -
+2025-12-12 19:56:53,582 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/equipment/maintenance/stats?_t=1765540613133 HTTP/1.1" 200 -
+2025-12-12 19:56:53,749 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/equipment/maintenance/stats?_t=1765540613307 HTTP/1.1" 200 -
+2025-12-12 19:56:53,764 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/reservations/statistics?_t=1765540613307 HTTP/1.1" 200 -
+2025-12-12 19:56:53,767 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:53] "GET /api/consumables/stats?_t=1765540613307 HTTP/1.1" 200 -
+2025-12-12 19:56:56,489 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:56:56] "GET /api/reservations/my-statistics?_t=1765540616422 HTTP/1.1" 200 -
+2025-12-12 19:57:18,989 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:18] "POST /api/upload/avatar HTTP/1.1" 200 -
+2025-12-12 19:57:33,605 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/auth/profile?_t=1765540653562 HTTP/1.1" 200 -
+2025-12-12 19:57:33,655 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/auth/profile?_t=1765540653562 HTTP/1.1" 200 -
+2025-12-12 19:57:33,847 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/reservations/my-statistics?_t=1765540653754 HTTP/1.1" 200 -
+2025-12-12 19:57:33,905 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/equipment/maintenance/stats?_t=1765540653754 HTTP/1.1" 200 -
+2025-12-12 19:57:33,921 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/reservations/statistics?_t=1765540653754 HTTP/1.1" 200 -
+2025-12-12 19:57:33,926 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:33] "GET /api/consumables/stats?_t=1765540653754 HTTP/1.1" 200 -
+2025-12-12 19:57:48,414 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:48,461 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/laboratories?page=1&page_size=1000&_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:48,482 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:48,530 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/consumables/stats?_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:48,556 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/laboratories?page=1&page_size=1000&_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:48,687 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:48] "GET /api/consumables/stats?_t=1765540668360 HTTP/1.1" 200 -
+2025-12-12 19:57:51,956 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:51] "GET /api/consumables?page=1&page_size=20&search=&status=&_t=1765540671913 HTTP/1.1" 200 -
+2025-12-12 19:57:55,045 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:55] "GET /api/laboratories?page=1&page_size=200&_t=1765540674920 HTTP/1.1" 200 -
+2025-12-12 19:57:55,353 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:55] "GET /api/courses?page=1&page_size=200&_t=1765540674920 HTTP/1.1" 200 -
+2025-12-12 19:57:56,616 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:56] "GET /api/consumables/usage?page=1&page_size=20&_t=1765540676528 HTTP/1.1" 200 -
+2025-12-12 19:57:56,623 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:56] "GET /api/consumables?page_size=1000&_t=1765540676528 HTTP/1.1" 200 -
+2025-12-12 19:57:56,663 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:56] "GET /api/laboratories?page=1&page_size=1000&_t=1765540676528 HTTP/1.1" 200 -
+2025-12-12 19:57:56,710 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:57:56] "GET /api/consumables/usage/stats?_t=1765540676528 HTTP/1.1" 200 -
+2025-12-12 19:58:06,206 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:06] "DELETE /api/consumables/usage/1 HTTP/1.1" 200 -
+2025-12-12 19:58:06,293 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:06] "GET /api/consumables/usage?page=1&page_size=20&_t=1765540686220 HTTP/1.1" 200 -
+2025-12-12 19:58:06,381 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:06] "GET /api/consumables/usage/stats?_t=1765540686220 HTTP/1.1" 200 -
+2025-12-12 19:58:10,377 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories?page=1&page_size=20&_t=1765540690242 HTTP/1.1" 200 -
+2025-12-12 19:58:10,781 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,781 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,781 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,832 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories/7/equipment?_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,876 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories/5/equipment?_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,884 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories/4/equipment?_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,909 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=3&page=1&page_size=1&_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,932 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=1&page=1&page_size=1&_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,941 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories/3/equipment?_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,955 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/laboratories/1/equipment?_t=1765540690395 HTTP/1.1" 200 -
+2025-12-12 19:58:10,965 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:10] "GET /api/reservations?laboratory_id=5&page=1&page_size=1&_t=1765540690887 HTTP/1.1" 200 -
+2025-12-12 19:58:11,025 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:11] "GET /api/reservations?laboratory_id=7&page=1&page_size=1&_t=1765540690841 HTTP/1.1" 200 -
+2025-12-12 19:58:11,077 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:11] "GET /api/reservations?laboratory_id=4&page=1&page_size=1&_t=1765540690896 HTTP/1.1" 200 -
+2025-12-12 19:58:11,099 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:11] "GET /api/reservations?laboratory_id=3&page=1&page_size=4&_t=1765540690946 HTTP/1.1" 200 -
+2025-12-12 19:58:11,115 - werkzeug - INFO - 127.0.0.1 - - [12/Dec/2025 19:58:11] "GET /api/reservations?laboratory_id=1&page=1&page_size=2&_t=1765540690964 HTTP/1.1" 200 -
+2025-12-12 19:58:27,960 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\reservations.py', reloading
+2025-12-12 19:58:28,053 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:58:30,550 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:58:30,627 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:58:30,627 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:58:30,769 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:58:30,769 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:58:30,770 - __main__ - INFO - 调试模式: True
+2025-12-12 19:58:30,808 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:58:30,828 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 19:58:40,080 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app.py', reloading
+2025-12-12 19:58:40,171 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 19:58:43,586 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 19:58:43,652 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 19:58:43,653 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 19:58:43,748 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 19:58:43,749 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 19:58:43,749 - __main__ - INFO - 调试模式: True
+2025-12-12 19:58:43,781 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 19:58:43,801 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:00:08,134 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:00:08,240 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:00:10,436 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:00:10,488 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:00:10,499 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:00:10,613 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:00:10,613 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:00:10,613 - __main__ - INFO - 调试模式: True
+2025-12-12 20:00:10,654 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:00:10,672 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:03:22,193 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\debug_stats.py', reloading
+2025-12-12 20:03:22,267 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:03:24,663 - backend.database - ERROR - 创建数据库触发器失败: (1359, 'Trigger already exists')
+2025-12-12 20:03:24,814 - backend.database - ERROR - 创建数据库存储过程失败: (1304, 'PROCEDURE sp_use_consumable already exists')
+2025-12-12 20:03:24,853 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:03:24,937 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:03:24,937 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:03:24,937 - __main__ - INFO - 调试模式: True
+2025-12-12 20:03:24,968 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:03:24,986 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:04:57,049 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:04:57,107 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:04:57,107 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:04:57,153 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:04:57,153 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:04:57,153 - __main__ - INFO - 调试模式: True
+2025-12-12 20:04:57,176 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:04:57,177 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:04:57,190 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:04:58,302 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:04:58,366 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:04:58,366 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:04:58,394 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:04:58,398 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:04:58,398 - __main__ - INFO - 调试模式: True
+2025-12-12 20:04:58,405 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:04:58,409 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:06:00,783 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:06:00,842 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:06:00,842 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:06:00,879 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:06:00,879 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:06:00,879 - __main__ - INFO - 调试模式: True
+2025-12-12 20:06:00,900 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:06:00,900 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:06:00,902 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:06:02,120 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:06:02,207 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:06:02,207 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:06:02,241 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:06:02,241 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:06:02,241 - __main__ - INFO - 调试模式: True
+2025-12-12 20:06:02,250 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:06:02,255 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:08:04,691 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\validation.py', reloading
+2025-12-12 20:08:04,693 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\users.py', reloading
+2025-12-12 20:08:04,702 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\response.py', reloading
+2025-12-12 20:08:04,708 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\laboratories.py', reloading
+2025-12-12 20:08:04,709 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\__init__.py', reloading
+2025-12-12 20:08:04,726 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\equipment.py', reloading
+2025-12-12 20:08:04,732 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\courses.py', reloading
+2025-12-12 20:08:04,994 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:08:07,162 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:08:07,242 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:08:07,242 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:08:07,368 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:08:07,368 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:08:07,368 - __main__ - INFO - 调试模式: True
+2025-12-12 20:08:07,388 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:08:07,417 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:08:37,928 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\validation.py', reloading
+2025-12-12 20:08:37,933 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\validation.py', reloading
+2025-12-12 20:08:38,293 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\utils\\validation.py', reloading
+2025-12-12 20:08:38,390 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:08:38,646 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:08:40,319 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:08:40,368 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:08:40,368 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:08:40,383 - backend.database - ERROR - 创建数据库触发器失败: (1359, 'Trigger already exists')
+2025-12-12 20:08:40,445 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:08:40,445 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:08:40,466 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:08:40,467 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:08:40,469 - __main__ - INFO - 调试模式: True
+2025-12-12 20:08:40,490 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:08:40,509 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:08:40,554 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:08:40,558 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:08:40,558 - __main__ - INFO - 调试模式: True
+2025-12-12 20:08:40,594 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:08:40,614 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:09:09,996 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:09:10,052 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:09:10,052 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:09:10,077 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:09:10,077 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:09:10,077 - __main__ - INFO - 调试模式: True
+2025-12-12 20:09:10,096 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:09:10,096 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:09:10,105 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:09:11,136 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:09:11,190 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:09:11,190 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:09:11,216 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:09:11,217 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:09:11,217 - __main__ - INFO - 调试模式: True
+2025-12-12 20:09:11,223 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:09:11,228 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:11:24,277 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app.py', reloading
+2025-12-12 20:11:24,279 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app.py', reloading
+2025-12-12 20:11:24,613 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:11:24,873 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app.py', reloading
+2025-12-12 20:11:24,978 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:11:26,676 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:26,741 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:26,742 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:26,843 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:26,843 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:26,843 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:26,863 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:11:26,885 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:11:27,311 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:27,386 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:27,393 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:27,502 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:27,503 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:27,504 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:27,545 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:11:27,568 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:11:36,470 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:11:36,472 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:11:36,475 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:11:36,688 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:11:36,818 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:11:37,048 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:11:38,615 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:38,704 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:38,704 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:38,734 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:38,734 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:38,734 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:38,741 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:11:38,747 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:11:39,085 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:39,452 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:39,454 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:39,560 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:39,561 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:39,561 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:39,600 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:11:39,623 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:11:48,232 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:48,290 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:48,291 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:48,326 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:48,326 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:48,326 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:48,354 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:11:48,354 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:11:48,366 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:11:49,600 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:11:49,648 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:11:49,652 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:11:49,726 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:11:49,727 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:11:49,727 - __main__ - INFO - 调试模式: True
+2025-12-12 20:11:49,743 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:11:49,763 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:15:13,064 - werkzeug - INFO -  * Detected change in 'D:\\Anaconda\\Scripts\\conda-script.py', reloading
+2025-12-12 20:15:13,339 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:15:15,464 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:15:15,541 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:15:15,542 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:15:15,640 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:15:15,640 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:15:15,641 - __main__ - INFO - 调试模式: True
+2025-12-12 20:15:15,661 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:15:15,688 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:15:18,157 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:15:18,244 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:15:18,244 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:15:18,280 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:15:18,280 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:15:18,280 - __main__ - INFO - 调试模式: True
+2025-12-12 20:15:18,299 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:15:18,301 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:15:18,302 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:15:19,759 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:15:19,860 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:15:19,860 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:15:19,887 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:15:19,888 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:15:19,888 - __main__ - INFO - 调试模式: True
+2025-12-12 20:15:19,898 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:15:19,903 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:15:52,991 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:15:52,992 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:15:53,919 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:15:54,502 - werkzeug - INFO -  * Detected change in 'D:\\数据库\\lab-management-system\\backend\\app\\api\\upload.py', reloading
+2025-12-12 20:15:54,578 - werkzeug - INFO -  * Restarting with stat
+2025-12-12 20:15:55,468 - backend.database - ERROR - 创建数据库触发器失败: (1359, 'Trigger already exists')
+2025-12-12 20:15:55,545 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:15:55,546 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:15:55,640 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:15:55,641 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:15:55,641 - __main__ - INFO - 调试模式: True
+2025-12-12 20:15:55,657 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:15:55,673 - werkzeug - INFO -  * Debugger PIN: 634-280-622
+2025-12-12 20:15:56,583 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:15:56,661 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:15:56,661 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:15:56,787 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:15:56,789 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:15:56,789 - __main__ - INFO - 调试模式: True
+2025-12-12 20:15:56,825 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:15:56,842 - werkzeug - INFO -  * Debugger PIN: 307-506-191
+2025-12-12 20:16:05,952 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:16:06,011 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:16:06,012 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:16:06,092 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:16:06,093 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:16:06,093 - __main__ - INFO - 调试模式: True
+2025-12-12 20:16:06,151 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:3000
+ * Running on http://10.194.79.219:3000
+2025-12-12 20:16:06,152 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-12 20:16:06,173 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-12-12 20:16:07,652 - backend.database - INFO - 数据库触发器创建/更新完成
+2025-12-12 20:16:07,720 - backend.database - INFO - 数据库存储过程创建/更新完成
+2025-12-12 20:16:07,721 - app.db_migration - INFO - 数据库轻量迁移执行完成
+2025-12-12 20:16:07,806 - __main__ - INFO - 启动实验室管理系统后端服务...
+2025-12-12 20:16:07,806 - __main__ - INFO - 服务地址: http://0.0.0.0:3000
+2025-12-12 20:16:07,806 - __main__ - INFO - 调试模式: True
+2025-12-12 20:16:07,824 - werkzeug - WARNING -  * Debugger is active!
+2025-12-12 20:16:07,846 - werkzeug - INFO -  * Debugger PIN: 634-280-622

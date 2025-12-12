@@ -96,7 +96,6 @@ def logout():
     'name': {'required': True, 'type': 'string', 'min_length': 1, 'max_length': 100},
     'email': {'required': True, 'type': 'email'},
     'phone': {'required': False, 'type': 'phone'},
-    'role': {'required': False, 'type': 'string', 'choices': ['student', 'teacher', 'admin']},
     'course_id': {'required': False, 'type': 'integer', 'min_value': 1}
 })
 def register():
@@ -108,7 +107,7 @@ def register():
         name = data['name']
         email = data['email']
         phone = data.get('phone')
-        role = data.get('role', 'student')  # 默认为学生角色
+        role = 'student'  # 默认为学生角色，不允许通过API设置其他角色
         
         # 检查用户名是否已存在
         check_sql = "SELECT id FROM users WHERE username = %s"
@@ -363,3 +362,110 @@ def change_password():
     except Exception as e:
         logger.error(f"修改密码接口错误: {str(e)}")
         return error_response("修改密码失败，请稍后重试")
+
+@auth_bp.route('/forgot-password', methods=['POST'])
+@validate_json_data({
+    'email': {'required': True, 'type': 'email'}
+})
+def forgot_password():
+    """忘记密码（发送重置链接模拟）"""
+    try:
+        data = request.validated_data
+        email = data['email']
+        
+        # 检查邮箱是否存在
+        sql = "SELECT id, username FROM users WHERE email = %s"
+        result = execute_query(sql, (email,))
+        
+        # 出于安全考虑，即使邮箱不存在也返回成功
+        if not result['success'] or not result['data']:
+            # 模拟发送延迟
+            return success_response(None, "重置密码邮件已发送")
+            
+        user = result['data'][0]
+        
+        # 生成重置令牌
+        token = AuthUtils.generate_reset_token(user['id'], email)
+        
+        # TODO: 实际发送邮件逻辑
+        # 这里仅模拟发送成功，将Token输出到日志以便测试
+        logger.info(f"收到重置密码请求: {email}")
+        logger.info(f"重置密码链接(模拟): /reset-password?token={token}")
+        
+        return success_response(None, "重置密码邮件已发送")
+        
+    except Exception as e:
+        logger.error(f"忘记密码接口错误: {str(e)}")
+        return error_response("请求失败，请稍后重试")
+
+@auth_bp.route('/reset-password', methods=['POST'])
+@validate_json_data({
+    'token': {'required': True, 'type': 'string'},
+    'password': {'required': True, 'type': 'password', 'min_length': 6}
+})
+def reset_password():
+    """重置密码"""
+    try:
+        data = request.validated_data
+        token = data['token']
+        new_password = data['password']
+        
+        # 验证token
+        payload = AuthUtils.verify_token(token)
+        if not payload:
+            return error_response("重置链接无效或已过期", 400)
+            
+        # 检查token类型
+        if payload.get('type') != 'reset':
+            return error_response("无效的令牌类型", 400)
+            
+        user_id = payload.get('user_id')
+        if not user_id:
+            return error_response("无效的用户信息", 400)
+            
+        # 哈希新密码
+        hashed_password = AuthUtils.hash_password(new_password)
+        
+        # 更新密码
+        update_sql = "UPDATE users SET password = %s, updated_at = NOW() WHERE id = %s"
+        update_result = execute_update(update_sql, (hashed_password, user_id))
+        
+        if not update_result['success']:
+            logger.error(f"更新密码失败: {update_result.get('error')}")
+            return error_response("重置密码失败，请稍后重试")
+            
+        return success_response(None, "密码重置成功")
+        
+    except Exception as e:
+        logger.error(f"重置密码接口错误: {str(e)}")
+        return error_response("重置密码失败，请稍后重试")
+
+@auth_bp.route('/refresh-token', methods=['POST'])
+@require_auth
+def refresh_token():
+    """刷新令牌"""
+    try:
+        user_id = request.current_user.get('id') or request.current_user.get('user_id')
+        
+        # 查询用户最新信息
+        sql = "SELECT id, username, role FROM users WHERE id = %s AND status = 'active'"
+        result = execute_query(sql, (user_id,))
+        
+        if not result['success'] or not result['data']:
+            return unauthorized_response("用户不存在或已禁用")
+            
+        user = result['data'][0]
+        
+        # 生成新令牌
+        token_data = {
+            'id': user['id'],
+            'username': user['username'],
+            'role': user['role']
+        }
+        token = AuthUtils.generate_token(token_data)
+        
+        return success_response({'token': token}, "令牌刷新成功")
+        
+    except Exception as e:
+        logger.error(f"刷新令牌接口错误: {str(e)}")
+        return error_response("刷新令牌失败，请稍后重试")

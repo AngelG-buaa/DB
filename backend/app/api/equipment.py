@@ -25,7 +25,9 @@ equipment_bp = Blueprint('equipment', __name__)
     'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'laboratory_id': {'type': 'integer', 'min_value': 1},
     'status': {'type': 'string', 'choices': ['available', 'maintenance', 'damaged', 'retired']},
-    'search': {'type': 'string', 'max_length': 100}
+    'search': {'type': 'string', 'max_length': 100},
+    'purchase_date_start': {'type': 'date_string'},
+    'purchase_date_end': {'type': 'date_string'}
 })
 def get_equipment():
     """获取设备列表"""
@@ -48,6 +50,14 @@ def get_equipment():
         if status:
             where_conditions.append('e.status = %s')
             query_params.append(status)
+
+        if 'purchase_date_start' in params and params['purchase_date_start']:
+            where_conditions.append('e.purchase_date >= %s')
+            query_params.append(params['purchase_date_start'])
+            
+        if 'purchase_date_end' in params and params['purchase_date_end']:
+            where_conditions.append('e.purchase_date <= %s')
+            query_params.append(params['purchase_date_end'])
         
         if search:
             where_conditions.append('(e.name LIKE %s OR e.model LIKE %s OR e.serial_number LIKE %s OR e.description LIKE %s)')

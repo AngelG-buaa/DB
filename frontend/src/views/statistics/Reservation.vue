@@ -35,10 +35,10 @@
             placeholder="请选择状态"
             clearable
           >
-            <el-option label="待审核" value="Pending" />
-            <el-option label="已批准" value="Approved" />
-            <el-option label="已拒绝" value="Rejected" />
-            <el-option label="已完成" value="Completed" />
+            <el-option label="待审核" value="pending" />
+            <el-option label="已通过" value="confirmed" />
+            <el-option label="已取消" value="cancelled" />
+            <el-option label="已完成" value="completed" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -71,8 +71,8 @@
               <el-icon><Check /></el-icon>
             </div>
             <div class="stat-info">
-              <div class="stat-number">{{ reservationStats.approved }}</div>
-              <div class="stat-label">已批准</div>
+              <div class="stat-number">{{ reservationStats.confirmed }}</div>
+              <div class="stat-label">已通过</div>
             </div>
           </div>
         </el-card>
@@ -100,7 +100,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-number">{{ reservationStats.approvalRate }}%</div>
-              <div class="stat-label">批准率</div>
+              <div class="stat-label">通过率</div>
             </div>
           </div>
         </el-card>
@@ -157,11 +157,11 @@
       <el-table :data="detailData" stripe style="width: 100%">
         <el-table-column prop="lab_name" label="实验室" min-width="120" />
         <el-table-column prop="total_reservations" label="总预约数" width="100" />
-        <el-table-column prop="approved_count" label="已批准" width="80" />
+        <el-table-column prop="confirmed_count" label="已通过" width="80" />
         <el-table-column prop="pending_count" label="待审核" width="80" />
-        <el-table-column prop="rejected_count" label="已拒绝" width="80" />
+        <el-table-column prop="cancelled_count" label="已取消" width="80" />
         <el-table-column prop="completed_count" label="已完成" width="80" />
-        <el-table-column prop="approval_rate" label="批准率" width="80">
+        <el-table-column prop="approval_rate" label="通过率" width="80">
           <template #default="{ row }">
             {{ row.approval_rate }}%
           </template>
@@ -200,9 +200,9 @@ const filterForm = reactive({
 
 const reservationStats = reactive({
   total: 0,
-  approved: 0,
+  confirmed: 0,
   pending: 0,
-  rejected: 0,
+  cancelled: 0,
   completed: 0,
   approvalRate: 0
 })
@@ -229,11 +229,11 @@ const loadReservationStats = async () => {
     if (response.code === 200) {
       const dist = response.data.status_distribution || {}
       reservationStats.total = response.data.total_reservations || 0
-      reservationStats.approved = dist.confirmed || 0
+      reservationStats.confirmed = dist.confirmed || 0
       reservationStats.pending = dist.pending || 0
-      reservationStats.rejected = dist.cancelled || 0
+      reservationStats.cancelled = dist.cancelled || 0
       reservationStats.completed = dist.completed || 0
-      reservationStats.approvalRate = reservationStats.total > 0 ? ((reservationStats.approved / reservationStats.total) * 100).toFixed(1) : 0
+      reservationStats.approvalRate = reservationStats.total > 0 ? ((reservationStats.confirmed / reservationStats.total) * 100).toFixed(1) : 0
       initDailyTrendChart(response.data.daily_trend || response.data.by_date || [])
       initLabRankingChartData(response.data.laboratory_distribution || response.data.by_laboratory || [])
     }
@@ -256,25 +256,25 @@ const loadDetailData = async () => {
       for (const r of (res.data || [])) {
         const name = r.laboratory_name || '未知实验室'
         if (!groups[name]) {
-          groups[name] = { total: 0, approved: 0, pending: 0, rejected: 0, completed: 0 }
+          groups[name] = { total: 0, confirmed: 0, pending: 0, cancelled: 0, completed: 0 }
         }
         groups[name].total += 1
         const s = r.status
-        if (s === 'confirmed') groups[name].approved += 1
+        if (s === 'confirmed') groups[name].confirmed += 1
         else if (s === 'pending') groups[name].pending += 1
-        else if (s === 'cancelled') groups[name].rejected += 1
+        else if (s === 'cancelled') groups[name].cancelled += 1
         else if (s === 'completed') groups[name].completed += 1
       }
     }
     detailData.value = Object.keys(groups).map(name => {
       const g = groups[name]
-      const approvalRate = g.total > 0 ? Number(((g.approved / g.total) * 100).toFixed(1)) : 0
+      const approvalRate = g.total > 0 ? Number(((g.confirmed / g.total) * 100).toFixed(1)) : 0
       return {
         lab_name: name,
         total_reservations: g.total,
-        approved_count: g.approved,
+        confirmed_count: g.confirmed,
         pending_count: g.pending,
-        rejected_count: g.rejected,
+        cancelled_count: g.cancelled,
         completed_count: g.completed,
         approval_rate: approvalRate,
         utilization_rate: 0
@@ -297,9 +297,9 @@ const initStatusChart = () => {
       type: 'pie',
       radius: '60%',
       data: [
-        { value: reservationStats.approved, name: '已批准' },
+        { value: reservationStats.confirmed, name: '已通过' },
         { value: reservationStats.pending, name: '待审核' },
-        { value: reservationStats.rejected, name: '已拒绝' },
+        { value: reservationStats.cancelled, name: '已取消' },
         { value: reservationStats.completed, name: '已完成' }
       ],
       itemStyle: {

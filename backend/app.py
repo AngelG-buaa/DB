@@ -34,15 +34,12 @@ def create_app():
     
     # 启动时执行轻量数据库迁移，确保关键列存在
     try:
-        from app.db_migration import run as run_db_migration, _ensure_reservations_columns
+        from app.db_migration import run as run_db_migration
         run_db_migration()
-        try:
-            _ensure_reservations_columns()
-        except Exception:
-            pass
-    except Exception:
+    except Exception as e:
         # 迁移失败不阻止应用启动，详见日志
-        pass
+        import logging
+        logging.getLogger(__name__).error(f"数据库迁移执行失败: {str(e)}")
 
     # 注册蓝图
     from app.api.auth import auth_bp
@@ -53,6 +50,7 @@ def create_app():
     from app.api.courses import courses_bp
     from app.api.maintenance import maintenance_bp
     from app.api.consumables import consumables_bp
+    from app.api.upload import upload_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(users_bp, url_prefix='/api/users')
@@ -71,7 +69,24 @@ def create_app():
     app.register_blueprint(consumables_bp, url_prefix='/api/consumables')
     app.register_blueprint(reservations_bp, url_prefix='/api/reservations')
     app.register_blueprint(courses_bp, url_prefix='/api/courses')
+    app.register_blueprint(upload_bp, url_prefix='/api/upload')
     
+    # 静态文件服务：配置 static 目录
+    # 由于 app.py 在 d:\数据库\lab-management-system\backend\app.py (或 root?)
+    # 检测：backend/app.py 所在位置
+    # 如果 static 在 backend/static，且 app.py 在 backend/app.py，则 static_folder 应该是 'static'
+    # 但是我们用 create_app 工厂模式，通常 Flask(root_path=...)
+    
+    # 显式添加静态文件路由，以确保 static/avatars 可访问
+    from flask import send_from_directory
+    @app.route('/static/<path:filename>')
+    def serve_static(filename):
+        # backend/app.py 所在目录
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # backend/static 目录 (app.py 同级)
+        static_dir = os.path.join(current_dir, 'static')
+        return send_from_directory(static_dir, filename)
+
     # 健康检查端点
     @app.route('/health', methods=['GET'])
     def health_check():

@@ -631,34 +631,26 @@ const showDetail = async (row) => {
 
 const completeRecord = async (row) => {
   try {
-    await ElMessageBox.confirm('确定要标记此维修记录为已完成吗？', '确认完成', {
-      type: 'success'
+    await ElMessageBox.confirm('确定要标记此维修记录为已完成吗？这将同时把设备状态恢复为"可用"。', '确认完成', {
+      type: 'success',
+      confirmButtonText: '确定完成',
+      cancelButtonText: '取消'
     })
     
     const updateData = {
       actual_completion_date: dayjs().format('YYYY-MM-DD')
     }
     
-    try {
-      const response = await completeMaintenanceRecordApi(row.id, updateData)
-      if (response.code === 200) {
-        ElMessage.success('维修记录已标记为完成')
-        loadTableData()
-        loadStats()
-        return
-      }
-    } catch (e) {}
-
-    const response2 = await updateMaintenanceRecordApi(row.id, { status: 'completed', actual_completion_date: updateData.actual_completion_date })
-    if (response2.code === 200) {
-      ElMessage.success('维修记录已标记为完成')
+    const response = await completeMaintenanceRecordApi(row.id, updateData)
+    if (response.code === 200) {
+      ElMessage.success('维修记录已标记为完成，设备已恢复可用')
       loadTableData()
       loadStats()
-      return
     }
   } catch (error) {
     if (error !== 'cancel') {
-      ElMessage.error('完成操作失败')
+      const msg = error?.response?.data?.message || error?.message || '完成操作失败'
+      ElMessage.error(msg)
       console.error('完成维修记录失败:', error)
     }
   }

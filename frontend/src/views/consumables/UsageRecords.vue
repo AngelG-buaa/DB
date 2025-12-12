@@ -167,6 +167,14 @@
             >
               详情
             </el-button>
+            <el-button
+              type="danger"
+              size="small"
+              @click="handleDelete(row)"
+              v-if="canDelete(row)"
+            >
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -328,8 +336,10 @@ import {
   getConsumables
 } from '@/api/consumable'
 import { getLabsApi } from '@/api/lab'
+import { useUserStore } from '@/stores/user'
 
 // 响应式数据
+const userStore = useUserStore()
 const loading = ref(false)
 const submitting = ref(false)
 const tableData = ref([])
@@ -392,8 +402,7 @@ const dialogTitle = computed(() => isEdit.value ? '编辑使用记录' : '添加
 
 // 权限检查函数
 const hasPermission = (permission) => {
-  // 这里应该根据实际的权限系统来实现
-  return true
+  return userStore.hasPermission(permission)
 }
 
 // 检查是否可以编辑（例如：只能编辑今天的记录）
@@ -402,10 +411,11 @@ const canEdit = (row) => {
   return row.usageDate === today
 }
 
-// 检查是否可以删除（例如：只能删除今天的记录）
+// 检查是否可以删除
 const canDelete = (row) => {
-  const today = new Date().toISOString().split('T')[0]
-  return row.usageDate === today
+  if (hasPermission('consumable:delete')) return true
+  const currentUserId = userStore.userInfo?.id
+  return row.userId === currentUserId
 }
 
 // 加载数据
@@ -456,8 +466,8 @@ const loadStats = async () => {
   try {
     const response = await getConsumableUsageStats()
     const byMonth = response.data?.byMonth || []
-    stats.value.totalRecords = (response.data?.topConsumables || []).reduce((a, c) => a + (Number(c.count) || 0), 0)
-    stats.value.monthlyRecords = byMonth.find(m => m.month)?.count || 0
+    stats.value.totalRecords = response.data?.totalUsage || 0
+    stats.value.monthlyRecords = byMonth[0]?.count || 0
     stats.value.totalQuantity = 0
     stats.value.totalValue = 0
   } catch (error) {

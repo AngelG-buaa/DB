@@ -533,8 +533,7 @@ const formatTimeFromParts = (dateStr, timeStr) => {
 const getStatusType = (status) => {
   const statusMap = {
     pending: 'warning',
-    approved: 'success',
-    rejected: 'danger',
+    confirmed: 'success',
     completed: 'info',
     cancelled: 'info'
   }
@@ -544,8 +543,7 @@ const getStatusType = (status) => {
 const getStatusText = (status) => {
   const statusMap = {
     pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝',
+    confirmed: '已通过',
     completed: '已完成',
     cancelled: '已取消'
   }

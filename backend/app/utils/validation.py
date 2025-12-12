@@ -127,7 +127,7 @@ class Validator:
         return Validator.is_datetime_string(value, field_name, format)
     
     @staticmethod
-    def is_password(value: str, field_name: str = "密码", min_length: int = 6) -> str:
+    def is_password(value: str, field_name: str = "密码", min_length: int = 8) -> str:
         """密码验证"""
         if not isinstance(value, str):
             raise ValidationError(f"{field_name}必须是字符串", field_name)
@@ -135,9 +135,9 @@ class Validator:
         if len(value) < min_length:
             raise ValidationError(f"{field_name}长度不能少于{min_length}个字符", field_name)
         
-        # 可以添加更复杂的密码规则
-        # if not re.search(r'[A-Z]', value):
-        #     raise ValidationError(f"{field_name}必须包含至少一个大写字母", field_name)
+        # 密码复杂度规则：至少包含一个字母和一个数字
+        if not re.search(r'[a-zA-Z]', value) or not re.search(r'[0-9]', value):
+            raise ValidationError(f"{field_name}必须包含至少一个字母和一个数字", field_name)
         
         return value
 

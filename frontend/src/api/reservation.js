@@ -48,3 +48,7 @@ export const checkReservationConflictApi = (data) => {
 export const getReservationStatsApi = (params) => {
   return http.get('/reservations/statistics', params)
 }
+
+export const getMyReservationStatsApi = () => {
+  return http.get('/reservations/my-statistics')
+}

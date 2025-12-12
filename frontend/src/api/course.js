@@ -24,3 +24,7 @@ export const deleteCourseApi = (id) => {
 export const getCourseReservationsApi = (id, params) => {
   return http.get(`/courses/${id}/reservations`, params)
 }
+
+export const addStudentsToCourseApi = (id, data) => {
+  return http.post(`/courses/${id}/students`, data)
+}

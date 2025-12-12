@@ -45,8 +45,7 @@
             >
               <el-option label="全部状态" value="" />
               <el-option label="待审核" value="pending" />
-              <el-option label="已通过" value="approved" />
-              <el-option label="已拒绝" value="rejected" />
+              <el-option label="已通过" value="confirmed" />
               <el-option label="已取消" value="cancelled" />
               <el-option label="已完成" value="completed" />
             </el-select>
@@ -261,8 +260,16 @@ const loadLabOptions = async () => {
 
 const loadCalendarData = async () => {
   try {
-    const start = dayjs(currentDate.value).startOf(filterForm.viewType).format('YYYY-MM-DD')
-    const end = dayjs(currentDate.value).endOf(filterForm.viewType).format('YYYY-MM-DD')
+    let start, end
+    
+    if (filterForm.viewType === 'month') {
+      // For month view, load extra days to cover calendar grid
+      start = dayjs(currentDate.value).startOf('month').subtract(7, 'day').format('YYYY-MM-DD')
+      end = dayjs(currentDate.value).endOf('month').add(7, 'day').format('YYYY-MM-DD')
+    } else {
+      start = dayjs(currentDate.value).startOf(filterForm.viewType).format('YYYY-MM-DD')
+      end = dayjs(currentDate.value).endOf(filterForm.viewType).format('YYYY-MM-DD')
+    }
     
     const params = {
       start_date: start,
@@ -270,10 +277,7 @@ const loadCalendarData = async () => {
     }
     
     if (filterForm.labId) params.laboratory_id = filterForm.labId
-    if (filterForm.status) {
-      const map = { approved: 'confirmed', rejected: 'cancelled' }
-      params.status = map[filterForm.status] || filterForm.status
-    }
+    if (filterForm.status) params.status = filterForm.status
     if (filterForm.onlyMine) params.user_id = userInfo.value.id
     
     const response = await getReservationCalendarApi(params)
@@ -342,7 +346,6 @@ const cancelReservation = async () => {
       ElMessage.success('预约已取消')
       handleDetailClose()
       loadCalendarData()
-      loadStats()
     }
   } catch (error) {
     if (error !== 'cancel') {
@@ -358,7 +361,6 @@ const approveReservation = async () => {
       ElMessage.success('预约已通过')
       handleDetailClose()
       loadCalendarData()
-      loadStats()
     }
   } catch (error) {
     console.error('通过预约失败:', error)
@@ -383,7 +385,6 @@ const rejectReservation = async () => {
       ElMessage.success('预约已拒绝')
       handleDetailClose()
       loadCalendarData()
-      loadStats()
     }
   } catch (error) {
     if (error !== 'cancel') {
@@ -395,12 +396,12 @@ const rejectReservation = async () => {
 // 权限检查方法
 const canEdit = (reservation) => {
   return reservation.user_id === userInfo.value.id && 
-         ['pending', 'approved'].includes(reservation.status)
+         ['pending', 'confirmed'].includes(reservation.status)
 }
 
 const canCancel = (reservation) => {
   return reservation.user_id === userInfo.value.id && 
-         ['pending', 'approved'].includes(reservation.status)
+         ['pending', 'confirmed'].includes(reservation.status)
 }
 
 const canApprove = (reservation) => {
@@ -429,8 +430,7 @@ const formatDateTime = (datetime) => {
 const getStatusType = (status) => {
   const statusMap = {
     pending: 'warning',
-    approved: 'success',
-    rejected: 'danger',
+    confirmed: 'success',
     cancelled: 'info',
     completed: 'success'
   }
@@ -440,8 +440,7 @@ const getStatusType = (status) => {
 const getStatusText = (status) => {
   const statusMap = {
     pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝',
+    confirmed: '已通过',
     cancelled: '已取消',
     completed: '已完成'
   }
@@ -560,16 +559,10 @@ onMounted(() => {
         border: 1px solid #f5dab1;
       }
       
-      &.status-approved {
+      &.status-confirmed {
         background: #f0f9ff;
         color: #409eff;
         border: 1px solid #b3d8ff;
-      }
-      
-      &.status-rejected {
-        background: #fef0f0;
-        color: #f56c6c;
-        border: 1px solid #fbc4c4;
       }
       
       &.status-cancelled {

@@ -103,14 +103,45 @@
         />
       </div>
     </el-card>
-    <el-dialog v-model="studentsDialogVisible" title="学生列表" width="600px">
-      <div v-if="currentCourseStudents.length === 0">暂无学生数据</div>
-      <el-table v-else :data="currentCourseStudents" stripe>
-        <el-table-column prop="id" label="学生ID" width="120" />
+    <el-dialog v-model="studentsDialogVisible" title="学生管理" width="700px">
+      <div style="margin-bottom: 15px;">
+        <el-button type="primary" size="small" @click="openAddStudentDialog">
+          <el-icon style="margin-right: 5px"><Plus /></el-icon>添加学生
+        </el-button>
+      </div>
+      <el-table :data="currentCourseStudents" stripe height="400px">
+        <el-table-column prop="id" label="学生ID" width="100" />
         <el-table-column prop="name" label="姓名" />
+        <el-table-column prop="username" label="学号/用户名" />
+        <el-table-column prop="email" label="邮箱" min-width="150" />
       </el-table>
       <template #footer>
         <el-button @click="studentsDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="addStudentDialogVisible" title="添加学生" width="500px" append-to-body>
+      <el-form>
+        <el-form-item label="选择学生">
+           <el-select 
+             v-model="selectedStudentIds" 
+             multiple 
+             filterable 
+             placeholder="请搜索并选择学生"
+             style="width: 100%"
+           >
+              <el-option 
+                v-for="s in allStudents" 
+                :key="s.id" 
+                :label="s.name + ' (' + s.username + ')'" 
+                :value="s.id" 
+              />
+           </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="addStudentDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmAddStudents" :loading="addingStudent">确定</el-button>
       </template>
     </el-dialog>
   </div>
@@ -121,7 +152,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { getCoursesApi, deleteCourseApi, getCourseByIdApi } from '@/api/course'
+import { getCoursesApi, deleteCourseApi, getCourseByIdApi, addStudentsToCourseApi } from '@/api/course'
 import { getUsersApi } from '@/api/user'
 
 const router = useRouter()
@@ -139,6 +170,15 @@ const pagination = reactive({
   size: 20,
   total: 0
 })
+
+// 学生管理相关
+const studentsDialogVisible = ref(false)
+const addStudentDialogVisible = ref(false)
+const currentCourseStudents = ref([])
+const currentCourseId = ref(null)
+const allStudents = ref([])
+const selectedStudentIds = ref([])
+const addingStudent = ref(false)
 
 const loadCourses = async () => {
   try {
@@ -201,10 +241,8 @@ const handleEdit = (row) => {
   router.push({ path: '/course/create', query: { edit: row.course_id } })
 }
 
-const studentsDialogVisible = ref(false)
-const currentCourseStudents = ref([])
-
 const handleViewStudents = async (row) => {
+  currentCourseId.value = row.course_id
   try {
     const res = await getCourseByIdApi(row.course_id)
     if (res.code === 200) {
@@ -217,6 +255,52 @@ const handleViewStudents = async (row) => {
     currentCourseStudents.value = []
     studentsDialogVisible.value = true
     ElMessage.error('加载学生列表失败')
+  }
+}
+
+const loadStudents = async () => {
+  if (allStudents.value.length > 0) return
+  try {
+    const res = await getUsersApi({ page: 1, page_size: 1000, role: 'student' })
+    if (res.code === 200) {
+      allStudents.value = res.data.list || []
+    }
+  } catch (error) {
+    ElMessage.error('加载学生数据失败')
+  }
+}
+
+const openAddStudentDialog = async () => {
+  selectedStudentIds.value = []
+  addStudentDialogVisible.value = true
+  await loadStudents()
+}
+
+const confirmAddStudents = async () => {
+  if (selectedStudentIds.value.length === 0) {
+    ElMessage.warning('请至少选择一名学生')
+    return
+  }
+  
+  try {
+    addingStudent.value = true
+    const res = await addStudentsToCourseApi(currentCourseId.value, {
+      student_ids: selectedStudentIds.value
+    })
+    
+    if (res.code === 201) {
+      ElMessage.success(res.message || '添加学生成功')
+      addStudentDialogVisible.value = false
+      // 刷新学生列表
+      const courseRes = await getCourseByIdApi(currentCourseId.value)
+      if (courseRes.code === 200) {
+        currentCourseStudents.value = courseRes.data?.students || []
+      }
+    }
+  } catch (error) {
+    ElMessage.error('添加学生失败')
+  } finally {
+    addingStudent.value = false
   }
 }
 

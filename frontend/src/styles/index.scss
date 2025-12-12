@@ -238,11 +238,11 @@ html, body {
     color: var(--warning-color);
   }
   
-  &.approved {
+  &.confirmed {
     color: var(--success-color);
   }
   
-  &.rejected {
+  &.cancelled {
     color: var(--danger-color);
   }
   

@@ -23,16 +23,18 @@ logger = logging.getLogger(__name__)
 # ===== 直连配置（与官方文档一致的方式） =====
 # 请填写正确且可达的数据库地址与端口，数据库名为您在华为云实例中的库名。
 # 用户名、密码将从系统环境变量读取（例如 DB_USER、DB_PASSWORD），不使用 .env 文件。
-TAURUS_HOST = os.getenv('TAURUS_HOST', '192.168.0.121')  # 如有公网地址，请改为公网地址
+TAURUS_HOST = os.getenv('TAURUS_HOST', '124.70.86.207')  # 默认使用公网地址
 TAURUS_PORT = int(os.getenv('TAURUS_PORT', '3306'))
 TAURUS_DB = os.getenv('TAURUS_DB', 'h_db23373478')
+TAURUS_USER = os.getenv('TAURUS_USER', 'u23373478')
+TAURUS_PASSWORD = os.getenv('TAURUS_PASSWORD', 'Aa614026')
 
 DB_DSN = {
-    'host': "124.70.86.207",
-    'port': 3306,
-    'user': "u23373478",
-    'password': "Aa614026",
-    'database': "h_db23373478",
+    'host': TAURUS_HOST,
+    'port': TAURUS_PORT,
+    'user': TAURUS_USER,
+    'password': TAURUS_PASSWORD,
+    'database': TAURUS_DB,
     'charset': 'utf8',
     'autocommit': True
 }

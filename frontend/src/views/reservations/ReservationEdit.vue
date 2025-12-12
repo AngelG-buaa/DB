@@ -98,6 +98,29 @@
           />
         </el-form-item>
 
+        <el-form-item label="所需设备" prop="equipmentIds">
+          <el-select
+            v-model="reservationForm.equipmentIds"
+            multiple
+            placeholder="请选择所需设备（可选）"
+            style="width: 100%"
+            collapse-tags
+            collapse-tags-tooltip
+          >
+            <el-option
+              v-for="item in equipmentOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+              <span>{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">
+                {{ item.model }}
+              </span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="课程" prop="courseId">
           <el-select
             v-model="reservationForm.courseId"
@@ -190,7 +213,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
@@ -219,8 +242,14 @@ const reservationForm = reactive({
   endTime: '',
   purpose: '',
   courseId: '',
+  equipmentIds: [],
   expectedPeople: 1,
   remarks: ''
+})
+
+const equipmentOptions = computed(() => {
+  if (!selectedLab.value || !selectedLab.value.equipment) return []
+  return selectedLab.value.equipment
 })
 
 const reservationRules = {
@@ -297,7 +326,8 @@ const handleSubmit = async () => {
       end_time: reservationForm.endTime,
       purpose: reservationForm.purpose,
       participant_count: reservationForm.expectedPeople,
-      remarks: reservationForm.remarks
+      remarks: reservationForm.remarks,
+      equipment_ids: reservationForm.equipmentIds
     }
 
     if (reservationForm.courseId) {
@@ -347,6 +377,8 @@ const loadDetail = async () => {
       reservationForm.expectedPeople = d.expected_people
       reservationForm.remarks = d.remarks || ''
       reservationForm.courseId = d.course_id || ''
+      // Map equipment objects to IDs if present
+      reservationForm.equipmentIds = d.equipment ? d.equipment.map(e => e.id) : []
       handleLabChange(reservationForm.labId)
     }
   } catch (error) {

@@ -106,7 +106,10 @@ export const useUserStore = defineStore('user', () => {
           'reservation:create',
           'reservation:approve',
           'consumable:view',
+          'consumable:create',
+          'consumable:update',
           'consumable:use',
+          'consumable:restock',
           'course:manage',
           'statistics:view'
         ]
@@ -127,7 +130,14 @@ export const useUserStore = defineStore('user', () => {
   
   // 检查权限
   const hasPermission = (permission) => {
-    return permissions.value.includes(permission)
+    if (!permission) return true
+    if (permissions.value.includes(permission)) return true
+    
+    // 检查是否有管理权限 (e.g. consumable:manage 包含 consumable:create)
+    const [resource] = permission.split(':')
+    if (resource && permissions.value.includes(`${resource}:manage`)) return true
+    
+    return false
   }
   
   // 检查角色

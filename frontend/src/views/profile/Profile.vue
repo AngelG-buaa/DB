@@ -288,7 +288,7 @@ import { ElMessage } from 'element-plus'
 import { User } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { updateUserInfoApi, changePasswordApi } from '@/api/auth'
-import { getMyReservationsApi } from '@/api/reservation'
+import { getMyReservationsApi, getMyReservationStatsApi } from '@/api/reservation'
 
 const userStore = useUserStore()
 
@@ -387,7 +387,8 @@ const passwordRules = {
   ],
   newPassword: [
     { required: true, message: '请输入新密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' }
+    { min: 8, max: 20, message: '密码长度在 8 到 20 个字符', trigger: 'blur' },
+    { pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).*$/, message: '密码必须包含字母和数字', trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: '请再次输入新密码', trigger: 'blur' },
@@ -507,16 +508,16 @@ const beforeAvatarUpload = (file) => {
 
 const loadUserStats = async () => {
   try {
-    const res = await getMyReservationsApi({ page: 1, page_size: 100 })
+    const res = await getMyReservationStatsApi()
     if (res.code === 200) {
-      const list = res.data.list || []
-      userStats.totalReservations = list.length
-      userStats.activeReservations = list.filter(i => i.status === 'confirmed' || i.status === 'approved').length
-      userStats.completedReservations = list.filter(i => i.status === 'completed').length
-      userStats.cancelledReservations = list.filter(i => i.status === 'cancelled').length
+      userStats.totalReservations = res.data.total
+      // active = pending + confirmed
+      userStats.activeReservations = (res.data.pending || 0) + (res.data.confirmed || 0)
+      userStats.completedReservations = res.data.completed || 0
+      userStats.cancelledReservations = res.data.cancelled || 0
     }
   } catch (error) {
-    
+    console.error('加载用户统计数据失败:', error)
   }
 }
 

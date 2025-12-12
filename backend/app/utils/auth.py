@@ -40,20 +40,23 @@ class AuthUtils:
             return False
     
     @staticmethod
-    def generate_token(user_data: Dict[str, Any]) -> str:
+    def generate_token(user_data: Dict[str, Any], expires_in: int = None) -> str:
         """生成JWT令牌"""
         try:
             # 获取配置
             secret_key = current_app.config['SECRET_KEY']
-            # 支持类似 '3600', '15m', '24h', '7d' 的过期时间配置
-            expires_in_raw = os.getenv('JWT_EXPIRES_IN', '86400')
-            expires_in = AuthUtils._parse_expires_in(expires_in_raw)
+            
+            # 如果未指定过期时间，使用配置或默认值
+            if expires_in is None:
+                expires_in_raw = os.getenv('JWT_EXPIRES_IN', '86400')
+                expires_in = AuthUtils._parse_expires_in(expires_in_raw)
             
             # 构建payload
             payload = {
                 'user_id': user_data.get('id'),
                 'username': user_data.get('username'),
                 'role': user_data.get('role', 'student'),
+                'type': user_data.get('type', 'access'),  # 添加令牌类型
                 'iat': datetime.utcnow(),
                 'exp': datetime.utcnow() + timedelta(seconds=expires_in)
             }
@@ -64,6 +67,17 @@ class AuthUtils:
         except Exception as e:
             logger.error(f"JWT令牌生成失败: {str(e)}")
             raise
+
+    @staticmethod
+    def generate_reset_token(user_id: int, email: str) -> str:
+        """生成重置密码令牌 (有效期1小时)"""
+        return AuthUtils.generate_token({
+            'id': user_id,
+            'username': email,  # 复用username字段存储email，或者忽略
+            'role': 'guest',
+            'type': 'reset'
+        }, expires_in=3600)
+
 
     @staticmethod 
     def _parse_expires_in(value: str) -> int:

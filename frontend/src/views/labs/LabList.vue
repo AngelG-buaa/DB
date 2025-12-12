@@ -124,10 +124,17 @@
         <el-table-column
           v-if="hasPermission(['admin', 'teacher'])"
           label="操作"
-          width="160"
+          width="220"
           fixed="right"
         >
           <template #default="{ row }">
+            <el-button
+              type="primary"
+              size="small"
+              @click="showEditDialog(row)"
+            >
+              编辑
+            </el-button>
             <el-button
               type="success"
               size="small"
@@ -350,6 +357,7 @@ import { useUserStore } from '@/stores/user'
 import {
   getLabsApi,
   createLabApi,
+  updateLabApi,
   deleteLabApi,
   getLabByIdApi,
   getLabAvailabilityApi,
@@ -365,6 +373,7 @@ const userStore = useUserStore()
 const tableLoading = ref(false)
 const submitLoading = ref(false)
 const dialogVisible = ref(false)
+const isEdit = ref(false)
 const detailDialogVisible = ref(false)
 const availabilityDialogVisible = ref(false)
 const tableData = ref([])
@@ -417,7 +426,7 @@ const availabilityForm = reactive({
 const userInfo = computed(() => userStore.userInfo)
 
 const dialogTitle = computed(() => {
-  return '新建实验室'
+  return isEdit.value ? '编辑实验室' : '新建实验室'
 })
 
 // 表单验证规则
@@ -533,12 +542,27 @@ const handleCurrentChange = (page) => {
 }
 
 const showCreateDialog = () => {
+  isEdit.value = false
   resetForm()
   loadUserOptions()
   dialogVisible.value = true
 }
 
-// 编辑功能已移除
+const showEditDialog = (row) => {
+  isEdit.value = true
+  resetForm()
+  loadUserOptions()
+  
+  labForm.id = row.id
+  labForm.name = row.name
+  labForm.location = row.location
+  labForm.capacity = row.capacity
+  labForm.manager_id = row.manager_id
+  labForm.status = row.status
+  labForm.description = row.description
+  
+  dialogVisible.value = true
+}
 
 const showDetail = async (row) => {
   try {
@@ -621,9 +645,16 @@ const handleSubmit = async () => {
       status: labForm.status,
       manager_id: labForm.manager_id
     }
-    const response = await createLabApi(payload)
+    
+    let response
+    if (isEdit.value) {
+      response = await updateLabApi(labForm.id, payload)
+    } else {
+      response = await createLabApi(payload)
+    }
+    
     if (response.code === 200) {
-      ElMessage.success('创建成功')
+      ElMessage.success(isEdit.value ? '更新成功' : '创建成功')
       dialogVisible.value = false
       loadTableData()
     }

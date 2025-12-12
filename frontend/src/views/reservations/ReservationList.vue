@@ -45,8 +45,7 @@
               style="width: 150px"
             >
               <el-option label="待审核" value="pending" />
-              <el-option label="已通过" value="approved" />
-              <el-option label="已拒绝" value="rejected" />
+              <el-option label="已通过" value="confirmed" />
               <el-option label="已完成" value="completed" />
               <el-option label="已取消" value="cancelled" />
             </el-select>
@@ -563,7 +562,7 @@ const canReject = (row) => {
 const canCancel = (row) => {
   const userInfo = userStore.userInfo
   return (
-    (row.status === 'pending' || row.status === 'approved') &&
+    (row.status === 'pending' || row.status === 'confirmed') &&
     (userInfo.role === 'admin' || row.user_id === userInfo.id)
   )
 }
@@ -601,8 +600,7 @@ const formatTimeFromParts = (dateStr, timeStr) => {
 const getStatusType = (status) => {
   const statusMap = {
     pending: 'warning',
-    approved: 'success',
-    rejected: 'danger',
+    confirmed: 'success',
     completed: 'info',
     cancelled: 'info'
   }
@@ -612,8 +610,7 @@ const getStatusType = (status) => {
 const getStatusText = (status) => {
   const statusMap = {
     pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝',
+    confirmed: '已通过',
     completed: '已完成',
     cancelled: '已取消'
   }
