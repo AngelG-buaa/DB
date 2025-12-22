@@ -424,7 +424,8 @@ import {
   updateMaintenanceRecordApi,
   deleteMaintenanceRecordApi,
   getMaintenanceRecordByIdApi,
-  getMaintenanceStatsApi
+  getMaintenanceStatsApi,
+  completeMaintenanceRecordApi
 } from '@/api/maintenance'
 import { getEquipmentApi } from '@/api/equipment'
 

@@ -233,7 +233,7 @@ def get_laboratory_equipment(lab_id):
                 'serial_number': e['serial_number'],
                 'status': e['status'],
                 'purchase_date': e['purchase_date'].isoformat() if e.get('purchase_date') else None,
-                'warranty_date': e['warranty_date'].isoformat() if e.get('warranty_date') else None,
+                'warranty_date': e['warranty_date'].isoformat() if e.get('warranty_date') and str(e['warranty_date']) != '0000-00-00' else None,
                 'created_at': e['created_at'].isoformat() if e.get('created_at') else None,
                 'updated_at': e['updated_at'].isoformat() if e.get('updated_at') else None,
             })

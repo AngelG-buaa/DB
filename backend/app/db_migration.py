@@ -123,9 +123,11 @@ def run():
         logger.error(f"数据库迁移执行失败: {str(e)}")
 
 def _ensure_equipment_table():
-    """确保 equipment 表存在关键列 warranty_date"""
+    """确保 equipment 表存在关键列 warranty_date 和 price"""
     try:
         cols = set(_get_existing_columns('equipment'))
+        
+        # 检查 warranty_date
         if 'warranty_date' not in cols:
             # 若存在 warranty_expiry，重命名，否则直接添加
             res = execute_query(
@@ -137,30 +139,23 @@ def _ensure_equipment_table():
                 r = execute_update(alter)
                 if r['success']:
                     logger.info("✅ equipment.warranty_expiry 重命名为 warranty_date")
-                    return
                 else:
                     logger.warning(f"⚠️ 重命名 warranty_date 失败: {r.get('error')}")
-
-            # 若存在 warranty_period（月数），先添加列，再回填
-            res2 = execute_query(
-                "SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='equipment' AND COLUMN_NAME='warranty_period' LIMIT 1",
-                (db_config.database,)
-            )
-            add = execute_update("ALTER TABLE equipment ADD COLUMN warranty_date DATE NULL AFTER purchase_date")
-            if add['success']:
-                logger.info("✅ equipment.warranty_date 列已添加")
-                if res2['success'] and res2['data']:
-                    fill = execute_update(
-                        "UPDATE equipment SET warranty_date = CASE WHEN purchase_date IS NOT NULL AND warranty_period IS NOT NULL THEN DATE_ADD(purchase_date, INTERVAL warranty_period MONTH) ELSE warranty_date END"
-                    )
-                    if fill['success']:
-                        logger.info("✅ warranty_date 已根据 warranty_period 回填")
-                    else:
-                        logger.warning(f"⚠️ 回填 warranty_date 失败: {fill.get('error')}")
             else:
-                logger.warning(f"⚠️ 添加 warranty_date 失败: {add.get('error')}")
+                add = execute_update("ALTER TABLE equipment ADD COLUMN warranty_date DATE NULL AFTER purchase_date")
+                if add['success']:
+                     logger.info("✅ equipment 表添加 warranty_date 列")
+        
+        # 检查 price
+        if 'price' not in cols:
+            add_price = execute_update("ALTER TABLE equipment ADD COLUMN price DECIMAL(10, 2) DEFAULT 0.00 AFTER status")
+            if add_price['success']:
+                logger.info("✅ equipment 表添加 price 列")
+            else:
+                logger.warning(f"⚠️ 添加 price 列失败: {add_price.get('error')}")
+
     except Exception as e:
-        logger.error(f"equipment 列迁移异常: {str(e)}")
+        logger.error(f"检查 equipment 表结构失败: {e}")
 
 def _ensure_equipment_repair_table():
     """若缺失，则创建 equipment_repair 表"""

@@ -26,6 +26,7 @@ users_bp = Blueprint('users', __name__)
     'page_size': {'type': 'integer', 'min_value': 1, 'max_value': 1000, 'default': 10},
     'role': {'type': 'string', 'choices': ['student', 'teacher', 'admin']},
     'status': {'type': 'string', 'choices': ['active', 'inactive']},
+    'course_id': {'type': 'integer', 'min_value': 1},
     'search': {'type': 'string', 'max_length': 100}
 })
 def get_users():
@@ -36,6 +37,7 @@ def get_users():
         page_size = params['page_size']
         role = params.get('role')
         status = params.get('status')
+        course_id = params.get('course_id')
         search = params.get('search')
         
         # 构建查询条件
@@ -56,13 +58,28 @@ def get_users():
             query_params.extend([search_param, search_param, search_param])
         
         # 构建SQL
-        base_sql = """
-        SELECT id, username, name, email, phone, role, status, created_at, updated_at
-        FROM users
-        """
-        
-        if where_conditions:
-            base_sql += ' WHERE ' + ' AND '.join(where_conditions)
+        if course_id:
+            # 如果指定了课程ID，通过课程学生关联表查询
+            base_sql = """
+            SELECT DISTINCT u.id, u.username, u.name, u.email, u.phone, u.role, u.status, u.created_at, u.updated_at
+            FROM users u
+            INNER JOIN course_students cs ON u.id = cs.student_id
+            WHERE cs.course_id = %s
+            """
+            query_params.insert(0, course_id)
+            
+            # 添加其他条件
+            if where_conditions:
+                base_sql += ' AND ' + ' AND '.join(where_conditions)
+        else:
+            # 普通查询
+            base_sql = """
+            SELECT id, username, name, email, phone, role, status, created_at, updated_at
+            FROM users
+            """
+            
+            if where_conditions:
+                base_sql += ' WHERE ' + ' AND '.join(where_conditions)
         
         base_sql += ' ORDER BY created_at DESC'
         

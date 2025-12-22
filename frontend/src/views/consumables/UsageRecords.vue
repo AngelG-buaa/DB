@@ -118,10 +118,6 @@
             <el-icon><Refresh /></el-icon>
             重置
           </el-button>
-          <el-button type="success" @click="handleExport">
-            <el-icon><Download /></el-icon>
-            导出
-          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -324,7 +320,7 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Plus, Search, Refresh, Download, Document, Calendar, TrendCharts, Money
+  Plus, Search, Refresh, Document, Calendar, TrendCharts, Money
 } from '@element-plus/icons-vue'
 import { 
   getConsumableUsageRecords,
@@ -332,7 +328,6 @@ import {
   updateConsumableUsage,
   deleteConsumableUsage,
   getConsumableUsageStats,
-  exportConsumableUsage,
   getConsumables
 } from '@/api/consumable'
 import { getLabsApi } from '@/api/lab'
@@ -491,24 +486,6 @@ const handleReset = () => {
   })
   pagination.page = 1
   loadData()
-}
-
-// 导出
-const handleExport = async () => {
-  try {
-    const params = {
-      consumable_id: searchForm.consumableId,
-      laboratory_id: searchForm.labId,
-      user_id: searchForm.userId,
-      date_from: searchForm.usageDateRange?.[0],
-      date_to: searchForm.usageDateRange?.[1]
-    }
-    
-    await exportConsumableUsage(params)
-    ElMessage.success('导出成功')
-  } catch (error) {
-    ElMessage.error('导出失败')
-  }
 }
 
 // 分页处理

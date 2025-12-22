@@ -33,6 +33,16 @@
               <el-option label="管理员" value="Admin" />
             </el-select>
           </el-form-item>
+          <el-form-item label="用户状态">
+            <el-select
+              v-model="searchForm.status"
+              placeholder="请选择用户状态"
+              clearable
+            >
+              <el-option label="启用" value="active" />
+              <el-option label="禁用" value="inactive" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="课程">
             <el-select
               v-model="searchForm.course_id"
@@ -71,10 +81,13 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="course_name" label="所属课程" min-width="150" />
-        <el-table-column prop="major" label="专业" min-width="120" />
-        <el-table-column prop="grade" label="年级" width="80" />
-        <el-table-column prop="created_at" label="创建时间" width="160" />
+        <el-table-column prop="status" label="状态" width="80">
+          <template #default="{ row }">
+            <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
+              {{ row.status === 'active' ? '启用' : '禁用' }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
             <el-button
@@ -127,6 +140,7 @@ const courses = ref([])
 const searchForm = reactive({
   user_name: '',
   user_type: '',
+  status: '',
   course_id: null
 })
 
@@ -161,6 +175,8 @@ const loadUsers = async () => {
       page: pagination.page,
       page_size: pagination.size,
       role: (searchForm.user_type || '').toLowerCase() || undefined,
+      status: searchForm.status || undefined,
+      course_id: searchForm.course_id || undefined,
       search: searchForm.user_name || undefined
     }
     const response = await getUsersApi(params)
@@ -170,6 +186,7 @@ const loadUsers = async () => {
         user_id: u.id,
         user_name: u.name || u.username,
         user_type: (u.role || '').replace(/^\w/, c => c.toUpperCase()),
+        status: u.status,
         created_at: u.created_at
       }))
       pagination.total = response.data.total || 0
@@ -201,6 +218,7 @@ const handleReset = () => {
   Object.assign(searchForm, {
     user_name: '',
     user_type: '',
+    status: '',
     course_id: null
   })
   pagination.page = 1

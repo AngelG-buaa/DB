@@ -526,6 +526,13 @@ const handleDelete = async (row) => {
     
     if (response.code === 200) {
       ElMessage.success('预约删除成功')
+      // 立即从列表中移除该项，避免刷新延迟
+      const index = reservationList.value.findIndex(item => item.id === row.id)
+      if (index !== -1) {
+        reservationList.value.splice(index, 1)
+        pagination.total -= 1
+      }
+      // 重新加载以确保同步
       loadReservations()
     }
   } catch (error) {

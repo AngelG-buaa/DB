@@ -64,6 +64,10 @@ def get_reservations():
         if status:
             where_conditions.append('r.status = %s')
             query_params.append(status)
+        else:
+            # 默认不显示已取消的预约
+            where_conditions.append('r.status != %s')
+            query_params.append('cancelled')
         
         if date_from:
             where_conditions.append('r.reservation_date >= %s')

@@ -187,6 +187,7 @@ const handleSubmit = async () => {
       serial_number: form.serial_number,
       laboratory_id: form.lab_id,
       status: statusMap[form.equip_status],
+      price: form.price,
       purchase_date: form.buy_date,
       description: ''
     }

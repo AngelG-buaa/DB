@@ -50,7 +50,6 @@ def create_app():
     from app.api.courses import courses_bp
     from app.api.maintenance import maintenance_bp
     from app.api.consumables import consumables_bp
-    from app.api.upload import upload_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(users_bp, url_prefix='/api/users')
@@ -69,7 +68,6 @@ def create_app():
     app.register_blueprint(consumables_bp, url_prefix='/api/consumables')
     app.register_blueprint(reservations_bp, url_prefix='/api/reservations')
     app.register_blueprint(courses_bp, url_prefix='/api/courses')
-    app.register_blueprint(upload_bp, url_prefix='/api/upload')
     
     # 静态文件服务：配置 static 目录
     # 由于 app.py 在 d:\数据库\lab-management-system\backend\app.py (或 root?)

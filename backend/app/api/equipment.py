@@ -67,7 +67,7 @@ def get_equipment():
         # 构建SQL
         base_sql = """
         SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
-               e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
+               e.price, e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
                e.laboratory_id,
                l.name as laboratory_name, l.location as laboratory_location
         FROM equipment e
@@ -96,8 +96,9 @@ def get_equipment():
                 'serial_number': eq['serial_number'],
                 'description': eq['description'],
                 'status': eq['status'],
+                'price': float(eq['price']) if eq.get('price') is not None else 0.0,
                 'purchase_date': eq['purchase_date'].isoformat() if eq['purchase_date'] else None,
-                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] else None,
+                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] and str(eq['warranty_date']) != '0000-00-00' else None,
                 'laboratory_id': eq.get('laboratory_id'),
                 'laboratory': {
                     'name': eq['laboratory_name'],
@@ -143,8 +144,9 @@ def get_equipment_detail(equipment_id):
             'serial_number': eq['serial_number'],
             'description': eq['description'],
             'status': eq['status'],
+            'price': float(eq['price']) if eq.get('price') is not None else 0.0,
             'purchase_date': eq['purchase_date'].isoformat() if eq['purchase_date'] else None,
-            'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] else None,
+            'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] and str(eq['warranty_date']) != '0000-00-00' else None,
             'laboratory_id': eq['laboratory_id'],
             'laboratory': {
                 'name': eq['laboratory_name'],
@@ -216,6 +218,7 @@ def get_equipment_maintenance_list(equipment_id):
     'laboratory_id': {'required': True, 'type': 'integer', 'min_value': 1},
     'description': {'required': False, 'type': 'string', 'max_length': 500},
     'status': {'required': False, 'type': 'string', 'choices': ['available', 'maintenance', 'damaged', 'retired']},
+    'price': {'required': False, 'type': 'number', 'min_value': 0},
     'purchase_date': {'required': False, 'type': 'date_string'},
     'warranty_date': {'required': False, 'type': 'date_string'}
 })
@@ -229,6 +232,7 @@ def create_equipment():
         laboratory_id = data['laboratory_id']
         description = data.get('description', '')
         status = data.get('status', 'available')
+        price = data.get('price', 0.0)
         purchase_date = data.get('purchase_date')
         warranty_date = data.get('warranty_date')
         
@@ -255,12 +259,12 @@ def create_equipment():
         # 插入新设备
         insert_sql = """
         INSERT INTO equipment (name, model, serial_number, laboratory_id, description, 
-                             status, purchase_date, warranty_date, created_at)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
+                             status, price, purchase_date, warranty_date, created_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
         """
         insert_result = execute_update(insert_sql, (
             name, model, serial_number, laboratory_id, description, 
-            status, purchase_date, warranty_date
+            status, price, purchase_date, warranty_date
         ))
         
         if not insert_result['success']:
@@ -288,8 +292,9 @@ def create_equipment():
                 'serial_number': eq['serial_number'],
                 'description': eq['description'],
                 'status': eq['status'],
+                'price': float(eq['price']) if eq.get('price') is not None else 0.0,
                 'purchase_date': eq['purchase_date'].isoformat() if eq['purchase_date'] else None,
-                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] else None,
+                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] and str(eq['warranty_date']) != '0000-00-00' else None,
                 'laboratory': {
                     'name': eq['laboratory_name'],
                     'location': eq['laboratory_location']
@@ -315,6 +320,7 @@ def create_equipment():
     'laboratory_id': {'required': False, 'type': 'integer', 'min_value': 1},
     'description': {'required': False, 'type': 'string', 'max_length': 500},
     'status': {'required': False, 'type': 'string', 'choices': ['available', 'maintenance', 'damaged', 'retired']},
+    'price': {'required': False, 'type': 'number', 'min_value': 0},
     'purchase_date': {'required': False, 'type': 'date_string'},
     'warranty_date': {'required': False, 'type': 'date_string'}
 })
@@ -406,7 +412,7 @@ def update_equipment(equipment_id):
         
         # 获取更新后的设备信息
         equipment_sql = """
-        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, 
+        SELECT e.id, e.name, e.model, e.serial_number, e.description, e.status, e.price,
                e.purchase_date, e.warranty_date, e.created_at, e.updated_at,
                l.name as laboratory_name, l.location as laboratory_location
         FROM equipment e
@@ -425,7 +431,7 @@ def update_equipment(equipment_id):
                 'description': eq['description'],
                 'status': eq['status'],
                 'purchase_date': eq['purchase_date'].isoformat() if eq['purchase_date'] else None,
-                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] else None,
+                'warranty_date': eq['warranty_date'].isoformat() if eq['warranty_date'] and str(eq['warranty_date']) != '0000-00-00' else None,
                 'laboratory': {
                     'name': eq['laboratory_name'],
                     'location': eq['laboratory_location']
@@ -534,7 +540,7 @@ def get_equipment_statistics():
                     'id': row['id'],
                     'name': row['name'],
                     'model': row['model'],
-                    'warranty_date': row['warranty_date'].isoformat() if row['warranty_date'] else None,
+                    'warranty_date': row['warranty_date'].isoformat() if row['warranty_date'] and str(row['warranty_date']) != '0000-00-00' else None,
                     'days_left': row['days_left']
                 })
         

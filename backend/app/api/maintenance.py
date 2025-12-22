@@ -355,7 +355,7 @@ def update_maintenance_record(record_id):
 
 @maintenance_bp.route('/<int:record_id>', methods=['DELETE'])
 @require_auth
-@require_role(['admin'])
+@require_role(['admin', 'teacher'])
 def delete_maintenance_record(record_id):
     try:
         result = execute_update("DELETE FROM equipment_repair WHERE id = %s", (record_id,))

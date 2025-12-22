@@ -102,7 +102,8 @@
           <el-select
             v-model="reservationForm.equipmentIds"
             multiple
-            placeholder="请选择所需设备（可选）"
+            filterable
+            placeholder="请搜索并选择所需设备（可选）"
             style="width: 100%"
             collapse-tags
             collapse-tags-tooltip
@@ -110,7 +111,7 @@
             <el-option
               v-for="item in equipmentOptions"
               :key="item.id"
-              :label="item.name"
+              :label="`${item.name} (${item.model || '无型号'})`"
               :value="item.id"
             >
               <span>{{ item.name }}</span>

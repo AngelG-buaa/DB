@@ -128,7 +128,8 @@
           <el-select
             v-model="reservationForm.equipmentIds"
             multiple
-            placeholder="请选择需要使用的设备（可选）"
+            filterable
+            placeholder="请搜索并选择需要使用的设备（可选）"
             style="width: 100%"
             collapse-tags
             collapse-tags-tooltip

@@ -17,20 +17,15 @@
       
       <!-- 搜索筛选 -->
       <div class="search-section">
-        <el-row :gutter="20">
-          <el-col :span="5">
+        <el-form :model="searchForm" :inline="true" class="search-form">
+          <el-form-item label="关键字">
             <el-input
               v-model="searchForm.keyword"
-              placeholder="搜索设备名称或型号"
+              placeholder="设备名称或型号"
               clearable
-              @keyup.enter="handleSearch"
-            >
-              <template #prefix>
-                <el-icon><Search /></el-icon>
-              </template>
-            </el-input>
-          </el-col>
-          <el-col :span="4">
+            />
+          </el-form-item>
+          <el-form-item label="实验室">
             <el-select
               v-model="searchForm.labId"
               placeholder="选择实验室"
@@ -44,8 +39,8 @@
                 :value="lab.id"
               />
             </el-select>
-          </el-col>
-          <el-col :span="4">
+          </el-form-item>
+          <el-form-item label="设备状态">
             <el-select
               v-model="searchForm.status"
               placeholder="设备状态"
@@ -57,19 +52,19 @@
               <el-option label="故障" value="broken" />
               <el-option label="报废" value="scrapped" />
             </el-select>
-          </el-col>
-          <el-col :span="4">
+          </el-form-item>
+          <el-form-item label="购买日期">
             <el-date-picker
               v-model="searchForm.purchaseDateRange"
               type="daterange"
               range-separator="至"
-              start-placeholder="购买开始日期"
-              end-placeholder="购买结束日期"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
               format="YYYY-MM-DD"
               value-format="YYYY-MM-DD"
             />
-          </el-col>
-          <el-col :span="7">
+          </el-form-item>
+          <el-form-item>
             <el-button type="primary" @click="handleSearch">
               <el-icon><Search /></el-icon>
               搜索
@@ -78,9 +73,8 @@
               <el-icon><Refresh /></el-icon>
               重置
             </el-button>
-            
-          </el-col>
-        </el-row>
+          </el-form-item>
+        </el-form>
       </div>
       
       <!-- 数据表格 -->
@@ -477,6 +471,7 @@ const equipmentForm = reactive({
   serialNumber: '',
   labId: '',
   status: 'available',
+  price: 0,
   purchaseDate: '',
   warrantyUntil: '',
   description: ''
@@ -652,7 +647,6 @@ const showEditDialog = (row) => {
   equipmentForm.price = row.price
   equipmentForm.purchaseDate = row.purchase_date
   equipmentForm.warrantyUntil = row.warranty_until
-  equipmentForm.supplier = row.supplier
   equipmentForm.description = row.description
   
   dialogVisible.value = true
@@ -711,6 +705,7 @@ const handleSubmit = async () => {
       serial_number: equipmentForm.serialNumber,
       laboratory_id: equipmentForm.labId,
       status: equipmentForm.status === 'normal' ? 'available' : (equipmentForm.status === 'broken' ? 'damaged' : (equipmentForm.status === 'scrapped' ? 'retired' : equipmentForm.status)),
+      price: equipmentForm.price,
       purchase_date: equipmentForm.purchaseDate,
       warranty_date: equipmentForm.warrantyUntil,
       description: equipmentForm.description
@@ -812,6 +807,7 @@ const resetForm = () => {
   equipmentForm.serialNumber = ''
   equipmentForm.labId = ''
   equipmentForm.status = 'normal'
+  equipmentForm.price = 0
   equipmentForm.purchaseDate = ''
   equipmentForm.warrantyUntil = ''
   equipmentForm.description = ''
@@ -882,12 +878,12 @@ onMounted(() => {
 .search-section {
   margin-bottom: 20px;
   padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  
-  .el-col {
-    margin-bottom: 10px;
-  }
+  background-color: #f5f7fa;
+  border-radius: 4px;
+}
+
+.search-form .el-form-item {
+  margin-bottom: 10px;
 }
 
 .equipment-table {

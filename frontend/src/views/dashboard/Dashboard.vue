@@ -8,11 +8,6 @@
             <h2>欢迎回来，{{ userInfo.name || userInfo.username }}！</h2>
             <p>今天是 {{ currentDate }}，{{ welcomeMessage }}</p>
           </div>
-          <div class="welcome-avatar">
-            <el-avatar :size="72" :src="userInfo.avatar" class="user-avatar">
-              <el-icon><User /></el-icon>
-            </el-avatar>
-          </div>
         </div>
       </el-card>
     </div>

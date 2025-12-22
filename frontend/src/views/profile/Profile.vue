@@ -8,27 +8,7 @@
       </template>
       
       <div class="profile-content">
-        <!-- 头像区域 -->
-        <div class="avatar-section">
-          <el-avatar
-            :size="120"
-            :src="userInfo.avatar"
-            class="user-avatar"
-          >
-            <el-icon><User /></el-icon>
-          </el-avatar>
-          
-          <el-upload
-            class="avatar-uploader"
-            action="/api/upload/avatar"
-            :headers="uploadHeaders"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <el-button size="small" type="primary">更换头像</el-button>
-          </el-upload>
-        </div>
+        <!-- 头像区域已移除 -->
         
         <!-- 基本信息 -->
         <div class="info-section">
@@ -285,7 +265,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { User } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { updateUserInfoApi, changePasswordApi } from '@/api/auth'
 import { getMyReservationsApi, getMyReservationStatsApi } from '@/api/reservation'
@@ -349,10 +328,6 @@ const gradeOptions = computed(() => {
   const currentYear = new Date().getFullYear()
   return Array.from({ length: 6 }, (_, i) => currentYear - i)
 })
-
-const uploadHeaders = computed(() => ({
-  Authorization: `Bearer ${userStore.token}`
-}))
 
 // 表单验证规则
 const profileRules = {
@@ -482,28 +457,6 @@ const resetPasswordForm = () => {
   if (passwordFormRef.value) {
     passwordFormRef.value.clearValidate()
   }
-}
-
-const handleAvatarSuccess = (response) => {
-  if (response.code === 200) {
-    userStore.updateUserInfo({ avatar: response.data.url })
-    ElMessage.success('头像更新成功')
-  }
-}
-
-const beforeAvatarUpload = (file) => {
-  const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-  const isLt2M = file.size / 1024 / 1024 < 2
-  
-  if (!isJPG) {
-    ElMessage.error('头像图片只能是 JPG/PNG 格式!')
-    return false
-  }
-  if (!isLt2M) {
-    ElMessage.error('头像图片大小不能超过 2MB!')
-    return false
-  }
-  return true
 }
 
 const loadUserStats = async () => {
